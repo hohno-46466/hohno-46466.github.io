@@ -1,4 +1,7 @@
 
+hohno-46466.github.io/examples/
+
+
 ＃ Markdown で書いてみたホームページもどき
 
 このページは Markdown 記法を用いて書いている。ファイル名は index.md
