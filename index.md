@@ -1,7 +1,7 @@
 
 ＃ Markdown で書いてみたホームページもどき
 
-このホームペーイは Markdown 記法を用いて書いている。ファイル名は index.md
+このページは Markdown 記法を用いて書いている。ファイル名は index.md
 これが HTML 化されるの？
 
 
