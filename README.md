@@ -15,8 +15,8 @@ hohno's web page for hohno-46466.github.io
      
      2 directories, 7 files (Sun Jul 17 17:10:12 JST 2022)
 
-Note: url = git@github.com:hohno-46466/hohno-46466.github.io.git
+Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
 
-Note: url = https://github.com/hohno-46466/hohno-46466.github.io
+Note: URL = https://github.com/hohno-46466/hohno-46466.github.io
 
 -EOF-
