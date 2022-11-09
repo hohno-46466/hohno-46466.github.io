@@ -1,4 +1,4 @@
-# https://hohno-46466.github.io/tools
+# hohno-46466.github.io/tools
 
     ./tools
      ├──  README.md
