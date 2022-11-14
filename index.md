@@ -66,8 +66,10 @@
      6 directories, 17 files (Tue Nov 15 04:47:46 JST 2022)
 
 
+<!---
 Note: URI #1: git@github.com:hohno-46466/hohno-46466.github.io.git
 
 Note: URI #2: https://github.com/hohno-46466/hohno-46466.github.io
+-->
 
 -EOF-
