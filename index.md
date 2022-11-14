@@ -8,6 +8,8 @@
 
 ＃ Markdown で書いてみたホームページ / My homepage written in Markdown
 
+# The latest update of this page is: 2022-11-05
+
 ## Self Introduction
 
 - Hi, I’m @hohno-46466
@@ -18,7 +20,7 @@
 
 - I’m looking to collaborate on the field of translating our shell script technologies (including "POSIX centric approach" and "Monogramming2") into English
 
-- How to reach me hohno.46466@gmail.com
+- How to reach me: hohno.46466@gmail.com
 
 
 ## 自己紹介
