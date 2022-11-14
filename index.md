@@ -1,4 +1,4 @@
-## hohno-46466.github.io
+## hohno-46466.github.io (@hohno_at_kuimc)
 
 <!---
 ＃ Markdown で書いてみたホームページもどき（試作日：Wed Jun 30 22:15:05 JST 2021）
@@ -6,7 +6,7 @@
 このページは Markdown 記法を用いて書いている。ファイル名は index.md
 -->
 
-＃ Markdown で書いてみたホームページもどき
+＃ Markdown で書いてみたホームページ / My homepage written in Markdown
 
 ## Self Introduction
 
