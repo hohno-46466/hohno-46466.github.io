@@ -36,7 +36,7 @@
 - 連絡先は hohno.46466 [at] gmail.com です。
 
 
-## 参考：ディレクトリ構造
+## 参考：最終更新日時点のディレクトリ構造 / Directory structure as of last update
 
     ./hohno-46466.github.io
      ├──  README.md
