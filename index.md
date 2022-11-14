@@ -1,6 +1,6 @@
 ## hohno-46466.github.io
 
-<!===
+<!---
 ＃ Markdown で書いてみたホームページもどき（試作日：Wed Jun 30 22:15:05 JST 2021）
 
 このページは Markdown 記法を用いて書いている。ファイル名は index.md
