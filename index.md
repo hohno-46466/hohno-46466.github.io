@@ -12,7 +12,7 @@
 
 ## Self Introduction
 
-- Hi, I’m @hohno-46466
+- Hi, I’m @hohno-46466 (@hohno_at_kuimc)
 
 - I’m interested in all of computer and internet technologies
 
@@ -25,7 +25,7 @@
 
 ## 自己紹介
 
-- こんにちは @hohno-46466 です。
+- こんにちは hohno-46466 (@hohno_at_kuimc) です。
 
 - コンピュータとインターネット技術全般に興味を持っています。
 
