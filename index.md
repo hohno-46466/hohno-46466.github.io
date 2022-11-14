@@ -20,7 +20,7 @@
 
 - I’m looking to collaborate on the field of translating our shell script technologies (including "POSIX centric approach" and "Monogramming2") into English
 
-- How to reach me: hohno.46466@gmail.com
+- How to reach me: hohno.46466 [at] gmail.com
 
 
 ## 自己紹介
@@ -33,7 +33,7 @@
 
 - 現在、私たちのシェルスクリプト技術（「POSIX中心主義」や「ものグラミング2」を含みます）を英語に翻訳してくれる協力者を探しています
 
-- 連絡先は hohno.46466@gmail.com です。
+- 連絡先は hohno.46466 [at] gmail.com です。
 
 
 ## 参考：ディレクトリ構造
