@@ -12,7 +12,7 @@
 
 ## Self Introduction
 
-- Hi, I’m @hohno-46466 (@hohno_at_kuimc)
+- Hi, I’m hohno-46466 (@hohno_at_kuimc)
 
 - I’m interested in all of computer and internet technologies
 
