@@ -1,8 +1,12 @@
 ## hohno-46466.github.io
 
+<!===
 ＃ Markdown で書いてみたホームページもどき（試作日：Wed Jun 30 22:15:05 JST 2021）
 
 このページは Markdown 記法を用いて書いている。ファイル名は index.md
+-->
+
+＃ Markdown で書いてみたホームページもどき
 
 ## Self Introduction
 
@@ -28,3 +32,33 @@
 - 現在、私たちのシェルスクリプト技術（「POSIX中心主義」や「ものグラミング2」を含みます）を英語に翻訳してくれる協力者を探しています
 
 - 連絡先は hohno.46466@gmail.com です。
+
+
+## 参考：ディレクトリ構造
+
+    ./hohno-46466.github.io
+     ├──  README.md
+     ├──  README.md.old
+     ├──  _config.yml
+     ├──  docs/
+     │   └──  README.md
+     ├──  documents/
+     │   └──  README.md
+     ├──  examples/
+     │   ├──  README.md
+     │   ├──  index.md
+     │   └──  test1.html
+     ├──  index.md
+     ├──  publications/
+     │   ├──  IPSJ/
+     │   │   └──  README.md
+     │   └──  JSiSE/
+     │       └──  README.md
+     └──  tools/
+         ├──  README.md
+         ├──  addpath.sh
+         ├──  addts.sh
+         └──  index.md
+     
+     7 directories, 15 files (Tue Nov 15 04:23:50 JST 2022)
+
