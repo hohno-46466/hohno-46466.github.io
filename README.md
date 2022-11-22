@@ -39,7 +39,8 @@ hohno's web page for hohno-46466.github.io
          ├──  addts.sh
          └──  index.md -> README.md
      
-     10 directories, 25 files (Thu Nov 17 23:41:21 JST 2022)
+     10 directories, 25 files (Tue Nov 22 23:30:16 JST 2022)
+
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
 
