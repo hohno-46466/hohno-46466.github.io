@@ -1,6 +1,6 @@
 #!/bin/sh
-# Prev Modified: Fri Jul  8 19:16:09 JST 2022
-# Last Modified: Wed Aug 10 20:53:13 JST 2022
+# Prev updated: Fri Jul  8 19:16:09 JST 2022
+# Last updated: Wed Aug 10 20:53:13 JST 2022
 
 date=date; type gdate > /dev/null 2>&1 && date=gdate # alias date=gdate # On Mac, gdate can be found in coreutils
 sed=sed;   type gsed  > /dev/null 2>&1 && sed=gsed   # alias sed=gsed
