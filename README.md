@@ -20,9 +20,15 @@ hohno's web page for hohno-46466.github.io
      │   │   ├──  ourFirstSketch/
      │   │   │   ├──  README.md
      │   │   │   └──  ourFirstSketch.ino
-     │   │   └──  ourNextSketch/
+     │   │   ├──  ourNextSketch/
+     │   │   │   ├──  README.md
+     │   │   │   └──  ourNextSketch.ino
+     │   │   ├──  ourSerialRead1/
+     │   │   │   ├──  README.md
+     │   │   │   └──  ourSerialRead1.ino
+     │   │   └──  ourSerialRead2/
      │   │       ├──  README.md
-     │   │       └──  ourNextSketch.ino
+     │   │       └──  ourSerialRead2.ino
      │   └──  test1.html
      ├──  index.md
      ├──  publications/
@@ -40,7 +46,7 @@ hohno's web page for hohno-46466.github.io
          ├──  desktoplinker.sh
          └──  index.md -> README.md
      
-     10 directories, 26 files (Tue Dec 20 22:24:31 JST 2022)
+     12 directories, 30 files (Tue Dec 20 22:31:06 JST 2022)
 
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
