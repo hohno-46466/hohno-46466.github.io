@@ -2,7 +2,7 @@
 // ourNextSketch.ino
 //
 
-// Last updated: Thu Nov 17 17:14:59 JST 2022
+// Last update: Thu Nov 17 17:14:59 JST 2022
 
 const int buttonPin = 6;
 
