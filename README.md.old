@@ -2,7 +2,7 @@
 
 hohno's web page for hohno-46466.github.io
 
-     ./hohno-46466.github.io
+    ./hohno-46466.github.io
      ├──  README.md
      ├──  README.md.old
      ├──  _config.yml
@@ -16,13 +16,15 @@ hohno's web page for hohno-46466.github.io
      │   │   ├──  README.md
      │   │   ├──  our3rdSketch/
      │   │   │   ├──  README.md
-     │   │   │   └──  our3rdSketch.ino
+     │   │   │   ├──  our3rdSketch.ino
+     │   │   │   └──  our3rdSketch.ino.bak
      │   │   ├──  ourFirstSketch/
      │   │   │   ├──  README.md
      │   │   │   └──  ourFirstSketch.ino
      │   │   ├──  ourNextSketch/
      │   │   │   ├──  README.md
-     │   │   │   └──  ourNextSketch.ino
+     │   │   │   ├──  ourNextSketch.ino
+     │   │   │   └──  ourNextSketch.ino.bak
      │   │   ├──  ourSerialRead1/
      │   │   │   ├──  README.md
      │   │   │   └──  ourSerialRead1.ino
@@ -30,6 +32,9 @@ hohno's web page for hohno-46466.github.io
      │   │       ├──  README.md
      │   │       └──  ourSerialRead2.ino
      │   └──  test1.html
+     ├──  i/
+     │   ├──  test1.html
+     │   └──  test2.html
      ├──  index.md
      ├──  publications/
      │   ├──  IPSJ/
@@ -43,10 +48,11 @@ hohno's web page for hohno-46466.github.io
          ├──  README.md
          ├──  addpath.sh
          ├──  addts.sh
+         ├──  addts.sh.bak
          ├──  desktoplinker.sh
          └──  index.md -> README.md
      
-     12 directories, 30 files (Tue Dec 20 22:31:06 JST 2022)
+     13 directories, 35 files (Wed Dec 21 23:53:22 JST 2022)
 
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
