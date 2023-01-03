@@ -4,11 +4,12 @@
 ＃ Markdown で書いてみたホームページもどき（試作日：Wed Jun 30 22:15:05 JST 2021）
 
 このページは Markdown 記法を用いて書いている。ファイル名は index.md
--->
 
 ＃ Markdown で書いてみたホームページ / My homepage written in Markdown
 
-＃ The latest update of this page is: 2022-11-05
+-->
+
+＃ The latest update of this page is: 2023-01-03
 
 ## Self Introduction
 
