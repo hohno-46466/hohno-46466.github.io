@@ -11,6 +11,10 @@
 
 ＃ The latest update of this page is: 2023-01-03
 
+- How to reach me: ***hohno.46466 [at] gmail.com***
+
+- 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください）
+
 ## Self Introduction
 
 - Hi, I’m hohno-46466 (@hohno_at_kuimc)
@@ -21,7 +25,6 @@
 
 - I’m looking to collaborate on the field of translating our shell script technologies (including "POSIX centric approach" and "Monogramming2") into English
 
-- How to reach me: ***hohno.46466 [at] gmail.com***
 
 
 ## 自己紹介
