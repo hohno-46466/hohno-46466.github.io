@@ -37,8 +37,6 @@
 
 - 現在、私たちのシェルスクリプト技術（「POSIX中心主義」や「ものグラミング2」を含みます）を英語に翻訳してくれる協力者を探しています
 
-- 連絡先は ***hohno.46466 [at] gmail.com*** です。
-
 
 ## 参考：最終更新日時点のディレクトリ構造 / Directory structure as of last update
 
@@ -52,22 +50,47 @@
      ├──  examples/
      │   ├──  README.md
      │   ├──  index.md
+     │   ├──  monogrammning/
+     │   │   ├──  README.md
+     │   │   ├──  our3rdSketch/
+     │   │   │   ├──  README.md
+     │   │   │   ├──  our3rdSketch.ino
+     │   │   │   └──  our3rdSketch.ino.bak
+     │   │   ├──  ourFirstSketch/
+     │   │   │   ├──  README.md
+     │   │   │   └──  ourFirstSketch.ino
+     │   │   ├──  ourNextSketch/
+     │   │   │   ├──  README.md
+     │   │   │   ├──  ourNextSketch.ino
+     │   │   │   └──  ourNextSketch.ino.bak
+     │   │   ├──  ourSerialRead1/
+     │   │   │   ├──  README.md
+     │   │   │   └──  ourSerialRead1.ino
+     │   │   └──  ourSerialRead2/
+     │   │       ├──  README.md
+     │   │       └──  ourSerialRead2.ino
      │   └──  test1.html
+     ├──  i/
+     │   ├──  test1.html
+     │   └──  test2.html
      ├──  index.md
      ├──  publications/
      │   ├──  IPSJ/
      │   │   └──  README.md
      │   ├──  JSiSE/
-     │   │   └──  README.md
+     │   │   ├──  README.md
+     │   │   └──  TR-037-04-05.pdf
      │   ├──  README.md
      │   └──  index.md -> README.md
      └──  tools/
          ├──  README.md
          ├──  addpath.sh
          ├──  addts.sh
+         ├──  addts.sh.bak
+         ├──  desktoplinker.sh
          └──  index.md -> README.md
      
-     6 directories, 17 files (Tue Nov 15 04:47:46 JST 2022)
+     13 directories, 35 files (Tue Jan  3 11:08:02 JST 2023)
 
 
 <!---
