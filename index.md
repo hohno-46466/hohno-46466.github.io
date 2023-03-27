@@ -21,7 +21,7 @@
 
 - Hi, I’m hohno-46466 (@hohno_at_kuimc)
 
-- I’m interested in all of computer and internet technologies
+- I am interested in computers and Internet technologies in general. Recently, I have been actively involved in a project on "quantum communication".
 
 - I’m currently learning Visual Studio Code. Because I have been using vi and emacs for over 35 years without any complaints. But now I want to know a "modern" text editor.
 
@@ -33,7 +33,7 @@
 
 - こんにちは hohno-46466 (@hohno_at_kuimc) です。
 
-- コンピュータとインターネット技術全般に興味を持っています。
+- コンピュータとインターネット技術全般に興味を持っていますが、最近は「量子通信」についてのプロジェクトに積極的に関わっています。
 
 - 最近は Visual Studio Code を使い始めました。実は、vi と emacs を不満なく 35年以上使ってきたのですが、「現代的な」テキストエディタを知りたくなったのです。
 
