@@ -13,13 +13,13 @@
 
 ## How to reach me:
 
-- How to reach me: ***hohno.46466 [at] gmail.com*** (Replace [at] with @)
+- e-mail: ***hohno.46466 [at] gmail.com*** (Replace [at] with @)
 
     ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください）)
 
 ## GitHub:
 
-- My GitHub repository is:　***https://github.com/hohno-46466/***
+- GitHub repository is:　***https://github.com/hohno-46466/***
 
 ## Self Introduction
 
