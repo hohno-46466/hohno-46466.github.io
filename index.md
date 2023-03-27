@@ -11,9 +11,13 @@
 
 ＃ The latest update of this page is: 2023-03-27
 
+## How to reach me:
+
 - How to reach me: ***hohno.46466 [at] gmail.com***
 
-    ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください） )
+    ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください） )\
+
+## GitHub:
 
 - My GitHub repository is:　***https://github.com/hohno-46466/***
 
