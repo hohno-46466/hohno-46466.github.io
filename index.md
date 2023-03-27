@@ -15,7 +15,7 @@
 
 - How to reach me: ***hohno.46466 [at] gmail.com***
 
-    ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください） )\
+    ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください） )
 
 ## GitHub:
 
