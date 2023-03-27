@@ -15,7 +15,7 @@
 
 ( 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください） )
 
-- My GitHub repository is:　https://github.com/hohno-46466/
+- My GitHub repository is:　***https://github.com/hohno-46466/***
 
 ## Self Introduction
 
