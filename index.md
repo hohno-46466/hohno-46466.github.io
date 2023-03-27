@@ -13,6 +13,8 @@
 
 - How to reach me: ***hohno.46466 [at] gmail.com***
 
+- My GitHub repository is:　https://github.com/hohno-46466/
+
 - 連絡先は ***hohno.46466 [at] gmail.com*** です（[at] は＠に置き換えてください）
 
 ## Self Introduction
@@ -30,6 +32,8 @@
 ## 自己紹介
 
 - こんにちは hohno-46466 (@hohno_at_kuimc) です。
+
+- GitHub リポジトリは https://github.com/hohno-46466/ です。
 
 - コンピュータとインターネット技術全般に興味を持っています。
 
