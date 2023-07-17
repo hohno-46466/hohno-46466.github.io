@@ -26,7 +26,7 @@
 
 .clock-date {
     // font-size: 25px;
-    font-size: 60px;
+    font-size: 40px;
 }
 
 .clock-time1 {
@@ -42,7 +42,7 @@
     color: red
 }
 
-/*
+
 @media screen and (max-width: 500px) {
     .clock-date {
         font-size: 5vw;
@@ -53,8 +53,7 @@
     .clock-time2 {
         font-size: 20vw;
     }
-    .clock-timeX {
+    .clock-timezone {
         font-size: 10vw;
     }
 }
-*/
