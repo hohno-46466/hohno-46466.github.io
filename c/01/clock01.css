@@ -1,14 +1,10 @@
 /*
     clock01.css
-    Last update: Thu Jul 13 21:38:56 JST 2023
+    First version: Thu Jul 13 21:38:56 JST 2023
+    Last update:: Mon Jul 17 17:38:15 JST 2023
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
-/*
-body{
-    font-size: 400%;
-}
-*/
 
 .container {
   width: 100%;

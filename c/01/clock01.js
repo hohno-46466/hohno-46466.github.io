@@ -1,6 +1,7 @@
 // clock01.js
 
-// Last update: Thu Jul 13 21:38:56 JST 2023
+// First version: Thu Jul 13 21:38:56 JST 2023
+// Last update: Mon Jul 17 17:39:07 JST 2023
 
 function setZero2(x){
     var ret;

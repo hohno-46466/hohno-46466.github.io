@@ -13,4 +13,6 @@
 #
 .dummy4GHCG.tsv
 .README.md-tmp*
+#
+.update.sh
 # -EOF-
