@@ -2,23 +2,32 @@
 
 // First version: Thu Jul 13 21:38:56 JST 2023
 // Last update: Mon Jul 17 17:39:07 JST 2023
+var interval;
+var ntpOffset = getNTPoffset();
 
 function setZero2(x){
-    var ret;
-    ret = x;
-    if (x < 10) { ret = "0" + ret; }
-    return ret;
-}
-function setZero3(x){
-    var ret;
-    ret = x;
-    if (x < 100) { ret = "0" + ret; }
-    if (x < 10) { ret = "0" + ret; } 
-    return ret;
+    var _ret = x;
+    if (x < 10) { _ret = "0" + _ret; }
+    return _ret;
 }
 
+function setZero3(x) {
+    var _ret = x;
+    if (x < 100) { _ret = "0" + _ret; }
+    if (x < 10)  { _ret = "0" + _ret; } 
+    return _ret;
+}
+
+
+function getNTPoffset() {
+    return 0; // in millisec
+}
+
+
 function showClock() {
-    var _nowTime  = new Date();
+    var _Time0  = Date.now();
+    _Time0 += ntpOffset;
+    var _nowTime  = new Date(_Time0); // Date(_nowMillisec);
     var _dow3 = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
 
     var _nowYear  = setZero2(_nowTime.getFullYear());
@@ -92,7 +101,10 @@ function buttonClick() {
 }
 
 function syncTime() {
-    var currentTime = new Date();
+    var _Time0 = Date.now();
+    _Time0 += ntpOffset;
+    var currentTime = new Date(_Time0); // Date(_nowMillisec);
+    // var currentTime = new Date();
     var delay_msec = 1000 - currentTime.getMilliseconds();
     if (delay_msec < 50) { delay_msec += 1000; }
     // delay_msec -= 10; // offset
@@ -100,7 +112,7 @@ function syncTime() {
     setTimeout(startClock, delay_msec);
 }
 
-var interval;
+
 var button = document.getElementById("button");
 button.addEventListener('mousedown', mouseDown);
 button.addEventListener('mouseup', mouseUp);

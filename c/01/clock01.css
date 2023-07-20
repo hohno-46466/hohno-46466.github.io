@@ -25,7 +25,7 @@
 }
 
 .clock-date {
-    // font-size: 25px;
+    /* font-size: 25px; */
     font-size: 40px;
 }
 
@@ -41,7 +41,6 @@
     font-size: 50px;
     color: red
 }
-
 
 @media screen and (max-width: 600px) {
     .clock-date {
