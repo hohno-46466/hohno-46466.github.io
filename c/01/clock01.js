@@ -20,7 +20,7 @@ function setZero3(x) {
 
 
 function getNTPoffset() {
-    return 0; // -300; // in millisec
+    return -9300; // -300; // in millisec
 }
 
 
