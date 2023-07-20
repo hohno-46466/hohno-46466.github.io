@@ -39,7 +39,7 @@
 
 .clock-timezone {
     font-size: 50px;
-    color: red
+    color: green
 }
 
 @media screen and (max-width: 600px) {
