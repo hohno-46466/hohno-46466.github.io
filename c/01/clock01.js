@@ -20,7 +20,7 @@ function setZero3(x) {
 
 
 function getNTPoffset() {
-	return -9400; // -300; // in millisec
+    return 0; // -300; // in millisec
 }
 
 
@@ -31,7 +31,7 @@ function showClock() {
     var _dow3 = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
 
     var _nowYear  = setZero2(_nowTime.getFullYear());
-    var _nowMonth = setZero2(_nowTime.getMonth());
+    var _nowMonth = setZero2(_nowTime.getMonth()+1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
     var mesgDate = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
@@ -53,7 +53,7 @@ function showClock() {
     }
 
     var _nowUTCyear  = setZero2(_nowTime.getUTCFullYear());
-    var _nowUTCmonth = setZero2(_nowTime.getUTCMonth());
+    var _nowUTCmonth = setZero2(_nowTime.getUTCMonth()+1);
     var _nowUTCdate  = setZero2(_nowTime.getUTCDate());
     var _nowUTCdow   = _nowTime.getUTCDay();
     var mesgUTCdate = _nowUTCyear + "-" + _nowUTCmonth + "-" + _nowUTCdate + "(" + _dow3[_nowUTCdow] + ")";
