@@ -30,9 +30,9 @@
 // -----------------------------------------------------------------------------
 
 // const WSURL = 'ws://broker.hivemq.com:8000/mqtt'
-// const WSURL = 'wss://broker.hivemq.com:8004/mqtt'
+const WSURL = 'wss://broker.hivemq.com:8004/mqtt'
 // const WSURL = 'ws://test.mosquitto.org:8081'
-const WSURL = 'wss://test.mosquitto.org:8884'
+// const WSURL = 'wss://test.mosquitto.org:8884'
 // const WSURL = 'ws://test.mosquitto.org:8081'
 
 const MQTTtopic = 'hohno/wstest01'
