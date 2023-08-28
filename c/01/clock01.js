@@ -21,7 +21,7 @@
 // The value is the number of seconds expressed in fixed-point format
 // The value must be negative if the result of ntpdate is negative.
 //
-//  $ ntpdate -q -d ntp.nict.jp 2> /dev/null            |
+//  $ ntpdate -q ntp.nict.jp 2> /dev/null               |
 //    egrep 'adjust time server'                        |
 //    tail -1                                           |        
 //    sed -e 's/^.*offset //'                           |
@@ -32,7 +32,8 @@
 // -----------------------------------------------------------------------------
 
 // const WSURL = 'ws://broker.hivemq.com:8000/mqtt'
-const WSURL = 'ws://test.mosquitto.org:8081'
+const WSURL = 'wss://broker.hivemq.com:8004/mqtt'
+// const WSURL = 'ws://test.mosquitto.org:8081'
 
 const MQTTtopic = 'hohno/wstest01'
 
