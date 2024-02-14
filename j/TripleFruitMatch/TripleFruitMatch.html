@@ -1,0 +1,29 @@
+<!--
+TripleFruitMatch.html
+
+Note:
+This HTML file (TripleFruitMatch.html) and the corresponding JS file (TripleFruitMatch.js) refer to the following pages.
+* Weekly Ascii No.1475 pp.42-47
+
+Last update: Thu Feb 15 06:22:59 JST 2024
+-->
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Triple Fruit Match</title>
+    <script src="TripleFruitMatch.js"></script>
+    <style>canfas { border: 5px solid #000000; }</style>
+  </head>
+  <body onload="init()">
+    <p>Triple Fruit Match</p>
+    <input type="button" value="はじめから" onclick="initGame()">
+    &nbsp;&nbsp;
+    スコア：<span id="score">0</span>
+    &nbsp;&nbsp;
+    残り時間：<span id="time">60</span>
+    <br><br>&nbsp;
+    <canvas id="myCanvas", width="640",  height="640"></canvas>
+  </body>
+</html>
