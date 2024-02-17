@@ -52,7 +52,7 @@ hohno's web page for hohno-46466.github.io
          ├──  desktoplinker.sh
          └──  index.md -> README.md
      
-     13 directories, 35 files (Wed Dec 28 13:43:17 JST 2022)
+     14 directories, 35 files (Sun Mar 26 06:30:07 JST 2023)
 
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
