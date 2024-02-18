@@ -59,6 +59,8 @@ hohno's web page for hohno-46466.github.io
      │       ├──  TripleFruitMatch.html
      │       ├──  TripleFruitMatch.js
      │       └──  index.html -> TripleFruitMatch.html
+     ├──  md/
+     │   └──  オイラーの公式について.md
      ├──  publications/
      │   ├──  IPSJ/
      │   │   └──  README.md
@@ -67,16 +69,15 @@ hohno's web page for hohno-46466.github.io
      │   │   └──  TR-037-04-05.pdf
      │   ├──  README.md
      │   └──  index.md -> README.md
-     ├──  tools/
-     │   ├──  README.md
-     │   ├──  addpath.sh
-     │   ├──  addts.sh
-     │   ├──  addts.sh.bak
-     │   ├──  desktoplinker.sh
-     │   └──  index.md -> README.md
-     └──  オイラーの公式について.md
+     └──  tools/
+         ├──  README.md
+         ├──  addpath.sh
+         ├──  addts.sh
+         ├──  addts.sh.bak
+         ├──  desktoplinker.sh
+         └──  index.md -> README.md
      
-     20 directories, 53 files (Sat Feb 17 14:35:32 JST 2024)
+     21 directories, 53 files (Sun Feb 18 23:08:54 JST 2024)
 
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
