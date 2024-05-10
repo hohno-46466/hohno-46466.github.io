@@ -57,7 +57,7 @@ hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## 参考：最終更新日時点のディレクトリ構造 / Directory structure as of last update
 
--EOF-
+
     ./hohno-46466.github.io
      ├──  README.md
      ├──  README.md.old
@@ -65,7 +65,7 @@ hohno-46466/***](https://github.com/hohno-46466/***])
      ├──  c/
      │   ├──  01/
      │   │   ├──  clock01.css
-     │   │   ├──  clock01.html
+     │   │   ├──  clock02.html
      │   │   ├──  clock01.js
      │   │   └──  index.html -> clock01.html
      │   └──  02/
@@ -172,3 +172,4 @@ Note: URI #1: git@github.com:hohno-46466/hohno-46466.github.io.git
 Note: URI #2: https://github.com/hohno-46466/hohno-46466.github.io
 -->
 
+-EOF-
