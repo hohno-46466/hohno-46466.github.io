@@ -24,13 +24,13 @@ hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## Samples:
 
-- Wall clock
+- Wall Clock (JavaScript)
 
--- [https://hohno-46466.github.io/c/01/](https://hohno-46466.github.io/c/01/)
+    [https://hohno-46466.github.io/c/01/](https://hohno-46466.github.io/c/01/)
 
-- Mini Game
+- Mini Game (JavaScript)
 
--- [https://hohno-46466.github.io/js/TripleFruitMatch/](https://hohno-46466.github.io/js/TripleFruitMatch/)
+    [https://hohno-46466.github.io/js/TripleFruitMatch/](https://hohno-46466.github.io/js/TripleFruitMatch/)
 
 ## Self Introduction
 
