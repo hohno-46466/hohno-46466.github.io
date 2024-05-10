@@ -55,11 +55,35 @@ hohno's web page for hohno-46466.github.io
      │   └──  test2.html
      ├──  index.md
      ├──  js/
-     │   └──  TripleFruitMatch/
-     │       ├──  TripleFruitMatch.html
-     │       ├──  TripleFruitMatch.js
-     │       └──  index.html -> TripleFruitMatch.html
+     │   ├──  BalanceGame/
+     │   │   ├──  Box2D.js
+     │   │   ├──  balance_game.html
+     │   │   └──  balance_game.js
+     │   ├──  BulletproofGame/
+     │   │   ├──  bulletproof_game.html
+     │   │   ├──  bulletproof_game.js
+     │   │   └──  index.html -> bulletproof_game.html
+     │   ├──  Constellation/
+     │   │   ├──  Constellation.html
+     │   │   ├──  Constellation.js
+     │   │   ├──  hip_constellation_line.csv
+     │   │   ├──  hip_constellation_line_star.csv
+     │   │   ├──  hip_lite_a.csv
+     │   │   ├──  hip_lite_b.csv
+     │   │   ├──  hip_lite_major.csv
+     │   │   └──  index.html -> Constellation.html
+     │   ├──  Spirograph/
+     │   │   ├──  Spirograph.html
+     │   │   ├──  Spirograph.js
+     │   │   └──  index.html -> Spirograph.html
+     │   ├──  TripleFruitMatch/
+     │   │   ├──  TripleFruitMatch.html
+     │   │   ├──  TripleFruitMatch.js
+     │   │   ├──  index.html -> TripleFruitMatch.html
+     │   │   └──  memo.txt
+     │   └──  index.html
      ├──  md/
+     │   ├──  gnuplotmemo.md
      │   └──  オイラーの公式について.md
      ├──  publications/
      │   ├──  IPSJ/
@@ -69,16 +93,21 @@ hohno's web page for hohno-46466.github.io
      │   │   └──  TR-037-04-05.pdf
      │   ├──  README.md
      │   └──  index.md -> README.md
-     └──  tools/
-         ├──  README.md
-         ├──  addpath.sh
-         ├──  addts.sh
-         ├──  addts.sh.bak
-         ├──  desktoplinker.sh
-         └──  index.md -> README.md
+     ├──  tools/
+     │   ├──  README.md
+     │   ├──  addpath.sh
+     │   ├──  addts.sh
+     │   ├──  addts.sh.bak
+     │   ├──  desktoplinker.sh
+     │   └──  index.md -> README.md
+     └──  workspace/
+         └──  digispark/
+             ├──  package_digistump_index.json
+             ├──  package_digistump_index.json.1
+             ├──  package_digistump_index.json.2
+             └──  package_digistump_index.json.3
      
-     21 directories, 53 files (Sun Feb 18 23:08:54 JST 2024)
-
+     27 directories, 77 files (Fri May 10 12:49:56 JST 2024)
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
 
