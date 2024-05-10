@@ -19,7 +19,7 @@
 
 ## GitHub:
 
-- GitHub repository is:　[***https://github.com/
+- My GitHub repository:　[***https://github.com/
 hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## Samples:
