@@ -1,0 +1,28 @@
+<!--
+This HTML file (balance_game.html) and the corresponding JS file (balance_game.js) are based on the following pages:
+
+  Weekly Ascii No.1376 pp.38-43
+  https://www.amazon.co.jp/dp/B09NDQ5H9R
+
+  Box2D.js can be found here:
+  https://github.com/hecht-software/box2dweb
+-->
+
+<!-- Last update: 2022-03-22 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>バランスシーソーゲーム</title>
+    <script src="Box2D.js"></script>
+    <script src="balance_game.js"></script>
+  </head>
+  <body onload="init()">
+    <p>バランスシーソーゲーム Ver.0.0.7a</p>
+    <input type="button" value="はじめから" onclick="reset()">
+    長さ：<input type="range" id="len" value="3" min="2" max="4" onchange="reset()">
+    スコア：<span id="score">0</span><hr>
+    <canvas id="world" width="600" height="600"></canvas>
+  </body>
+</html>

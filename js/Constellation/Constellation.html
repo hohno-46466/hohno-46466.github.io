@@ -1,0 +1,35 @@
+<!--
+Constellation.html
+
+Note:
+This HTML file (Constellation.html) and the corresponding JS file (Constellation.js) refer to the following pages.
+
+* Weekly Ascii No.1474 pp.46-51
+
+Last update: 2024-02-27(Tue) 20:24 JST / 2024-02-27(Tue) 11:24 UTC
+-->
+
+<!doctype html>Go
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>星座天球
+    </title>
+    <script src="https://unpkg.com/three@0.139.2/build/three.min.js"></script>
+    <script src="Constellation.js"></script>
+  </head>
+  <body onload="init()">
+    <p>星座天球</p>
+    (クリックしてデータファイルをダウンロードし、その後ダウンロードしたファイルを選択して Go!) <br>
+    <a href="https://astro.starfree.jp/commons/hip/hip_lite_a.csv">基礎データa</a> |
+    <a href="http://astro.starfree.jp/commons/hip/hip_lite_b.csv">同b</a> |
+    <a href="http://astro.starfree.jp/commons/hip/hip_lite_major.csv">major</a> |
+    <a href="http://astro.starfree.jp/commons/hip/hip_constellation_line_star.csv">星座線恒星データ</a> |
+    <a href="http://astro.starfree.jp/commons/hip/hip_constellation_line.csv">星座線データ</a>
+    <input type="file" accept=".csv" multiple onchange="loadData(this.files)" >
+    <hr>
+    垂直角度：<input type="range" id="va" value="0" min="-90" max="90" oninput="out_va.value=va.value"> [ <output id="out_va" for="va">0</output>° ]
+    水平角度：<input type="range" id="ha" value="0" min="-180" max="180" oninput="out_ha.value=ha.value"> [ <output id="out_ha" for="ha">0</output>° ]
+    <div id="renderArea"></div>
+  </body>
+</html>
