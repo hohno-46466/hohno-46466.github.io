@@ -24,7 +24,7 @@ hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## Samples:
 
-[***https://hohno-46466.github.io/c/01/***](https://hohno-46466.github.io/c/01/)
+[https://hohno-46466.github.io/c/01/](https://hohno-46466.github.io/c/01/)
 
 ## Self Introduction
 
