@@ -104,7 +104,8 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec)"
+    // document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec)"
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (clock00)"
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1
     // myDate.innerHTML = mesgDate
     // myTime.innerHTML = mesgTime1
