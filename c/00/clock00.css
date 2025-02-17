@@ -1,0 +1,59 @@
+/*
+    clock00.css
+
+    First version: Tue Feb 18 04:57:00 JST 2025
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+.container {
+  width: 100%;
+  height: 80vh;
+  background-color: #15151e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.clock {
+    font-family: 'Share Tech Mono', monospace;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #0aafe6;
+    line-height: 1.0;
+    text-align: center;
+}
+
+.clock-date {
+    /* font-size: 25px; */
+    font-size: 40px;
+}
+
+.clock-time1 {
+    font-size: 100px
+}
+
+.clock-time2 {
+    font-size: 60px
+}
+
+.clock-timezone {
+    font-size: 50px;
+    color: yellow
+}
+
+@media screen and (max-width: 600px) {
+    .clock-date {
+        font-size: 5vw;
+    }
+    .clock-time1 {
+        font-size: 15vw;
+    }
+    .clock-time2 {
+        font-size: 10vw;
+    }
+    .clock-timezone {
+        font-size: 10vw;
+        color: green
+    }
+}
