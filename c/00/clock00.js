@@ -66,9 +66,11 @@ function showClock() {
     var _Time0  = Date.now()
     // _Time0 += ntpOffset
     var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)) ; // Date(_nowMillisec)
-    var _dow3 = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    // var _dow3 = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    var _dow3 = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
 
-    var _nowYear  = setZero2(_nowTime.getFullYear())
+    // var _nowYear  = setZero2(_nowTime.getFullYear())
+    var _nowYear  = _nowTime.getFullYear()
     var _nowMonth = setZero2(_nowTime.getMonth()+1)
     var _nowDate  = setZero2(_nowTime.getDate())
     var _nowDow   = _nowTime.getDay()
@@ -105,7 +107,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2
 
     // document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec)"
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (clock00)"
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (clock00(modified))"
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1
     // myDate.innerHTML = mesgDate
     // myTime.innerHTML = mesgTime1
@@ -132,6 +134,7 @@ function mouseDown() {
 function mouseUp() {
     // console.log("mouseUp()")
     console.log("clock restarted.")
+    startClock() // 2025-02-18: added
     syncTime()
 }
 
@@ -143,15 +146,30 @@ function buttonClick() {
 
 // syncTime() - wait for several sub-seconds to synchronize time
 
+// ? // function syncTime() {
+// ? //    var _Time0 = Date.now()
+// ? //    var currentTime = new Date(_Time0 + (ntpOffset * 1000)) 
+// ? //    var delay_msec = 1000 - currentTime.getMilliseconds()
+// ? //    if (delay_msec < 50) { delay_msec += 1000 }
+// ? //    // delay_msec -= 10; // offset
+// ? //    console.log("Waiting for " + delay_msec + "msec.")
+// ? //    clearInterval(intervalID)
+// ? //    setTimeout(startClock, delay_msec)
+// ? // }
+
 function syncTime() {
-    var _Time0 = Date.now()
-    var currentTime = new Date(_Time0 + (ntpOffset * 1000)) 
-    var delay_msec = 1000 - currentTime.getMilliseconds()
-    if (delay_msec < 50) { delay_msec += 1000 }
-    // delay_msec -= 10; // offset
-    console.log("Waiting for " + delay_msec + "msec.")
-    clearInterval(intervalID)
-    setTimeout(startClock, delay_msec)
+    var _Time0 = Date.now();
+    var currentTime = new Date(_Time0 + (ntpOffset * 1000));
+    var delay_msec = 1000 - currentTime.getMilliseconds();
+    if (delay_msec < 50) { delay_msec += 1000; }
+
+    console.log("Waiting for " + delay_msec + " msec.");
+    clearInterval(intervalID);
+
+    setTimeout(() => {
+        console.log("Syncing completed, starting clock.");
+        startClock();
+    }, delay_msec);
 }
 
 // -----------------------------------------------------------------------------
@@ -159,7 +177,7 @@ function syncTime() {
 // startClock() - start calling showClock(). It will be called every 1sec.
 
 function startClock() {
-    intervalID = setInterval('showClock()', 1000)
+    intervalID = setInterval(showClock, 1000)
     console.log("Let's go by startClock()")
 }
 
