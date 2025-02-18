@@ -35,6 +35,7 @@
     <script>
         function safeReload() {
             if (navigator.onLine) {
+                # alert("safeReload() is executing!");
                 console.log("Internet is available. Reloading...");
                 location.reload();
             } else {
