@@ -65,9 +65,9 @@ function setZero3(x) {
 // showClock() - display digital clock
 
 function showClock() {
-    var _Time0  = Date.now();
+    var _Time0    = Date.now();
     // _Time0 += ntpOffset;
-    var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)) ; // Date(_nowMillisec);
+    var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)); // Date(_nowMillisec)
     // var _dow3 = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
     var _dow3 = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
 
@@ -75,7 +75,7 @@ function showClock() {
     var _nowMonth = setZero2(_nowTime.getMonth()+1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
-    var mesgDate = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
+    var mesgDate  = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
     
     var _nowHour  = setZero2(_nowTime.getHours());
     var _nowMin   = setZero2(_nowTime.getMinutes());
@@ -83,7 +83,7 @@ function showClock() {
     var _nowMsec  = setZero3(_nowTime.getMilliseconds());
     var mesgTime1 = _nowHour + ":" + _nowMin + ":" + _nowSec;
     var mesgTime2 = "." + _nowMsec;
-    var mesgTime = mesgTime1 + mesgTime2;
+    var mesgTime  = mesgTime1 + mesgTime2;
 
     var _timeOffset = _nowTime.getTimezoneOffset();
     var mesgTimeOffset = "UTC";
@@ -107,8 +107,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    // document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec)";
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (clock00old)";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00old)";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     // myDate.innerHTML = mesgDate;
     // myTime.innerHTML = mesgTime1;

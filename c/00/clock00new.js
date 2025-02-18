@@ -23,7 +23,7 @@ function setZero3(x) {
 // showClock() - display digital clock
 
 function showClock() {
-    var _Time0  = Date.now();
+    var _Time0    = Date.now();
     var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)); // Date(_nowMillisec)
     var _dow3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -31,7 +31,7 @@ function showClock() {
     var _nowMonth = setZero2(_nowTime.getMonth() + 1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
-    var mesgDate = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
+    var mesgDate  = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
 
     var _nowHour  = setZero2(_nowTime.getHours());
     var _nowMin   = setZero2(_nowTime.getMinutes());
@@ -39,7 +39,7 @@ function showClock() {
     var _nowMsec  = setZero3(_nowTime.getMilliseconds());
     var mesgTime1 = _nowHour + ":" + _nowMin + ":" + _nowSec;
     var mesgTime2 = "." + _nowMsec;
-    var mesgTime = mesgTime1 + mesgTime2;
+    var mesgTime  = mesgTime1 + mesgTime2;
 
     var _timeOffset = _nowTime.getTimezoneOffset();
     var mesgTimeOffset = "UTC";
