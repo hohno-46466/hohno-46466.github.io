@@ -42,8 +42,8 @@
                 setTimeout(safeReload, 60000); // 60秒後に再試行
             }
         }
-        setTimeout(safeReload, 180000); // 3分ごとにリロードを試行
-        console.warn("safeReload() function has been prepared. (180sec)");
+        setTimeout(function() {safeReload();}, 60000); // 3分ごとにリロードを試行
+        console.warn("safeReload() function has been prepared. (60sec)");
     </script>
 </body>
 </html>
