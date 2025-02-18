@@ -35,15 +35,15 @@
     <script>
         function safeReload() {
             if (navigator.onLine) {
-                console.warn("Internet is available. Reloading...");
+                console.log("Internet is available. Reloading...");
                 location.reload();
             } else {
-                console.warn("Internet is offline. Skipping reload.");
+                console.log("Internet is offline. Skipping reload.");
                 setTimeout(safeReload, 30000); // 30秒後に再試行
             }
         }
         setTimeout(function() {safeReload();}, 60000); // 1分ごとにリロードを試行
-        console.warn("safeReload() function has been prepared. (60sec!)");
+        console.log("safeReload() function has been prepared. (60sec!!)");
     </script>
 </body>
 </html>
