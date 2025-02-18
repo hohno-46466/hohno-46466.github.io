@@ -1,4 +1,4 @@
-// clock.js
+// clock00new.js
 
 // -----------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@ function showClock() {
     var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)); // Date(_nowMillisec)
     var _dow3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    var _nowYear  = _nowTime.getFullYear();  // 修正: getFullYear() に setZero2 を適用しない
+    var _nowYear  = _nowTime.getFullYear(); // 修正: getFullYear() に setZero2 を適用しない
     var _nowMonth = setZero2(_nowTime.getMonth() + 1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
@@ -90,7 +90,7 @@ function mouseUp() {
 }
 
 function buttonClick() {
-    // console.log("buttonClick()")
+    // console.log("buttonClick()");
 }
 
 // -----------------------------------------------------------------------------
