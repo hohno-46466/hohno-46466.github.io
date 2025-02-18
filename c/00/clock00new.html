@@ -33,18 +33,19 @@
 
     <script src="clock00new.js"></script>
     <script>
+        console.log("safeReload() function has been prepared. (60sec)");
         function safeReload() {
             if (navigator.onLine) {
                 <!-- alert("safeReload() is executing!"); -->
                 console.log("Internet is available. Reloading...");
-                location.reload();
+                setTimeout(() => { location.reload(); }, 5000);
             } else {
                 console.log("Internet is offline. Skipping reload.");
                 setTimeout(safeReload, 30000); // 30秒後に再試行
             }
         }
-        setTimeout(function() {safeReload();}, 600000); // 10分ごとにリロードを試行
-        console.log("safeReload() function has been prepared. (600sec)");
+        setTimeout(function() {safeReload();}, 60000); // 1分ごとにリロードを試行
+        console.log("safeReload() function has been prepared. (60sec!)");
     </script>
 </body>
 </html>
