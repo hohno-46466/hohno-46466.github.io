@@ -72,7 +72,7 @@ function showClock() {
     var _dow3 = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
 
     var _nowYear  = _nowTime.getFullYear(); // 修正: getFullYear() に setZero2 を適用しない
-    var _nowMonth = setZero2(_nowTime.getMonth()+1);
+    var _nowMonth = setZero2(_nowTime.getMonth() + 1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
     var mesgDate  = _nowYear + "-" + _nowMonth + "-" + _nowDate + "(" + _dow3[_nowDow] + ")";
@@ -88,13 +88,13 @@ function showClock() {
     var _timeOffset = _nowTime.getTimezoneOffset();
     var mesgTimeOffset = "UTC";
     if (_timeOffset > 0) {
-        mesgTimeOffset += "+" + _timeOffset/60;
+        mesgTimeOffset += "+" + _timeOffset / 60;
     } else if (_timeOffset < 0) {
-        mesgTimeOffset += _timeOffset/60;
+        mesgTimeOffset += _timeOffset / 60;
     }
 
     var _nowUTCyear  = _nowTime.getUTCFullYear(); // 修正: getUTCFullYear() に setZero2 を適用しない
-    var _nowUTCmonth = setZero2(_nowTime.getUTCMonth()+1);
+    var _nowUTCmonth = setZero2(_nowTime.getUTCMonth() + 1);
     var _nowUTCdate  = setZero2(_nowTime.getUTCDate());
     var _nowUTCdow   = _nowTime.getUTCDay();
     var mesgUTCdate = _nowUTCyear + "-" + _nowUTCmonth + "-" + _nowUTCdate + "(" + _dow3[_nowUTCdow] + ")";
@@ -174,7 +174,7 @@ function syncTime() {
 
 // -----------------------------------------------------------------------------
 
-// startClock() - start calling showClock(). It will be called every 1sec.
+// startClock() - start calling showClock(). It will be called every 1 sec.
 
 function startClock() {
     intervalID = setInterval(showClock, 1000); // 修正: setInterval の引数を文字列ではなく関数にする

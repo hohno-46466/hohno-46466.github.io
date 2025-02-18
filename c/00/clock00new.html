@@ -13,18 +13,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- <meta http-equiv="refresh" content="300"> -->
-    <script>
-        function safeReload() {
-            if (navigator.onLine) {
-                console.log("Internet is available. Reloading...");
-                location.reload();
-            } else {
-                console.warn("Internet is offline. Skipping reload.");
-                setTimeout(safeReload, 60000); // 60秒後に再試行
-            }
-        }
-        setTimeout(safeReload, 300000); // 5分ごとにリロードを試行
-    </script>
 <!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
     <title>Clock00new</title>
     <link rel="stylesheet" href="clock00.css">
@@ -44,5 +32,17 @@
     <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
 
     <script src="clock00new.js"></script>
+    <script>
+        function safeReload() {
+            if (navigator.onLine) {
+                console.log("Internet is available. Reloading...");
+                location.reload();
+            } else {
+                console.warn("Internet is offline. Skipping reload.");
+                setTimeout(safeReload, 60000); // 60秒後に再試行
+            }
+        }
+        setTimeout(safeReload, 300000); // 5分ごとにリロードを試行
+    </script>
 </body>
 </html>
