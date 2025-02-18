@@ -35,7 +35,7 @@
     <script>
         function safeReload() {
             if (navigator.onLine) {
-                # alert("safeReload() is executing!");
+                <!-- alert("safeReload() is executing!"); -->
                 console.log("Internet is available. Reloading...");
                 location.reload();
             } else {
@@ -43,8 +43,8 @@
                 setTimeout(safeReload, 30000); // 30秒後に再試行
             }
         }
-        setTimeout(function() {safeReload();}, 60000); // 1分ごとにリロードを試行
-        console.log("safeReload() function has been prepared. (60sec!!)");
+        setTimeout(function() {safeReload();}, 600000); // 10分ごとにリロードを試行
+        console.log("safeReload() function has been prepared. (600sec)");
     </script>
 </body>
 </html>
