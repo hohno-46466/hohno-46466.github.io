@@ -45,7 +45,7 @@
                 setTimeout(safeReload, 30000); // 30秒後に再試行
             }
         }
-        setTimeout(function() {safeReload();}, 180000); // 3分ごとにリロードを試行
+        setTimeout(function() {safeReload();}, 175000); // 3分(175+5=180sec)ごとにリロードを試行
         console.log("safeReload() function has been prepared. (180sec!)");
     </script>
 </body>
