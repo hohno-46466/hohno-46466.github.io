@@ -2,6 +2,7 @@
     clock00new.html
 
     First version: Tue Feb 18 04:57:00 JST 2025
+    Last update: Wed Feb 19 11:07:33 JST 2025
 
     Reference(s)
     https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
@@ -33,7 +34,7 @@
 
     <script src="clock00new.js"></script>
     <script>
-        console.log("safeReload() function has been prepared. (60sec)");
+        console.log("safeReload() function has been prepared. (" + Date.now() / 1000 + ")");
         function safeReload() {
             if (navigator.onLine) {
                 <!-- alert("safeReload() is executing!"); -->
