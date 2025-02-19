@@ -37,11 +37,12 @@
     <script>
         console.log("safeReload() function has been prepared... (" + Date.now() / 1000 + ")");
         function safeReload() {
+            let container = document.querySelector(".container");
             if (navigator.onLine) {
                 <!-- alert("safeReload() is executing!"); -->
                 console.log("Internet is available. Reloading...");
                 container.style.backgroundColor = "#15151e"; 
-                setTimeout(() => { location.reload(); }, 5000);
+                setTimeout(() => { location.reload(); }, 5000); // 5秒後
             } else {
                 console.log("Internet is offline. Skipping reload.");
                 container.style.backgroundColor = "darkred"; 
