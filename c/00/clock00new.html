@@ -2,7 +2,8 @@
     clock00new.html
 
     First version: Tue Feb 18 04:57:00 JST 2025
-    Last update: Wed Feb 19 11:07:33 JST 2025
+    Prev update: Wed Feb 19 11:07:33 JST 2025
+    Last update: Thu Feb 20 03:44:29 JST 2025
 
     Reference(s)
     https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
@@ -34,19 +35,21 @@
 
     <script src="clock00new.js"></script>
     <script>
-        console.log("safeReload() function has been prepared. (" + Date.now() / 1000 + ")");
+        console.log("safeReload() function has been prepared... (" + Date.now() / 1000 + ")");
         function safeReload() {
             if (navigator.onLine) {
                 <!-- alert("safeReload() is executing!"); -->
                 console.log("Internet is available. Reloading...");
+                container.style.backgroundColor = "#15151e"; 
                 setTimeout(() => { location.reload(); }, 5000);
             } else {
                 console.log("Internet is offline. Skipping reload.");
+                container.style.backgroundColor = "darkred"; 
                 setTimeout(safeReload, 30000); // 30秒後に再試行
             }
         }
         setTimeout(function() {safeReload();}, 175000); // 3分(175+5=180sec)ごとにリロードを試行
-        console.log("safeReload() function has been prepared. (180sec!)");
+        console.log("safeReload() function has been prepared. (180sec!!)");
     </script>
 </body>
 </html>
