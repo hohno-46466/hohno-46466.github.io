@@ -82,3 +82,24 @@
         color: green;
     }
 }
+
+@media screen and (max-width: 950px) and (orientation: landscape) {
+    .container {
+        height: 50vh; /* 横画面時は高さを縮小 */
+        padding: 5px;
+    }
+    .clock {
+        font-size: 4.5vw;
+    }
+    .clock-time1 {
+        font-size: 8vw;
+    }
+    .clock-time2 {
+        font-size: 5vw;
+    }
+    .clock-timezone {
+        font-size: 4vw;
+        color: cyan; /* 横画面時は色を変更 */
+    }
+}
+
