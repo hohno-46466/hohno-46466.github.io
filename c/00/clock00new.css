@@ -84,24 +84,29 @@
     }
 }
 
+@media screen and (max-width: 950px) and (orientation: landscape) {
+    #button {
+        font-size: 12px;  /* さらに小さめに */
+        padding: 6px;  /* 余白を少し減らす */
+    }
 
-@media screen and (max-width: 1100px) and (orientation: landscape) {
+    #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
+        font-size: 10px;  /* 文字をさらに小さく */
+        line-height: 1.1;  /* 行間をより詰める */
+        margin: 1px 0;  /* 余白を最小限に */
+        padding: 1px 3px;  /* 内側の余白も減らす */
+    }
+
     .container {
-        height: 50vh; /* 横画面時は高さを縮小 */
-        padding: 5px;
+        height: 45vh;  /* 画面を占める割合を減らす */
     }
-    .clock {
-        font-size: 4.5vw;
-    }
+
     .clock-time1 {
-        font-size: 8vw;
+        font-size: 9vw;  /* 横画面時に大きくなりすぎるのを防ぐ */
     }
+
     .clock-time2 {
-        font-size: 5vw;
-    }
-    .clock-timezone {
-        font-size: 4vw;
-        color: cyan; /* 横画面時は色を変更 */
+        font-size: 6vw;
     }
 }
 
