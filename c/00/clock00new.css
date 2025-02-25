@@ -84,6 +84,7 @@
     }
 }
 
+/*
 @media screen and (max-width: 950px) and (orientation: landscape) {
     .container {
         height: 50vh; /* 横画面時は高さを縮小 */
@@ -103,4 +104,4 @@
         color: cyan; /* 横画面時は色を変更 */
     }
 }
-
+*/
