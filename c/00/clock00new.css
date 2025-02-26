@@ -6,6 +6,23 @@
 /* Google Fonts のインポート */
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* ボタンのスタイル */
+#button {
+    display: block;
+    width: auto; /* 必要なサイズだけ確保 */
+    max-width: 300px;
+    font-size: 14px;
+    padding: 4px;
+    margin: 5px 10px; /* 左寄せ */
+}
+
 /* 時計コンテナ */
 .container {
     width: 100%;
@@ -91,3 +108,50 @@
         color: green;
     }
 }
+
+/* スマホ・タブレットの横向き対応 */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    /* 全体の背景色を時計の背景と統一 */
+    body {
+        background-color: #15151e;
+    }
+
+    /* ボタンの文字色を白くし、半透明の背景を追加 */
+    #button {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.2); /* 半透明の背景 */
+        font-size: 12px;
+        padding: 6px;
+        margin: 5px 10px;
+        border: 1px solid white; /* 白枠線を追加 */
+    }
+
+    /* 時刻情報エリアの文字色を白に */
+    #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
+        color: #ffffff;
+        font-size: 10px;
+        line-height: 1.1;
+        margin: 1px 10px;
+        padding: 1px 3px;
+        text-align: left;
+    }
+
+    /* 時計エリア */
+    .container {
+        height: 50vh; /* 横向き時に高さを縮小 */
+    }
+
+    .clock-time1 {
+        font-size: 9vw;
+    }
+
+    .clock-time2 {
+        font-size: 6vw;
+    }
+
+    .clock-timezone {
+        font-size: 5vw;
+        color: lightgreen;
+    }
+}
+
