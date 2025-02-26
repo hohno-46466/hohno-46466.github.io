@@ -84,7 +84,7 @@
     }
 }
 
-@media screen and (max-width: 950px) and (orientation: landscape) {
+@media screen and (max-height: 1150px) and (orientation: landscape) {
     #button {
         font-size: 12px;  /* さらに小さめに */
         padding: 6px;  /* 余白を少し減らす */
