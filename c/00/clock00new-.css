@@ -1,0 +1,157 @@
+/*
+    clock00new.css
+
+    Updated version: Tue Feb 18 04:57:00 JST 2025
+    Last update: Wed Feb 26 05:25:16 JST 2025
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* ボタンを左寄せ */
+
+#xxbutton {
+    display: block;
+    width: auto; /* 必要なサイズだけ確保 */
+    max-width: 300px;
+    font-size: 14px;
+    padding: 8px;
+    margin: 5px 10px; /* 左側に固定位置を設定 */
+    text-align: left;
+}
+
+/* 時刻情報表示エリアを左寄せ */
+#xxRealtimeClockDisplayArea1, #xxRealtimeClockDisplayArea2 {
+    font-size: 12px;
+    line-height: 1.2;
+    margin: 2px 10px; /* 左側に固定位置を設定 */
+    padding: 2px 5px;
+    text-align: left; /* 左寄せ */
+}
+
+.container {
+  width: 100%;
+  height: 80vh;
+  background-color: #15151e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;		/* 追加 */
+  box-sizing: border-box;	/* 追加：padding を含めた幅計算を行う */
+  text-align: center;
+}
+
+.clock {
+    font-family: 'Share Tech Mono', monospace;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #0aafe6;
+    line-height: 1.2;		/* 変更：1.0 →1.2 */
+    text-align: center;
+    max-width: 90vw;		/* 追加：画面幅の90%までに制限 */
+    overflow-wrap: break-word;	/* 追加：長すぎるテキストは折り返す */
+}
+
+.clock-date {
+    font-size: 4vw;		/* 変更：40px →4vw (画面幅の 4%) */
+}
+
+.clock-time1 {
+    font-size: 12vw;		/* 変更：100px →12vw */
+    max-width: 100%;		/* 追加 */
+    white-space: nowrap;	/* 追加：自動折り返しはしない */
+}
+
+.clock-time2 {
+    font-size: 6vw;		/* 変更：60px →6vw */
+    max-width: 100%;		/* 追加 */
+    white-space: nowrap;	/* 追加 */
+}
+
+.clock-timezone {
+    font-size: 4vw;		/* 変更：50px →4vw */
+    color: yellow;
+}
+
+/* タブレットサイズ (768px) */
+@media screen and (max-width: 768px) {
+    .clock-date {
+        font-size: 6vw;
+    }
+    .clock-time1 {
+        font-size: 15vw;
+    }
+    .clock-time2 {
+        font-size: 8vw;
+    }
+    .clock-timezone {
+        font-size: 8vw;
+        color: green;
+    }
+}
+
+/* 小さな画面（スマホサイズ）*/
+@media screen and (max-width: 600px) {
+    .clock-date {
+        font-size: 5vw;
+    }
+    .clock-time1 {
+        font-size: 13vw;	/* 変更：vw →13vw */
+    }
+    .clock-time2 {
+        font-size: 7vw;		/* 変更：10vw →7vw */
+    }
+    .clock-timezone {
+        font-size: 7vw;		/* 変更：10vw →7vw */
+        color: green;
+    }
+}
+/*
+@media screen and (max-height: 1050px) and (orientation: landscape) {
+
+    /* ボタンの文字色を白くする */
+    #button {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.2); /* 半透明の背景 */
+        font-size: 12px;  /* さらに小さめに */
+        padding: 6px;
+        margin: 5px 10px;
+        border: 1px solid white; /* 枠線を追加して視認性を上げる */
+        text-align: left;
+    }
+
+    /* 時刻表示エリアの文字色を白くする */
+    #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
+        color: #ffffff;
+        font-size: 10px;  /* 文字をさらに小さく */
+        line-height: 1.1;  /* 行間をより詰める */
+        margin: 1px 10px;
+        /*margin: 1px 0;*/  /* 余白を最小限に */
+        padding: 1px 3px;  /* 内側の余白も減らす */
+        text-align: left;
+    }
+
+    .container {
+        height: 45vh;  /* 画面を占める割合を減らす */
+    }
+
+    .clock-time1 {
+        font-size: 9vw;  /* 横画面時に大きくなりすぎるのを防ぐ */
+    }
+
+    .clock-time2 {
+        font-size: 6vw;
+    }
+
+    .clock-timezone {
+        font-size: 5vw;
+        color: lightgreen;
+    }
+}
+*/
