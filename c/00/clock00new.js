@@ -163,7 +163,8 @@ function startClock() {
 // var consout = 'MQTT over WebSockets Test'+'<br>'
 // document.body.innerHTML = consout
 
-const WSURL = "ws://test.mosquitto.org:8080/mqtt"; // WebSocket URL
+// const WSURL = "ws://test.mosquitto.org:8080/mqtt"; // WebSocket URL
+const WSURL = "wss://broker.hivemq.com:8884/mqtt"; // HiveMQ の WebSocket (SSL)
 const MQTTtopic = "myname/wstest123"; // 購読するトピック
 
 var reconnectFailCount = 0;
