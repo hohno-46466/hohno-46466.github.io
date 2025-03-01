@@ -20,8 +20,10 @@
     <link rel="stylesheet" href="clock00new.css">
 </head>
 <body>
+    <!-- まずボタンがある -->
     <input type="button" value="Push and release here to sync time" id="button">
 
+    <!-- 次に日時表示領域がある．ここが最重要 -->
     <div class="container">
         <div class="clock">
             <p class="clock-date">（日付）</p>
@@ -30,25 +32,36 @@
         </div>
     </div>
 
+    <!-- 最後に補足情報表示領域がある -->
     <p id="RealtimeClockDisplayArea1">（ここに時刻情報を表示）</p>
     <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
 
+    <!-- 各領域を取り扱う Javascript -->
     <script src="clock00new.js"></script>
+
+    <!-- 定期的に Javascript を読み込み直すしかけ -->
+    <!-- 今は 3分毎だが安定したら 30分か60分毎でよいかと -->
     <script>
+        let msec_wait4reload = 5000;
+        let msec_wait4online = 35000;
+        let msec_nextReload = 175000;
         console.log("safeReload() function has started... (" + Date.now() / 1000 + ")");
         function safeReload() {
             let container = document.querySelector(".container");
             if (navigator.onLine) {
+                <!-- インターネット接続があれば 5秒後にリロードする -->
                 console.log("Internet is available. Reloading...");
                 container.style.backgroundColor = "#15151e"; 
-                setTimeout(() => { location.reload(); }, 5000); // 5秒後 // 5 seconds
+                setTimeout(() => { location.reload(); }, msec_wait4reload; // 5秒後 // 5 seconds
             } else {
+                <!-- インターネット接続がなければ 35秒間待機 -->
                 console.log("Internet is offline. Skipping reload.");
                 container.style.backgroundColor = "darkred"; 
-                setTimeout(safeReload, 35000); // 35秒後に再試行 // will execute after 35 seconds.
+                setTimeout(safeReload, msec_wait4online); // 35秒後に再試行 // will execute after 35 seconds.
             }
         }
-        setTimeout(() => { safeReload(); }, 175000); // 3分(175+5=180sec)ごとにリロードを試行
+        <!-- 次のリロードは 3分後 -->
+        setTimeout(() => { safeReload(); }, msec_nextReload); // 3分(175+5=180sec)ごとにリロードを試行
         console.log("safeReload() will be executed every 180(== 175+5) seconds");
     </script>
 </body>

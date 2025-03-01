@@ -27,16 +27,22 @@ var ntpOffset = 0;
 //
 
 // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
+// hivemq.com は最近応答性が悪い（制限している？）
 // const WSURL = 'ws://broker.hivemq.com:8000/mqtt'
 // const WSURL = 'wss://broker.hivemq.com:8004/mqtt'
+
+// mosquitto.org は wss:// をサポートしていない
 // const WSURL = 'ws://test.mosquitto.org:8081'
-
-// const WSURL = 'ws://test.mosquitto.org:8080/mqtt'
-// const MQTTtopic = 'hohno-46466/wstest01'
-
 // const WSURL = "ws://test.mosquitto.org:8080/mqtt"; // MQTT WebSocket URL
-// const MQTTtopic = "myname/wstest123"; // 購読するトピック
+
+// emqx.io は wss:// を提供しているが実験的用途に限定されている
+const WSURL = "wss://broker.emqx.io:8084/mqtt"; // HiveMQ の WebSocket (SSL)
+
+// 購読するトピック
+// const MQTTtopic = 'hohno-46466/wstest01'
+const MQTTtopic = "myname/wstest123";
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -61,7 +67,7 @@ function showClock() {
     var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)); // Date(_nowMillisec)
     var _dow3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    var _nowYear  = _nowTime.getFullYear(); // 修正: getFullYear() に setZero2 を適用しない
+    var _nowYear  = _nowTime.getFullYear();	// 修正: getFullYear() に setZero2 を適用しない
     var _nowMonth = setZero2(_nowTime.getMonth() + 1);
     var _nowDate  = setZero2(_nowTime.getDate());
     var _nowDow   = _nowTime.getDay();
@@ -97,7 +103,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(9))";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(10))";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -133,12 +139,18 @@ function buttonClick() {
 // syncTime() - wait for several sub-seconds to synchronize time
 
 function syncTime() {
+    // 現在時刻を取得 . ntpOffset で時差修正
     var _Time0 = Date.now();
     var currentTime = new Date(_Time0 + (ntpOffset * 1000));
+
+    // delay_msec を取得
     var delay_msec = 1000 - currentTime.getMilliseconds();
+    // あまりに「慌ただしい」ときには 1秒追加
     if (delay_msec < 50) { delay_msec += 1000; }
 
     console.log("Waiting for " + delay_msec + " msec.");
+
+    // delay_msec ミリ秒後に startClock() を起動
     clearInterval(intervalID);
 
     setTimeout(() => {
@@ -153,86 +165,100 @@ function syncTime() {
 // startClock() - start calling showClock(). It will be called every 1 sec.
 
 function startClock() {
-    intervalID = setInterval(showClock, 1000); // 修正: setInterval の引数を文字列ではなく関数にする
+    // 1000ミリ秒ごとに showClock() を実施（showClock() の実行時間がゼロではないため実行タイミングが少しずつずれてゆく（修正案あり）
+    intervalID = setInterval(showClock, 1000);	// 修正: setInterval の引数を文字列ではなく関数にする
     console.log("Let's go by startClock()");
 }
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+// MQTT 経由で ntpOffset を取得するしかけ
+
 // var consout = 'MQTT over WebSockets Test'+'<br>'
 // document.body.innerHTML = consout
 
-// const WSURL = "ws://test.mosquitto.org:8080/mqtt"; // WebSocket URL
-const WSURL = "wss://broker.emqx.io:8084/mqtt"; // HiveMQ の WebSocket (SSL)
-const MQTTtopic = "myname/wstest123"; // 購読するトピック
-
-var reconnectFailCount = 0;
-const maxReconnectAttempts = 5;
-const retryDelay = 5000;
-const cooldownTime = 3600000;
+var N_reconnectFailCount = 0;
+const N_maxReconnectAttempts = 5;
+const msec_wait4amoment = 5000;
+const msec_cooldownTime = 3600000;
+const msec_wait4reconnect = 10000;
 var client = null;
-var ntpOffset = 0; // オフセット変数を定義
 
+// MQTT ブローカから文字列を subscribe して ntpOffset を取り出すしかけだが，接続不良時に配慮しているため長くなっている
 function connectMQTT() {
+    // MQTT ブローカに接続
     console.log("Attempting to connect to MQTT broker...");
     client = mqtt.connect(WSURL, {
         clientId: "mqtt_client_" + Math.random().toString(16).substr(2, 8),
         clean: true,
-        reconnectPeriod: 0,
+        N_reconnectPeriod: 0,
     });
 
     let subscribeTimeout = null;
     let subscribeSuccess = false;
 
+    // 接続できた場合
     client.on("connect", function () {
         console.log("Connected to MQTT broker:", WSURL);
-        reconnectFailCount = 0;
+        N_reconnectFailCount = 0;
 
+        // 接続できたが成功ではなかった場合 10秒（msec_wait4reconnect）後に再実行 
         subscribeTimeout = setTimeout(() => {
             if (!subscribeSuccess) {
                 console.error("MQTT subscribe failed: Possible network restriction on WebSocket.");
             }
-        }, 10000);
+        }, msec_wait4reconnect);
 
+        // subscribe する
         client.subscribe(MQTTtopic, function (err) {
             if (!err) {
+                // subscribe できた場合
                 console.log("Subscribed to topic:", MQTTtopic);
                 subscribeSuccess = true;
                 clearTimeout(subscribeTimeout);
             } else {
+                // subscribe に失敗したらエラーメッセージを出力
                 console.error("Subscription error:", err);
             }
         });
     });
 
+    // 接続エラーになった場合（上流のセキュリティ機構が MQTT をブロックしている場合などはエラーする）
     client.on("error", function (error) {
         console.error("MQTT WebSocket error:", error);
     });
 
+    // MQTT 接続が切れた場合
     client.on("close", function () {
         console.warn("MQTT WebSocket connection closed. Retrying...");
 
+        // 再接続を試行
         reconnectFailCount++;
-        if (reconnectFailCount >= maxReconnectAttempts) {
+        if (reconnectFailCount >= N_maxReconnectAttempts) {
+            // 指定回数以上際接続に失敗したらとりあえず　1時間（msec_cooldownTime）は何もせずに待機
             console.error(`Exceeded max reconnect attempts (${maxReconnectAttempts}). Pausing for 1 hour.`);
-            setTimeout(connectMQTT, cooldownTime);
+            setTimeout(connectMQTT, msec_cooldownTime);
         } else {
-            setTimeout(connectMQTT, retryDelay);
+            // 指定回数以内なら一定時間（wait4amoment）待ってみる
+            setTimeout(connectMQTT, msec_wait4amoment);
         }
     });
 
+    // メッセージを受け取った場合
     client.on("message", function (topic, payload) {
-        var message = payload.toString().trim(); // 受信メッセージを文字列として取得
+        var message = payload.toString().trim();	// 受信メッセージを文字列として取得
         console.log("Received message:", message, "from topic:", topic);
 
         // `offset = 数字.数字` の形式か確認
         const match = message.match(/^offset\s*=\s*(-?\d+\.\d+)$/);
         if (match) {
-            let newOffset = parseFloat(match[1]); // 数値に変換
+            // メッセージが指定した形式なら ntpOffset を設定
+            let newOffset = parseFloat(match[1]);	// 数値に変換
             console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
-            ntpOffset = newOffset; // 変数に代入
+            ntpOffset = newOffset;			// 変数に代入
         } else {
+            // 指定した形式でなければエラーを出力
             console.warn("Message format invalid or not an offset update.");
         }
     });
@@ -246,9 +272,7 @@ button.addEventListener('mousedown', mouseDown);
 button.addEventListener('mouseup', mouseUp);
 button.addEventListener('click', buttonClick);
 
-// 初回接続
-connectMQTT();
-
+connectMQTT(); // 初回接続
 showClock();
 syncTime();
 
