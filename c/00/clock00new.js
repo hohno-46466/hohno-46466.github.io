@@ -6,6 +6,7 @@
 
 var intervalID = 0;
 var ntpOffset = 0;
+var shortHash = "";
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -39,10 +40,11 @@ var ntpOffset = 0;
 
 // emqx.io は wss:// を提供しているが実験的用途に限定されている
 const WSURL = "wss://broker.emqx.io:8084/mqtt"; // HiveMQ の WebSocket (SSL)
+const MQTTURL = "broker.emqx.io";
 
 // 購読するトピック
 // const MQTTtopic = 'hohno-46466/wstest01'
-const MQTTtopic = "myname/wstest123";
+var MQTTtopic = "myname/WStest123";
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -103,7 +105,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(10))";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(11)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -267,12 +269,47 @@ function connectMQTT() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-var button = document.getElementById("button");
-button.addEventListener('mousedown', mouseDown);
-button.addEventListener('mouseup', mouseUp);
-button.addEventListener('click', buttonClick);
+async function getShortHash(input) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase(); // 大文字に変換
+    return hashHex.substring(0, 6); // 先頭6桁 (24bit)
+}
 
-connectMQTT(); // 初回接続
+// ブラウザ用のデバイス識別情報
+function getDeviceIdentifier() {
+    return (
+        navigator.userAgent + 
+        navigator.platform + 
+        window.screen.width + "x" + window.screen.height + 
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+        // + Date.now() // 現在時刻を追加
+    );
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+async function initializeApp() {
+    shortHash = await getShortHash(getDeviceIdentifier());
+    console.log("Short hash (24bit):", shortHash);
+    MQTTtopic = MQTTtopic + "/" + shortHash;
+    console.log("MQTTbroker = " + MQTTURL + ", Topic = " + MQTTtopic) ;
+
+    var button = document.getElementById("button");
+    button.addEventListener('mousedown', mouseDown);
+    button.addEventListener('mouseup', mouseUp);
+    button.addEventListener('click', buttonClick);
+
+    connectMQTT(); // 初回接続
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+initializeApp();
 showClock();
 syncTime();
 
