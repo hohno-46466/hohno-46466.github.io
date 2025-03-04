@@ -247,24 +247,35 @@ function connectMQTT() {
         }
     });
 
-    // メッセージを受け取った場合
     client.on("message", function (topic, payload) {
-        var message = payload.toString().trim();	// 受信メッセージを文字列として取得
+        var message = payload.toString().trim(); // 受信メッセージを文字列として取得
         console.log("Received message:", message, "from topic:", topic);
-
+    
         // `offset = 数字.数字` の形式か確認
-        const match = message.match(/^offset\s*=\s*(-?\d+\.\d+)$/);
-        if (match) {
-            // メッセージが指定した形式なら ntpOffset を設定
-            let newOffset = parseFloat(match[1]);	// 数値に変換
+        const offsetMatch = message.match(/^offset\s*=\s*(-?\d+\.\d+)$/);
+        if (offsetMatch) {
+            let newOffset = parseFloat(offsetMatch[1]); // 数値に変換
             console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
-            ntpOffset = newOffset;			// 変数に代入
-        } else {
-            // 指定した形式でなければエラーを出力
-            console.warn("Message format invalid or not an offset update.");
+            ntpOffset = newOffset; // 変数に代入
+            return;
         }
+    
+        // `utc = 数字.数字` の形式か確認
+        const utcMatch = message.match(/^utc\s*=\s*(-?\d+\.\d+)$/);
+        if (utcMatch) {
+            let utcTime = parseFloat(utcMatch[1]) * 1000; // 数値に変換し、ミリ秒単位に
+            let localTime = Date.now(); // 現在のローカル時刻を取得
+            let timeDifference = localTime - utcTime; // 差分を計算
+    
+            console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
+            return;
+        }
+    
+        // 指定した形式でなければエラーを出力
+        console.warn("Message format invalid or not an offset/utc update.");
     });
-}
+    
+};
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
