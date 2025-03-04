@@ -268,6 +268,7 @@ function connectMQTT() {
             let timeDifference = localTime - utcTime; // 差分を計算
     
             console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
+            ntpOffset = timeDifference;
             return;
         }
     
