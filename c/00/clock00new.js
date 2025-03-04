@@ -272,8 +272,16 @@ function connectMQTT() {
             return;
         }
     
+        // `ping` を受信した場合、`pong` に変換して返信
+        if (message.startsWith("ping")) {
+            let responseMessage = message.replace(/^ping/, "pong") + " " + Date.now()/1000.0;
+            console.log(`Sending: ${responseMessage}`);
+
+            client.publish(topic, responseMessage); // `pong` を返信
+            return;
+        }
         // 指定した形式でなければエラーを出力
-        console.warn("Message format invalid or not an offset/utc update.");
+        console.warn("Message format invalid or not an offset/utc/ping update.");
     });
     
 };
