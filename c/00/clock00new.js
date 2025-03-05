@@ -247,6 +247,7 @@ function connectMQTT() {
         }
     });
 
+    // メッセージが届いた場合の対処
     client.on("message", function (topic, payload) {
         var message = payload.toString().trim(); // 受信メッセージを文字列として取得
         console.log("Received message:", message, "from topic:", topic);
@@ -272,7 +273,7 @@ function connectMQTT() {
             return;
         }
     
-        // `ping` を受信した場合、`pong` に変換して返信
+        // `ping` メッセージ（）を受信した場合、`pong` に変換した上で，メッセージ末尾に Date.now()/1000.0 を付加して返信
         if (message.startsWith("ping")) {
             let responseMessage = message.replace(/^ping/, "pong") + " " + Date.now()/1000.0;
             console.log(`Sending: ${responseMessage}`);
