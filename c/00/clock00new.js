@@ -105,7 +105,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(16)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(17)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -300,16 +300,16 @@ async function getShortHash(input) {
     return hashHex.substring(0, 6); // 先頭6桁 (24bit)
 }
 
-// // ブラウザ用のデバイス識別情報
-// function getDeviceIdentifier() {
-//     return (
-//         navigator.userAgent + 
-//         navigator.platform + 
-//         window.screen.width + "x" + window.screen.height + 
-//         Intl.DateTimeFormat().resolvedOptions().timeZone
-//         // + Date.now() // 現在時刻を追加
-//     );
-// }
+// ブラウザ用のデバイス識別情報
+function getDeviceIdentifier2() {
+    return (
+        navigator.userAgent + 
+        navigator.platform + 
+        window.screen.width + "x" + window.screen.height + 
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+        // + Date.now() // 現在時刻を追加
+    );
+}
 
 async function getCanvasFingerprint() {
     // `canvas fingerprinting` を利用
@@ -351,14 +351,16 @@ async function getDeviceIdentifier() {
 // -----------------------------------------------------------------------------
 
 async function initializeApp() {
-    shortHash = await getShortHash(getDeviceIdentifier());
+    const deviceID = await getDeviceIdentifier();
+    // const deviceID = await getDeviceIdentifier2();
+    shortHash = await getShortHash(deviceID);
     console.log("Short hash (24bit):", shortHash);
     MQTTtopic = MQTTtopic + "/" + shortHash;
     console.log("MQTTbroker = " + MQTTURL + ", Topic = " + MQTTtopic) ;
 
     var button = document.getElementById("button");
     button.addEventListener('mousedown', mouseDown);
-    button.addEventListener('mouseup', mouseUp);
+    button.addEventListenear('mouseup', mouseUp);
     button.addEventListener('click', buttonClick);
 
     connectMQTT(); // 初回接続
