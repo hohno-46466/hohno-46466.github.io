@@ -105,7 +105,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(15)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(16)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -289,6 +289,8 @@ function connectMQTT() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+// SHA-256 でハッシュ化する関数
+// crypto.subtle.digest() が非同期処理（Promise を返す）なので、async を付ける必要がある
 async function getShortHash(input) {
     const encoder = new TextEncoder();
     const data = encoder.encode(input);
@@ -298,15 +300,51 @@ async function getShortHash(input) {
     return hashHex.substring(0, 6); // 先頭6桁 (24bit)
 }
 
-// ブラウザ用のデバイス識別情報
-function getDeviceIdentifier() {
-    return (
-        navigator.userAgent + 
-        navigator.platform + 
-        window.screen.width + "x" + window.screen.height + 
+// // ブラウザ用のデバイス識別情報
+// function getDeviceIdentifier() {
+//     return (
+//         navigator.userAgent + 
+//         navigator.platform + 
+//         window.screen.width + "x" + window.screen.height + 
+//         Intl.DateTimeFormat().resolvedOptions().timeZone
+//         // + Date.now() // 現在時刻を追加
+//     );
+// }
+
+async function getCanvasFingerprint() {
+    // `canvas fingerprinting` を利用
+    const canvas = document.createElement("canvas");    // この関数内で使用する canvas 要素を作る
+    const ctx = canvas.getContext("2d");                // 2D描画用のコンテキストを取得
+    ctx.textBaseline = "top";                           // テキストの基準線を top に設定
+    ctx.font = "14px 'Arial'";                          // フォントの種類とサイズを設定
+    ctx.fillStyle = "#000000"; // 一貫性を持たせるためにフォント色を指定    
+    ctx.fillText("Hello, fingerprint!", 2, 2);          // キャンバス上にテキストを描画
+    return canvas.toDataURL("image/png"); // 画像データとして取得（フォーマット指定）
+}
+
+async function getDeviceIdentifier() {
+    // 基本的なデバイス情報
+    let deviceInfo = [
+        navigator.userAgent,
+        navigator.platform,
+        window.screen.width + "x" + window.screen.height,
         Intl.DateTimeFormat().resolvedOptions().timeZone
-        // + Date.now() // 現在時刻を追加
-    );
+    ];
+
+    // `deviceMemory`（RAMサイズ）と `hardwareConcurrency`（CPUコア数）を追加
+    if (navigator.deviceMemory) {
+        deviceInfo.push("RAM:" + navigator.deviceMemory);
+    }
+    if (navigator.hardwareConcurrency) {
+        deviceInfo.push("CPU:" + navigator.hardwareConcurrency);
+    }
+    // キャンバスフィンガープリントを取得（非同期）
+    deviceInfo.push(await getCanvasFingerprint());
+    
+    // SHA-256 でハッシュ化して識別子を生成
+    // getShortHash() 中の crypto.subtle.digest() の処理を待つために getShortHash() は async 宣言しており，呼び出し側は await が必要
+    // (async を使った関数は Promise を返す．この場合，await しないと正しい値を取得できない)
+    return await getShortHash(deviceInfo.join("|"));
 }
 
 // -----------------------------------------------------------------------------
