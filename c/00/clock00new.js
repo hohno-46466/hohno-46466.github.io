@@ -105,7 +105,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(14)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(15)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -175,10 +175,7 @@ function startClock() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-// MQTT 経由で ntpOffset を取得するしかけ
-
-// var consout = 'MQTT over WebSockets Test'+'<br>'
-// document.body.innerHTML = consout
+// MQTT 経由でメッセージを受けとり対応する動作をするしかけ
 
 var N_reconnectFailCount = 0;
 const N_maxReconnectAttempts = 5;
@@ -203,29 +200,32 @@ function connectMQTT() {
     // 接続できた場合
     client.on("connect", function () {
         console.log("Connected to MQTT broker:", WSURL);
-        N_reconnectFailCount = 0;
+        N_reconnectFailCount = 0; // 失敗カウントをリセット
+        subscribeSuccess = false; // 初期状態では subscribe に成功していない
 
-        // 接続できたが成功ではなかった場合 10秒（msec_wait4reconnect）後に再実行 
+        // attemptSubscribe() を用意
+        function attemptSubscribe() {
+            client.subscribe(MQTTtopic, function (err) {
+                if (!err) {
+                    console.log("Subscribed to topic:", MQTTtopic);
+                    subscribeSuccess = true; // 成功フラグをセット
+                } else {
+                    console.error("Subscription error:", err);
+                    setTimeout(attemptSubscribe, msec_wait4reconnect); // 10秒後に再試行
+                }
+            });
+        }
+        // 初回の subscribe を試みる
+        attemptSubscribe();
+        // 一定時間後に subscribe が成功しているかチェック
         subscribeTimeout = setTimeout(() => {
             if (!subscribeSuccess) {
-                console.error("MQTT subscribe failed: Possible network restriction on WebSocket.");
+                console.error("MQTT subscribe failed: Retrying...");
+                attemptSubscribe(); // 再試行
             }
         }, msec_wait4reconnect);
-
-        // subscribe する
-        client.subscribe(MQTTtopic, function (err) {
-            if (!err) {
-                // subscribe できた場合
-                console.log("Subscribed to topic:", MQTTtopic);
-                subscribeSuccess = true;
-                clearTimeout(subscribeTimeout);
-            } else {
-                // subscribe に失敗したらエラーメッセージを出力
-                console.error("Subscription error:", err);
-            }
-        });
     });
-
+    
     // 接続エラーになった場合（上流のセキュリティ機構が MQTT をブロックしている場合などはエラーする）
     client.on("error", function (error) {
         console.error("MQTT WebSocket error:", error);
@@ -234,7 +234,6 @@ function connectMQTT() {
     // MQTT 接続が切れた場合
     client.on("close", function () {
         console.warn("MQTT WebSocket connection closed. Retrying...");
-
         // 再接続を試行
         reconnectFailCount++;
         if (reconnectFailCount >= N_maxReconnectAttempts) {
@@ -242,7 +241,7 @@ function connectMQTT() {
             console.error(`Exceeded max reconnect attempts (${maxReconnectAttempts}). Pausing for 1 hour.`);
             setTimeout(connectMQTT, msec_cooldownTime);
         } else {
-            // 指定回数以内なら一定時間（wait4amoment）待ってみる
+            // 指定回数以内なら短時間（5秒間, wait4amoment）待ってから再試行
             setTimeout(connectMQTT, msec_wait4amoment);
         }
     });
@@ -273,14 +272,14 @@ function connectMQTT() {
             return;
         }
     
-        // `ping` メッセージ（）を受信した場合、`ping` を  pong` に変換した上で，メッセージ末尾に Date.now()/1000.0 を付加して返信
+        // `ping` メッセージ（）を受信した場合、`ping` を `pong` に変換した上で，メッセージの末尾に Date.now()/1000.0 を付加して返信
         if (message.startsWith("ping")) {
             let responseMessage = message.replace(/^ping/, "pong") + " " + (Date.now()/1000.0);
             console.log(`Sending: ${responseMessage}`);
-
             client.publish(topic, responseMessage); // `pong` を返信
             return;
         }
+
         // 指定した形式でなければエラーを出力
         console.warn("Message format invalid or not an offset/utc/ping update.");
     });
