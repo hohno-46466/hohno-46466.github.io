@@ -360,7 +360,7 @@ async function initializeApp() {
 
     var button = document.getElementById("button");
     button.addEventListener('mousedown', mouseDown);
-    button.addEventListenear('mouseup', mouseUp);
+    button.addEventListener('mouseup', mouseUp);
     button.addEventListener('click', buttonClick);
 
     connectMQTT(); // 初回接続
