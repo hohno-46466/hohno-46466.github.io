@@ -32,6 +32,7 @@ body {
     margin: 2px 10px;		/* 外側の 上下に 2px, 左右に 10px のマージンを設定 */
     padding: 2px 5px;		/* 内側の 上下に 2px、左右に 5px のマージンを設定 */
     text-align: left;
+    font-family: "Courier New", Courier, monospace; /* 等幅フォントを指定 */
 }
 
 /* 時計コンテナ */
@@ -139,6 +140,7 @@ body {
         margin: 1px 10px;
         padding: 1px 3px;
         text-align: left;
+        font-family: "Courier New", Courier, monospace; /* 等幅フォントを指定 */
     }
 
     /* 時計エリア */
