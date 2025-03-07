@@ -141,7 +141,6 @@ function buttonClick() {
 // -----------------------------------------------------------------------------
 
 // syncTime() - wait for several sub-seconds to synchronize time
-
 function syncTime() {
     // 現在時刻を取得 . ntpOffset で時差修正
     var _Time0 = Date.now();
@@ -241,8 +240,8 @@ function connectMQTT() {
     client.on("close", function () {
         console.log("MQTT WebSocket connection closed. Retrying...");
         // 再接続を試行
-        reconnectFailCount++;
-        if (reconnectFailCount >= N_maxReconnectAttempts) {
+        N_reconnectFailCount++;
+        if (N_reconnectFailCount >= N_maxReconnectAttempts) {
             // 指定回数以上際接続に失敗したらとりあえず　1時間（msec_cooldownTime）は何もせずに待機
             console.error(`Exceeded max reconnect attempts (${maxReconnectAttempts}). Pausing for 1 hour.`);
             setTimeout(connectMQTT, msec_cooldownTime);
