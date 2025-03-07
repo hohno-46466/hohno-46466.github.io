@@ -40,11 +40,11 @@
     <script src="clock00new.js"></script>
 
     <!-- 定期的に Javascript を読み込み直すしかけ -->
-    <!-- 今は 3分毎だが安定したら 30分か60分毎でよいかと -->
+    <!-- 今は 10分毎だが安定したら 30分か60分毎でよいかと -->
     <script>
         let msec_wait4reload = 5000;
         let msec_wait4online = 35000;
-        let msec_nextReload = 175000;
+        let msec_nextReload = 595000;
         console.log("safeReload() function has started... (" + Date.now() / 1000 + ")");
         function safeReload() {
             let container = document.querySelector(".container");
@@ -60,8 +60,8 @@
                 setTimeout(safeReload, msec_wait4online); // 35秒後に再試行 // will execute after 35 seconds.
             }
         }
-        <!-- 次のリロードは 3分後 -->
-        setTimeout(() => { safeReload(); }, msec_nextReload); // 3分(175+5=180sec)ごとにリロードを試行
+        <!-- 次のリロードは 10分後（以前は 3分後だった．徐々に延長中） -->
+        setTimeout(() => { safeReload(); }, msec_nextReload); // 10分(595+5=600sec)ごとにリロードを試行
         console.log("safeReload() will be executed every 180(== 175+5) seconds");
     </script>
 </body>
