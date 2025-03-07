@@ -263,6 +263,7 @@ function connectMQTT() {
             let newOffset = parseFloat(offsetMatch[1]); // 数値に変換
             console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
             ntpOffset = newOffset; // 変数に代入
+            syncTime();
             return;
         }
     
