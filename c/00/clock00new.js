@@ -44,7 +44,8 @@ const MQTTURL = "broker.emqx.io";
 
 // 購読するトピック
 // const MQTTtopic = 'hohno-46466/wstest01'
-var MQTTtopic = "myname/WStest123";
+const MQTTtopicZero = "myname/WStest123";
+var MQTTtopic = MQTTtopicZero;
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -105,7 +106,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(17)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(18)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -209,6 +210,10 @@ function connectMQTT() {
                 if (!err) {
                     console.log("Subscribed to topic:", MQTTtopic);
                     subscribeSuccess = true; // 成功フラグをセット
+                    let responseMessage = "Hello! " + shortHash + " " + (Date.now()/1000.0);
+                    console.log(`Sending: ${responseMessage}`);
+                    client.publish(MQTTtopic, responseMessage);
+        
                 } else {
                     console.error("Subscription error:", err);
                     setTimeout(attemptSubscribe, msec_wait4reconnect); // 10秒後に再試行
@@ -233,7 +238,7 @@ function connectMQTT() {
 
     // MQTT 接続が切れた場合
     client.on("close", function () {
-        console.warn("MQTT WebSocket connection closed. Retrying...");
+        console.log("MQTT WebSocket connection closed. Retrying...");
         // 再接続を試行
         reconnectFailCount++;
         if (reconnectFailCount >= N_maxReconnectAttempts) {
@@ -266,7 +271,6 @@ function connectMQTT() {
             let utcTime = parseFloat(utcMatch[1]) * 1000; // 数値に変換し、ミリ秒単位に
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let timeDifference = localTime - utcTime; // 差分を計算
-    
             console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
             ntpOffset = timeDifference;
             return;
@@ -280,8 +284,13 @@ function connectMQTT() {
             return;
         }
 
+        if (message.startsWith("Hello!")) {
+            // just ignore this
+            return;
+        }
+
         // 指定した形式でなければエラーを出力
-        console.warn("Message format invalid or not an offset/utc/ping update.");
+        console.log("Message format invalid or not an offset/utc/ping update. (" + message + ")");
     });
     
 };
@@ -289,7 +298,7 @@ function connectMQTT() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-// SHA-256 でハッシュ化する関数
+// SHA-256 でハッシュ化する関数（uuid が使えないので悪戦苦闘）
 // crypto.subtle.digest() が非同期処理（Promise を返す）なので、async を付ける必要がある
 async function getShortHash(input) {
     const encoder = new TextEncoder();
@@ -300,17 +309,7 @@ async function getShortHash(input) {
     return hashHex.substring(0, 6); // 先頭6桁 (24bit)
 }
 
-// ブラウザ用のデバイス識別情報
-function getDeviceIdentifier2() {
-    return (
-        navigator.userAgent + 
-        navigator.platform + 
-        window.screen.width + "x" + window.screen.height + 
-        Intl.DateTimeFormat().resolvedOptions().timeZone
-        // + Date.now() // 現在時刻を追加
-    );
-}
-
+// ランダムな数値が欲しくて悪戦苦闘
 async function getCanvasFingerprint() {
     // `canvas fingerprinting` を利用
     const canvas = document.createElement("canvas");    // この関数内で使用する canvas 要素を作る
@@ -322,6 +321,7 @@ async function getCanvasFingerprint() {
     return canvas.toDataURL("image/png"); // 画像データとして取得（フォーマット指定）
 }
 
+// ブラウザ用のデバイス識別情報（その１）
 async function getDeviceIdentifier() {
     // 基本的なデバイス情報
     let deviceInfo = [
@@ -347,6 +347,17 @@ async function getDeviceIdentifier() {
     return await getShortHash(deviceInfo.join("|"));
 }
 
+// ブラウザ用のデバイス識別情報（その２）
+function getDeviceIdentifier2() {
+    return (
+        navigator.userAgent + 
+        navigator.platform + 
+        window.screen.width + "x" + window.screen.height + 
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+        // + Date.now() // 現在時刻を追加
+    );
+}
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
@@ -355,7 +366,7 @@ async function initializeApp() {
     // const deviceID = await getDeviceIdentifier2();
     shortHash = await getShortHash(deviceID);
     console.log("Short hash (24bit):", shortHash);
-    MQTTtopic = MQTTtopic + "/" + shortHash;
+    MQTTtopic = MQTTtopicZero + "/" + shortHash;
     console.log("MQTTbroker = " + MQTTURL + ", Topic = " + MQTTtopic) ;
 
     var button = document.getElementById("button");
