@@ -16,10 +16,13 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
     T1 = ($3+$5)/2;
     T2 = $4-($3+$5)/2;
     T3 = $4-($3+$5)/2-0.3;
+    T4 = -1 * T3;
+    mesg = "sh ./send-offset.sh " T4 " " $2;
     printf "%s (%.3f) (%.3f) %f.3\n", $0, T1, T2, T3;
-    mesg = "sh ./send-offset.sh " $2 -T3;
-    printf "(%s)\n", mesg;
-    # system(mesg);
+    if (T4 <= -0.1 || T4 >= 0.1) {
+      printf "(%s)\n", mesg;
+      # system(mesg);
+    }
   } else if($1 == "Hello!") {
     mesg = "sh ./send-ping.sh " $2;
     printf "(%s)\n", mesg;
