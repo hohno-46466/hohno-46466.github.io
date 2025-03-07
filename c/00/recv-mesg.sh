@@ -21,7 +21,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
     printf "%s (%.3f) (%.3f) %f.3\n", $0, T1, T2, T3;
     if (T4 <= -0.1 || T4 >= 0.1) {
       printf "(%s)\n", mesg;
-      # system(mesg);
+      system(mesg);
     }
   } else if($1 == "Hello!") {
     mesg = "sh ./send-ping.sh " $2;
