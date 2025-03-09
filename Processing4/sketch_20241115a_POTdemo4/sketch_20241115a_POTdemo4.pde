@@ -16,7 +16,7 @@
 
 // Go to [Sketch] -> [Import Library] -> [Manage Libraries] then search for "MQTT"
 
-// -----------------------------------------------------------------------------
+// ------------------------------------------------------------------20-----------
 
 // Number of guages
 int Nguages = 3;            // Number of guages
@@ -74,6 +74,8 @@ final int innerDiameter = int(screenHight * 0.4); // ゲージの内径
 
 final int textPosX1 = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
 final int textPosY1 = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosX2 = int(screenWidth * 0.6);      // テキスト表示位置の中心位置（水平方向）
+final int textPosY2 = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
 
 // -----------------------------------------------------------------------------
 
@@ -123,7 +125,7 @@ void setup() {
   strokeWeight(2);
   
   for (int i = 0; i < Nguages; i++) {
-    if (POTfull[i] == 0.0) {POTfull[i] = 256.0; }
+    if (POTfull[i] == 0.0) {POTfull[i] = 255.0; }
   }
 }
 
@@ -160,7 +162,7 @@ void guage(int guageID, color colorX) {
   }
 
   // float 型の大域変数 POTval[guageID] から int 型の局所変数 _val を求める
-  int _val = int(POTval[guageID]/POTfull[guageID]*256.0);
+  int _val = int(POTval[guageID]/POTfull[guageID]*255.0);
   _val = (_val < 0) ? 0 : (_val > 255) ? 255 : _val;
   _val = round(map(_val, 0, 255, 0, arcSize));
 
@@ -197,7 +199,10 @@ void guage(int guageID, color colorX) {
 
   // POTval[guageID] をテキストとしてとして書き出す // Write out POTval[guageID] as text
   fill(colorBlack);
-  text(round(POTval[guageID]), _offsetX + textPosX1, _offsetY + textPosY1);
+  String formattedText = String.format("%.2f (%.2f%%)", POTval[guageID], POTval[guageID]/POTfull[guageID]*100.0); 
+  text(formattedText, _offsetX + textPosX1, _offsetY + textPosY1);
+  // text(round(POTval[guageID]), _offsetX + textPosX1, _offsetY + textPosY1);
+  // text("(99%)", _offsetX + textPosX2, _offsetY + textPosY2);
 }
 
 // -----------------------------------------------------------------------------
@@ -215,7 +220,7 @@ void messageReceivedX(String topic, byte[] payload) {
   for (int i = 0; i < Nguages; i++) {
     if (i < _n) {
       POTval[i] = int(_words[i]);
-      if (POTfull[i] == 0.0) {POTfull[i] = 256.0; }
+      if (POTfull[i] == 0.0) {POTfull[i] = 255.0; }
     }
   }
 }
