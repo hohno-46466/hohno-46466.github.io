@@ -2,11 +2,12 @@
 // sketch_20241115a_POTdemo4.pde
 //
 
-// The first version: Fri May 26 18:49:38 JST 2023 by @hohno_at_kuimc
-// The previous version: Mon May 29 12:14:22 JST 2023 by @hohno_at_kuimc
-// The previous version: Tue Jun  6 06:41:55 JST 2023 by @hohno_at_kuimc
-// The previous version: Thu Aug 31 03:40:37 ADT 2023 by @hohno_at_kuimc
-// The latest version: Fri Nov 15 07:18:48 AST 2024 by @hohno_at_kuimc
+// First version: Fri May 26 18:49:38 JST 2023 by @hohno_at_kuimc
+// Previous version: Mon May 29 12:14:22 JST 2023 by @hohno_at_kuimc
+// Previous version: Tue Jun  6 06:41:55 JST 2023 by @hohno_at_kuimc
+// Previous version: Thu Aug 31 03:40:37 ADT 2023 by @hohno_at_kuimc
+// Previous version: Fri Nov 15 07:18:48 AST 2024 by @hohno_at_kuimc
+// Last update: 2025-03-09(Sun) 20:12 JST / 2025-03-09(Sun) 11:12 UTC by @hohno_at_kuimc
 
 // -----------------------------------------------------------------------------
 
@@ -18,13 +19,14 @@
 // -----------------------------------------------------------------------------
 
 // Number of guages
-int Nguages = 4;            // Number of guages
+int Nguages = 3;            // Number of guages
 
 // -----------------------------------------------------------------------------
 
 // MQTT broker's FQDN (hostname)
 // final String MQTThost = "mqtt://broker.hivemq.com";
-final String MQTThost = "mqtt://broker.emqx.io";
+// final String MQTThost = "mqtt://broker.emqx.io";
+final String MQTThost = "mqtt://localhost";
 
 // MQTT topic
 final String MQTTtopic = "mgws2411-999/pseudoBob1";
@@ -40,6 +42,7 @@ PFont font;
 
 // Potentiometer values
 float POTval[] = new float[Nguages];
+float POTfull[] = new float[Nguages];
 
 //  overlap rate
 final float overlapRate = 0.35;   // ゲージ同士の重なり具合を指定．0.0~0.5くらいの値がよい．単にゲージを並べるだけなら 0.0 でよい．
@@ -69,8 +72,8 @@ final int centerY = int(screenHight * 0.5);       // ゲージの中心位置（
 final int outerDiameter = int(screenHight * 0.7); // ゲージの外径
 final int innerDiameter = int(screenHight * 0.4); // ゲージの内径
 
-final int textPosX = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
-final int textPosY = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosX1 = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
+final int textPosY1 = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
 
 // -----------------------------------------------------------------------------
 
@@ -118,6 +121,10 @@ void setup() {
   client.subscribe(MQTTtopic);
 
   strokeWeight(2);
+  
+  for (int i = 0; i < Nguages; i++) {
+    if (POTfull[i] == 0.0) {POTfull[i] = 256.0; }
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -152,8 +159,8 @@ void guage(int guageID, color colorX) {
     _offsetX = int(screenWidth * (1.0 - overlapRate) * guageID);
   }
 
-  // float 型の帯域変数 POTval[guageID] から int 型の局所変数 _val を求める
-  int _val = int(POTval[guageID]);
+  // float 型の大域変数 POTval[guageID] から int 型の局所変数 _val を求める
+  int _val = int(POTval[guageID]/POTfull[guageID]*256.0);
   _val = (_val < 0) ? 0 : (_val > 255) ? 255 : _val;
   _val = round(map(_val, 0, 255, 0, arcSize));
 
@@ -190,7 +197,7 @@ void guage(int guageID, color colorX) {
 
   // POTval[guageID] をテキストとしてとして書き出す // Write out POTval[guageID] as text
   fill(colorBlack);
-  text(round(POTval[guageID]), _offsetX + textPosX, _offsetY + textPosY);
+  text(round(POTval[guageID]), _offsetX + textPosX1, _offsetY + textPosY1);
 }
 
 // -----------------------------------------------------------------------------
@@ -199,14 +206,56 @@ void guage(int guageID, color colorX) {
 
 // messageReceived()
 //
-void messageReceived(String topic, byte[] payload) {
+void messageReceivedX(String topic, byte[] payload) {
   // println("new message: " + topic + " - " + new String(payload));
   String _line = new String(payload);
   String[] _words = _line.split("\\s+");
   int _n = _words.length;
   println("DEBUG: topic = " + topic + " : got " + _n + " words");
   for (int i = 0; i < Nguages; i++) {
-    if (i < _n) { POTval[i] = int(_words[i]);}
+    if (i < _n) {
+      POTval[i] = int(_words[i]);
+      if (POTfull[i] == 0.0) {POTfull[i] = 256.0; }
+    }
+  }
+}
+
+void messageReceived(String topic, byte[] payload) {
+  String _line = new String(payload);
+  String[] _words = _line.split("\\s+");
+  int _n = _words.length;
+  println("DEBUG: topic = " + topic + " : got " + _n + " words");
+  for (int i = 0; i < Nguages; i++) {
+    if (i < _n) {
+      if (_words[i].contains("/")) {
+        // 分子/分母 の形式
+        String[] fraction = _words[i].split("/");
+        if (fraction.length == 2) {
+          try {
+            POTval[i] = float(fraction[0]);
+            POTfull[i] = float(fraction[1]);
+          } catch (NumberFormatException e) {
+            println("WARNING: Invalid fraction format: " + _words[i]);
+            POTval[i] = 0;
+            POTfull[i] = 255.0;
+          }
+        } else {
+          println("WARNING: Unexpected fraction format: " + _words[i]);
+          POTval[i] = 0;
+          POTfull[i] = 255.0;
+        }
+      } else {
+        // 従来の数値形式
+        try {
+          POTval[i] = float(_words[i]);
+          POTfull[i] = 255.0;
+        } catch (NumberFormatException e) {
+          println("WARNING: Invalid number format: " + _words[i]);
+          POTval[i] = 0;
+          POTfull[i] = 255.0;
+        }
+      }
+    }
   }
 }
 
