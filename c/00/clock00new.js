@@ -107,7 +107,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(19)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(19    )/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -215,7 +215,7 @@ function connectMQTT() {
                     client.publish(MQTTtopic, responseMessage);
         
                 } else {
-                    console.error("Subscription error:", err);
+                    console.log("Subscription error:", err);
                     setTimeout(attemptSubscribe, msec_wait4reconnect); // 10秒後に再試行
                 }
             });
@@ -225,7 +225,7 @@ function connectMQTT() {
         // 一定時間後に subscribe が成功しているかチェック
         subscribeTimeout = setTimeout(() => {
             if (!subscribeSuccess) {
-                console.error("MQTT subscribe failed: Retrying...");
+                console.log("MQTT subscribe failed: Retrying...");
                 attemptSubscribe(); // 再試行
             }
         }, msec_wait4reconnect);
