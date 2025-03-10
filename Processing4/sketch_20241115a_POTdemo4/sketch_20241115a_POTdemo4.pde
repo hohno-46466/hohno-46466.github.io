@@ -42,7 +42,8 @@ PFont font;
 
 // Potentiometer values
 float POTval[] = new float[Nguages];
-float POTfull[] = new float[Nguages];
+float POTmax[] = new float[Nguages];
+float POTmin[] = new float[Nguages];
 
 //  overlap rate
 final float overlapRate = 0.35;   // ゲージ同士の重なり具合を指定．0.0~0.5くらいの値がよい．単にゲージを並べるだけなら 0.0 でよい．
@@ -89,8 +90,12 @@ final int innerDiameter = int(screenHight * 0.4); // ゲージの内径
 
 final int textPosX1 = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
 final int textPosY1 = int(screenHight * 0.85);      // テキスト表示位置の中心位置（垂直方向）
-final int textPosX2 = int(screenWidth * 0.6);      // テキスト表示位置の中心位置（水平方向）
-final int textPosY2 = int(screenHight * 0.85);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosX2 = int(screenWidth * 0.40);      // テキスト表示位置の中心位置（水平方向）
+final int textPosY2 = int(screenHight * 0.69);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosX3 = int(screenWidth * 0.60);      // テキスト表示位置の中心位置（水平方向）
+final int textPosY3 = int(screenHight * 0.69);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosX4 = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
+final int textPosY4 = int(screenHight * 0.35);      // テキスト表示位置の中心位置（垂直方向）
 
 // -----------------------------------------------------------------------------
 
@@ -140,7 +145,7 @@ void setup() {
   strokeWeight(2);
   
   for (int i = 0; i < Nguages; i++) {
-    if (POTfull[i] == 0.0) {POTfull[i] = 255.0; }
+    if (POTmax[i] == 0.0) {POTmax[i] = 255.0; }
   }
 }
 
@@ -176,8 +181,8 @@ void guage(int guageID, color colorX) {
     _offsetX = int(screenWidth * (1.0 - overlapRate) * guageID);
   }
 
-  // float 型の大域変数 POTval[guageID] から int 型の局所変数 _val を求める
-  int _val = int(POTval[guageID]/POTfull[guageID]*255.0);
+  // float 型の大域変数 POTval[], POTmin[], POTmz[] から int 型の局所変数 _val を求める
+  int _val = int((POTval[guageID]-POTmin[guageID])/(POTmax[guageID]-POTmin[guageID])*255.0);
   _val = (_val < 0) ? 0 : (_val > 255) ? 255 : _val;
   _val = round(map(_val, 0, 255, 0, arcSize));
 
@@ -214,65 +219,107 @@ void guage(int guageID, color colorX) {
 
   // POTval[guageID] をテキストとしてとして書き出す // Write out POTval[guageID] as text
   fill(colorBlack);
-  String formattedText = String.format("%.2f (%.2f%%)", POTval[guageID], POTval[guageID]/POTfull[guageID]*100.0); 
+  String formattedText;
+  formattedText = String.format("%.1f (%.1f%%)", POTval[guageID], (POTval[guageID]-POTmin[guageID])/(POTmax[guageID]-POTmin[guageID])*100.0); 
+  textAlign(CENTER, BASELINE);
   text(formattedText, _offsetX + textPosX1, _offsetY + textPosY1);
   // text(round(POTval[guageID]), _offsetX + textPosX1, _offsetY + textPosY1);
   // text("(99%)", _offsetX + textPosX2, _offsetY + textPosY2);
+  
+  float currentSize = g.textSize; // 現在のフォントサイズを取得
+  textSize(currentSize * 0.45); // フォントサイズを半分に変更
+  // Lower limit
+  formattedText = String.format("%.1f", POTmin[guageID]);
+  textAlign(LEFT, BASELINE);
+  text(formattedText, _offsetX + textPosX2, _offsetY + textPosY2);
+  // Upper Limit
+  formattedText = String.format("%.1f", POTmax[guageID]);
+  textAlign(RIGHT, BASELINE);
+  text(formattedText, _offsetX + textPosX3, _offsetY + textPosY3);
+  // Center Value
+  formattedText = String.format("%.1f", (POTmin[guageID]+POTmax[guageID])/2.0);
+  textAlign(CENTER, BASELINE);
+  text(formattedText, _offsetX + textPosX4, _offsetY + textPosY4);
+  // Recover default values
+  textAlign(LEFT, BASELINE);
+  textSize(currentSize); // フォントサイズをもとのサイズに変更
 }
 
 // -----------------------------------------------------------------------------
 
 // MQTT message handling functions
 
-// messageReceived()
+// messageReceivedX()
 //
+int _count = 0;
 void messageReceivedX(String topic, byte[] payload) {
   // println("new message: " + topic + " - " + new String(payload));
   String _line = new String(payload);
   String[] _words = _line.split("\\s+");
   int _n = _words.length;
-  println("DEBUG: topic = " + topic + " : got " + _n + " words");
+  println("DEBUG: (" + _count + ") topic = " + topic + " : got " + _n + " words");
+  _count++;
   for (int i = 0; i < Nguages; i++) {
     if (i < _n) {
       POTval[i] = int(_words[i]);
-      if (POTfull[i] == 0.0) {POTfull[i] = 255.0; }
+      if (POTmax[i] == 0.0) {POTmax[i] = 255.0; }
     }
   }
 }
 
+// messageReceived()
+//
 void messageReceived(String topic, byte[] payload) {
   String _line = new String(payload);
   String[] _words = _line.split("\\s+");
   int _n = _words.length;
-  println("DEBUG: topic = " + topic + " : got " + _n + " words");
+  if ((_count % 100) == 0) { println("DEBUG: (" + _count + ") topic = " + topic + " : got " + _n + " words");}
+  _count++;
   for (int i = 0; i < Nguages; i++) {
     if (i < _n) {
       if (_words[i].contains("/")) {
-        // 分子/分母 の形式
         String[] fraction = _words[i].split("/");
         if (fraction.length == 2) {
+          // 現在値/最大値 の形式
           try {
             POTval[i] = float(fraction[0]);
-            POTfull[i] = float(fraction[1]);
+            POTmin[i] = 0.0;
+            POTmax[i] = float(fraction[1]);
           } catch (NumberFormatException e) {
             println("WARNING: Invalid fraction format: " + _words[i]);
-            POTval[i] = 0;
-            POTfull[i] = 255.0;
+            POTval[i] = 0.0;
+            POTmin[i] = 0.0;
+            POTmax[i] = 255.0;
+          }
+        } else if (fraction.length == 3) {
+          // 現在値/最小値/最大値 の形式
+          try {
+            POTval[i] = float(fraction[0]);
+            POTmin[i] = float(fraction[1]);
+            POTmax[i] = float(fraction[2]);
+          } catch (NumberFormatException e) {
+            println("WARNING: Invalid fraction format: " + _words[i]);
+            POTval[i] = 0.0;
+            POTmin[i] = 0.0;
+            POTmax[i] = 255.0;
           }
         } else {
           println("WARNING: Unexpected fraction format: " + _words[i]);
           POTval[i] = 0;
-          POTfull[i] = 255.0;
+          POTmin[i] = 0.0;
+          POTmax[i] = 255.0;
         }
       } else {
         // 従来の数値形式
         try {
           POTval[i] = float(_words[i]);
-          POTfull[i] = 255.0;
+          POTmin[i] = 0.0;
+          POTmax[i] = 255.0;
         } catch (NumberFormatException e) {
           println("WARNING: Invalid number format: " + _words[i]);
           POTval[i] = 0;
-          POTfull[i] = 255.0;
+          POTmin[i] = 0.0;
+          POTmax[i] = 255.0;
         }
       }
     }
