@@ -19,7 +19,7 @@
 // ------------------------------------------------------------------20-----------
 
 // Number of guages
-int Nguages = 3;            // Number of guages
+int Nguages = 5;            // Number of guages
 
 // -----------------------------------------------------------------------------
 
@@ -53,14 +53,29 @@ final int screenHight = 300;      // ゲージを内包する長方形区画の�
 
 
 // Colors
-final color colorBG    = color(200, 200, 200);    // 背景色：灰 // Background Gray
-final color colorDG    = color(64, 64, 64);    // 色指定：濃灰 // Dark Gray
-final color colorBlack = color(0, 0, 0);          // 色指定：黒 // Black
-final color colorWhite = color(255, 255, 255);    // 色指定：白 // White
-final color colorRED   = color(255, 0, 0);        // 色指定：赤 // Red
-final color colorGREEN = color(0, 255, 0);        // 色指定：緑 // Green
-final color colorBLUE  = color(0, 0, 255);        // 色指定：青 // Blue
-final color colors[] = {colorRED, colorGREEN, colorBLUE, colorDG};
+// 背景色と基本色
+final color colorBG    = color(200, 200, 200);    // 背景色：灰   // Background Gray
+final color colorDG    = color(64, 64, 64);       // 色指定：濃灰 // Dark Gray
+final color colorWhite = color(255, 255, 255);    // 色指定：白   // White
+final color colorBlack = color(0, 0, 0);          // 色指定：黒   // Black
+
+// 識別しやすい色
+final color colorRED    = color(255, 0, 0);      // 色指定：赤 // Red
+final color colorGREEN  = color(0, 255, 0);      // 色指定：緑 // Green
+final color colorBLUE   = color(0, 0, 255);      // 色指定：青 // Blue
+final color colorYELLOW = color(255, 255, 0);    // 色指定：黄 // Yellow
+final color colorORANGE = color(255, 165, 0);    // 色指定：橙 // Orange
+final color colorPURPLE = color(128, 0, 128);    // 色指定：紫 // Purple
+final color colorCYAN   = color(0, 255, 255);    // 色指定：水色 // Cyan
+final color colorPINK   = color(255, 105, 180);  // 色指定：桃 // Pink
+
+// カラーテーブル
+final color colors[] = {
+  colorRED, colorORANGE, colorGREEN, colorBLUE,
+  colorPURPLE, colorCYAN, 
+  colorPINK, colorYELLOW, colorDG
+};
+
 
 // Design of the guage
 final int arcStart = (90 + 45);                   // ゲージの開始角度（「3時」の位置を基準に時計回りの角度で指定）
@@ -73,9 +88,9 @@ final int outerDiameter = int(screenHight * 0.7); // ゲージの外径
 final int innerDiameter = int(screenHight * 0.4); // ゲージの内径
 
 final int textPosX1 = int(screenWidth * 0.5);      // テキスト表示位置の中心位置（水平方向）
-final int textPosY1 = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosY1 = int(screenHight * 0.85);      // テキスト表示位置の中心位置（垂直方向）
 final int textPosX2 = int(screenWidth * 0.6);      // テキスト表示位置の中心位置（水平方向）
-final int textPosY2 = int(screenHight * 0.8);      // テキスト表示位置の中心位置（垂直方向）
+final int textPosY2 = int(screenHight * 0.85);      // テキスト表示位置の中心位置（垂直方向）
 
 // -----------------------------------------------------------------------------
 
