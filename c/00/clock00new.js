@@ -7,6 +7,7 @@
 
 var intervalID = 0;
 var ntpOffset = 0;
+var lastUpdateOfNTPoffset = 0;
 var shortHash = "";
 
 // -----------------------------------------------------------------------------
@@ -259,21 +260,37 @@ function connectMQTT() {
         // `offset = 数字.数字` の形式か確認
         const offsetMatch = message.match(/^offset\s*=\s*(-?\d+\.\d+)$/);
         if (offsetMatch) {
-            let newOffset = parseFloat(offsetMatch[1]); // 数値に変換
-            console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
-            ntpOffset = newOffset; // 変数に代入
-            syncTime();
+            let localTime = Date.now(); // 現在のローカル時刻を取得
+            let newOffset = 0.0;
+            if ((localTime - lastUpdateOfNTPoffset) > 5000) {     // 5000 は暫定値
+                newOffset = parseFloat(offsetMatch[1]);     // 数値に変換
+                console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
+                ntpOffset = newOffset; // 変数に代入
+                syncTime();
+                lastUpdateOfNTPoffset = localTime;
+            } else {
+                let _debug = localTime - lastUpdateOfNTPoffset;
+                console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset} has been cancelled. (Debug: ${localTime} - ${lastUpdateOfNTPoffset} = ${_debug})`);
+            }
             return;
         }
     
         // `utc = 数字.数字` の形式か確認
         const utcMatch = message.match(/^utc\s*=\s*(-?\d+\.\d+)$/);
         if (utcMatch) {
-            let utcTime = parseFloat(utcMatch[1]) * 1000; // 数値に変換し、ミリ秒単位に
             let localTime = Date.now(); // 現在のローカル時刻を取得
-            let timeDifference = localTime - utcTime; // 差分を計算
-            console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
-            ntpOffset = timeDifference;
+            let utcTime = 0;
+            let timeDifference = 0;
+            if (localTime - lastUpdateOfNTPoffset > 5000) {     // 5000 は暫定値
+                utcTime = parseFloat(utcMatch[1]) * 1000;   // 数値に変換し、ミリ秒単位に
+                timeDifference = localTime - utcTime; // 差分を計算
+                console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
+                ntpOffset = timeDifference;
+                syncTime();     // 2025-03-13 追加
+                lastUpdateOfNTPoffset = Date.now;
+            } else {
+                console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference} but has been cancelled.`);
+            }
             return;
         }
     
@@ -285,7 +302,7 @@ function connectMQTT() {
             return;
         }
 
-        if (message.startsWith("Hello!")) {
+        if (message.startsWith("Hello!") || message.startsWith("pong")) {
             // just ignore this
             return;
         }
@@ -386,3 +403,5 @@ showClock();
 syncTime();
 
 // -----------------------------------------------------------------------------
+
+
