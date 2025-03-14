@@ -263,8 +263,8 @@ function connectMQTT() {
         if (offsetMatch) {
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let newOffset = 0.0;
-            if ((localTime - lastUpdateOfNTPoffset) > 5000) {     // 5000 は暫定値
-                newOffset = parseFloat(offsetMatch[1]);     // 数値に変換
+            if ((localTime - lastUpdateOfNTPoffset) > 1000) {     // 1000 は暫定値
+                newOffset = parseFloat(offsetMatch[1]);           // 数値に変換
                 console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
                 ntpOffset = newOffset; // 変数に代入
                 syncTime();
@@ -282,8 +282,8 @@ function connectMQTT() {
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let utcTime = 0;
             let timeDifference = 0;
-            if (localTime - lastUpdateOfNTPoffset > 5000) {     // 5000 は暫定値
-                utcTime = parseFloat(utcMatch[1]) * 1000;   // 数値に変換し、ミリ秒単位に
+            if (localTime - lastUpdateOfNTPoffset > 1000) {     // 1000 は暫定値
+                utcTime = parseFloat(utcMatch[1]) * 1000;       // 数値に変換し、ミリ秒単位に
                 timeDifference = localTime - utcTime; // 差分を計算
                 console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
                 ntpOffset = timeDifference;
