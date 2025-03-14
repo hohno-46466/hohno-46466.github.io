@@ -43,6 +43,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
       printf "%s? %s\n", x, $0;
     }
   }
+  fflush();
 }'
 
 exit
