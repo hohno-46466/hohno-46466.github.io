@@ -2,30 +2,6 @@
 // loadmqtt.js
 //
 
-function loadScript(primaryUrl, fallbackUrl, localPath) {
-    var script = document.createElement("script");
-    script.src = primaryUrl;
-    script.onload = function () {
-        console.log(`Loaded script: ${primaryUrl}`);
-    };
-    script.onerror = function () {
-        console.log(`Failed to load script: ${primaryUrl}, trying fallback...`);
-        var fallbackScript = document.createElement("script");
-        fallbackScript.src = fallbackUrl;
-        fallbackScript.onload = function () {
-            console.log(`Loaded fallback script: ${fallbackUrl}`);
-        };
-        fallbackScript.onerror = function () {
-            console.log(`Fallback failed. Loading local script: ${localPath}`);
-            var localScript = document.createElement("script");
-            localScript.src = localPath;
-            document.head.appendChild(localScript);
-        };
-        document.head.appendChild(fallbackScript);
-    };
-    document.head.appendChild(script);
-}
-
 // メインのCDN URL
 const primaryScriptUrl = "https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js";
 // フォールバック CDN URL
@@ -33,6 +9,50 @@ const fallbackScriptUrl = "https://unpkg.com/mqtt/dist/mqtt.min.js";
 // ローカルのフォールバックパス
 const localScriptPath = "MQTT/mqtt.min.js";
 
-// スクリプトをロード
-loadScript(primaryScriptUrl, fallbackScriptUrl, localScriptPath);
+function loadScript(url, onLoad) {
+    var script = document.createElement("script");
+    script.src = url;
+    script.onload = function () {
+        console.log(`Loaded script: ${url}`);
+        if (onLoad) onLoad();
+    };
+    script.onerror = function () {
+        console.warn(`Failed to load script: ${url}`);
+    };
+    document.head.appendChild(script);
+}
+
+// まずローカルの `MQTT/mqtt.min.js` を即座にロード
+loadScript(localScriptPath, function () {
+    console.log("Using local mqtt.min.js. Now checking CDN versions...");
+
+    // ここから非同期でCDNのスクリプトを試す
+    fetch(primaryScriptUrl, { method: "HEAD" })
+        .then(response => {
+            if (response.ok) {
+                console.log("Primary CDN available. Loading...");
+                loadScript(primaryScriptUrl, function () {
+                    console.log("Switched to Primary CDN version of mqtt.min.js");
+                });
+            } else {
+                throw new Error("Primary CDN not available");
+            }
+        })
+        .catch(() => {
+            fetch(fallbackScriptUrl, { method: "HEAD" })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Fallback CDN available. Loading...");
+                        loadScript(fallbackScriptUrl, function () {
+                            console.log("Switched to Fallback CDN version of mqtt.min.js");
+                        });
+                    } else {
+                        throw new Error("Fallback CDN not available");
+                    }
+                })
+                .catch(() => {
+                    console.warn("All CDN versions failed. Using local mqtt.min.js.");
+                });
+        });
+});
 
