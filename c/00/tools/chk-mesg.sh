@@ -31,8 +31,6 @@ CMD2="$z"
 # exit
 
 mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
-
-exit
 | awk '
 {
   if (length($2) == 6 && $2 ~ /^[0-9A-F]{6}$/) {

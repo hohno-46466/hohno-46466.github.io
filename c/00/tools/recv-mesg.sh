@@ -32,7 +32,7 @@ echo "[$CMD1][$CMD2]"
 
 mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | while read x; do echo "$x $(date +%s.%3N)"; done \
-| gawk '
+| awk '
 BEGIN{
   myhash = "";
   adjval = 0;
