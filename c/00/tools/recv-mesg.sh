@@ -66,7 +66,7 @@ BEGIN{
       T3 = T2 + adjval;
       T4 = -1 * T3;
       mesg = "'"$CMD2"' " $2 " " T4;
-      printf "(%s) => (%.3f) (%.3f) (%f.3)\n", $0, T1, T2, T3;
+      printf "(%s) => (T1:%.2f) (T2:%.2f) (adj:%.2f) (T3:%.2f)\n", $0, T1, T2, adjval, T3;
       if (T4 <= -0.1 || T4 >= 0.1) {
         printf "(!!)[%s]\n", mesg;
         system(mesg);
