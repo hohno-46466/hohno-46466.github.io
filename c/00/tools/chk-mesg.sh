@@ -45,6 +45,7 @@ exit
       printf "%s? %s\n", x, $0;
     }
   }
+  fflush();
 }'
 
 exit
