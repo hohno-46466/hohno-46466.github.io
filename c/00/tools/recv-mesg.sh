@@ -35,7 +35,8 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | gawk '
 BEGIN{
   myhash = "";
-  adjval = 0.5;
+  adjval = 0;
+  xxx = 0.5;
   for (i = 1; i <= ARGC; i++) {
     if (ARGV[i] ~ /^--myhash=/) {
       split(ARGV[i], arr, "=");
