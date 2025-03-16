@@ -80,7 +80,7 @@ BEGIN{
 {
   # printf "(Debug/Debug) [%s]\n", $0;
   if($1 == "pong") {
-    T1 = ($3 + $5)/2;
+    T1 = ($3 + $5) / 2;
     T2 = $4 - T1;
     if ($2 == myhash) {
       command = CMD0
