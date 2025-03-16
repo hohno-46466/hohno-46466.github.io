@@ -109,7 +109,8 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (ClockOffset = " + ClockOffset + "sec) (clock00new(22)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
+    + " (ClockOffset = " + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + ")) (clock00new(26)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -382,7 +383,6 @@ function getDeviceIdentifier2() {
 
 async function initializeApp() {
     const deviceID = await getDeviceIdentifier();
-    // const deviceID = await getDeviceIdentifier2();
     shortHash = await getShortHash(deviceID);
     console.log("Short hash (24bit):", shortHash);
     MQTTtopic = MQTTtopicZero + "/" + shortHash;
@@ -393,7 +393,23 @@ async function initializeApp() {
     button.addEventListener('mouseup', mouseUp);
     button.addEventListener('click', buttonClick);
 
-    connectMQTT(); // 初回接続
+    let attempts = 0;
+    let maxAttempts = 20; // 500ms * 20 = 最大10秒間リトライ
+
+    let checkMqtt = setInterval(() => {
+        if (typeof mqtt !== "undefined") {
+            clearInterval(checkMqtt);
+            console.log("MQTT library is ready. Connecting...");
+            connectMQTT();
+        } else {
+            attempts++;
+            console.log(`MQTT is not defined yet. Retrying... (${attempts}/${maxAttempts})`);
+            if (attempts >= maxAttempts) {
+                clearInterval(checkMqtt);
+                console.log("MQTT failed to load after multiple attempts.");
+            }
+        }
+    }, 500);
 }
 
 // -----------------------------------------------------------------------------

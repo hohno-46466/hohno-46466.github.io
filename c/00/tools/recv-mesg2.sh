@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# recv-mesg.sh
+# recv-mesg2.sh
 
 # First version: 2025-03-08(Sat) 02:22 JST / 2025-03-07(Fri) 17:22 UTC
 # Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
@@ -60,7 +60,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk -v CMD0="$CMD0" -v CMD1="$CMD1" -v CMD2="$CMD2" '
 BEGIN{
   myhash = "";
-  adjval = 0;
+  magic = 0;
   for (i = 1; i <= ARGC; i++) {
     if (ARGV[i] ~ /^--myhash=/) {
       split(ARGV[i], arr, "=");
@@ -75,30 +75,40 @@ BEGIN{
       myhash = "123456";
     }
   }
-  printf "(Debug) myhash = %s, adjval = %s\n", myhash, adjval;
+  command = CMD0
+  command | getline ntpdiff;
+  printf "(Debug) myhash = %s, ntpdiff = %s\n", myhash, ntpdiff;
 }
 {
   # printf "(Debug/Debug) [%s]\n", $0;
   if($1 == "pong") {
-    T1 = ($3 + $5) / 2;
-    T2 = $4 - T1;
+    ID = $2;
+    D1 = "(N/A)";
+    D2 = $3;
+    D3 = $4;
+    D4 = $5;
+    Dx = (D2 + D4) / 2;
+    printf "(Debug/pong) (%s)->[%s][%.3f][%.3f][%.3f][%.3f][%.3f]\n",$0,ID,D1,D2,D3,D4,Dx;
     if ($2 == myhash) {
       command = CMD0
       command | getline ntpdiff;
       # 重要：ntpdiff の値が正ならローカルPCは NTPサーバより遅れて（NTPサーバの方が進んで）いる
       # 重要：ntpdiff の値が負ならローカルPCは NTPサーバより進んで（NTPサーバの方が遅れて）いる
       close(command);
-      printf "(Debug/pongA) ntpdiff = %.3f, T2 = %.3f, adjval(ntpdiff-T2) = %.3f -> ", ntpdiff, T2, adjval;
-      adjval = -1 * T2 + ntpdiff;
-      printf "adjval = %.3f\n", adjval;
-    } 
-    # T3 = ($4 - (($3 + $5)/2)) - adjval = ($4 - T1) - adjval = T2 - adjal
-    T3 = T2 - adjval;
-    T4 = -1 * T3 - 0 * 0.3; # <-- !!!
-    mesg = CMD2 " " $2 " " T4;
-    printf "(Debug/pongB) ntpdiff = %.3f, T2 = %s, adjval(ntpdiff-T2) = %.3f (T3 = T2 - adjval, T4 = -T3)\n", ntpdiff, T2, adjval;
-    printf "(Debug/pongB) (%s) => (T1:%.3f) (T2:%.3f) (adjval:%.3f) (T3:%.3f) (T4:%.3f)\n", $0, T1, T2, adjval, T3, T4;
-    if (T4 <= -0.01 || T4 >= 0.01) {
+      # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) はゼロでもおかしくない
+      # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
+      magic = D3 - Dx;		# 本来はゼロでもおかしくない
+      diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
+      adjust = - (ntpdiff + diffD3Dx);
+      mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
+    } else {
+      # こちら側では magic は計算してはいけない
+      diffD3Dx = (D3 - Dx) + magic;
+      adjust = -(ntpdiff + diffD3Dx);
+      mesg = CMD2 " " ID " " adjust;
+    }
+    printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
+    if (adjust <= -0.01 || adjust >= 0.01) {
       printf "(Debug/pongB) [%s]\n", mesg;
       system(mesg);
     }
