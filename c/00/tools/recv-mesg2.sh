@@ -99,13 +99,13 @@ BEGIN{
       # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) はゼロでもおかしくない
       # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
       magic = D3 - Dx;		# 本来はゼロでもおかしくない
-      diffD3Dx = 0; #  + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      adjust = (ntpdiff + diffD3Dx);
+      diffD3Dx = 0; #  + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる（magic加算停止中）
+      adjust = (ntpdiff - diffD4Dx);	# 符号要確認
       mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
     } else {
       # こちら側では magic は計算してはいけない
-      diffD3Dx = (D3 - Dx); # + magic;
-      adjust = (ntpdiff - diffD3Dx);
+      diffD3Dx = (D3 - Dx); # + magic; #（magic 加算停止中）
+      adjust = (ntpdiff - diffD3Dx);	# 符号要確認
       mesg = CMD2 " " ID " " adjust;
     }
     printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
