@@ -3,7 +3,8 @@
 # recv-mesg.sh
 
 # First version: 2025-03-08(Sat) 02:22 JST / 2025-03-07(Fri) 17:22 UTC
-# Last update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
+# Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
+# Last update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}
@@ -91,7 +92,7 @@ BEGIN{
       adjval = -1 * T2 + ntpdiff;
       printf "adjval = %.3f\n", adjval;
     } 
-    # T3 = $4 - ($3 + $5)/2 - 0.3;
+    # T3 = ($4 - (($3 + $5)/2)) - 0.3 = ($4 - T1) - 0.3 = T2 - 0.3 = T2 - adjval
     T3 = T2 - adjval;
     T4 = -1 * T3;
     mesg = CMD2 " " $2 " " T4;

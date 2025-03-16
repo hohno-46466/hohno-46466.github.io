@@ -7,15 +7,15 @@
 // -----------------------------------------------------------------------------
 
 var intervalID = 0;
-var ntpOffset = 0;
-var lastUpdateOfNTPoffset = 0;
+var ClockOffset = 0;
+var lastUpdateOfClockOffset = 0;
 var shortHash = "";
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
 //
-// We can set NTPoffset by using MQTT over websocket
+// We can set ClockOffset by using MQTT over websocket
 //
 // message format: "offset = value" 
 //
@@ -70,7 +70,7 @@ function setZero3(x) {
 
 function showClock() {
     var _Time0    = Date.now();
-    var _nowTime  = new Date(_Time0 + (ntpOffset * 1000)); // Date(_nowMillisec)
+    var _nowTime  = new Date(_Time0 + (ClockOffset * 1000)); // Date(_nowMillisec)
     var _dow3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     var _nowYear  = _nowTime.getFullYear();	// 修正: getFullYear() に setZero2 を適用しない
@@ -109,7 +109,7 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (NTPoffset = " + ntpOffset + "sec) (clock00new(21)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (ClockOffset = " + ClockOffset + "sec) (clock00new(22)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -144,9 +144,9 @@ function buttonClick() {
 
 // syncTime() - wait for several sub-seconds to synchronize time
 function syncTime() {
-    // 現在時刻を取得 . ntpOffset で時差修正
+    // 現在時刻を取得 . ClockOffset で時差修正
     var _Time0 = Date.now();
-    var currentTime = new Date(_Time0 + (ntpOffset * 1000));
+    var currentTime = new Date(_Time0 + (ClockOffset * 1000));
 
     // delay_msec を取得
     var delay_msec = 1000 - currentTime.getMilliseconds();
@@ -187,7 +187,7 @@ const msec_cooldownTime = 3600000;
 const msec_wait4reconnect = 10000;
 var client = null;
 
-// MQTT ブローカから文字列を subscribe して ntpOffset を取り出すしかけだが，接続不良時に配慮しているため長くなっている
+// MQTT ブローカから文字列を subscribe して ClockOffset を取り出すしかけだが，接続不良時に配慮しているため長くなっている
 function connectMQTT() {
     // MQTT ブローカに接続
     console.log("Attempting to connect to MQTT broker...");
@@ -263,15 +263,15 @@ function connectMQTT() {
         if (offsetMatch) {
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let newOffset = 0.0;
-            if ((localTime - lastUpdateOfNTPoffset) > 1000) {     // 1000 は暫定値
+            if ((localTime - lastUpdateOfClockOffset) > 1000) {     // 1000 は暫定値
                 newOffset = parseFloat(offsetMatch[1]);           // 数値に変換
-                console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset}`);
-                ntpOffset = newOffset; // 変数に代入
+                console.log(`Updating ClockOffset from ${ClockOffset} to ${newOffset}`);
+                ClockOffset = newOffset; // 変数に代入
                 syncTime();
-                lastUpdateOfNTPoffset = localTime;
+                lastUpdateOfClockOffset = localTime;
             } else {
-                let _debug = localTime - lastUpdateOfNTPoffset;
-                console.log(`Updating ntpOffset from ${ntpOffset} to ${newOffset} has been cancelled. (Debug: ${localTime} - ${lastUpdateOfNTPoffset} = ${_debug})`);
+                let _debug = localTime - lastUpdateOfClockOffset;
+                console.log(`Updating ClockOffset from ${ClockOffset} to ${newOffset} has been cancelled. (Debug: ${localTime} - ${lastUpdateOfClockOffset} = ${_debug})`);
             }
             return;
         }
@@ -282,13 +282,13 @@ function connectMQTT() {
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let utcTime = 0;
             let timeDifference = 0;
-            if (localTime - lastUpdateOfNTPoffset > 1000) {     // 1000 は暫定値
+            if (localTime - lastUpdateOfClockOffset > 1000) {     // 1000 は暫定値
                 utcTime = parseFloat(utcMatch[1]) * 1000;       // 数値に変換し、ミリ秒単位に
                 timeDifference = localTime - utcTime; // 差分を計算
                 console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference}`);
-                ntpOffset = timeDifference;
+                ClockOffset = timeDifference;
                 syncTime();     // 2025-03-13 追加
-                lastUpdateOfNTPoffset = Date.now;
+                lastUpdateOfClockOffset = Date.now;
             } else {
                 console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference} but has been cancelled.`);
             }
