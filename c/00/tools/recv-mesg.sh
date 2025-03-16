@@ -11,11 +11,11 @@ HOST=${3:-"broker.emqx.io"}
 XCMD1="send-ping.sh"
 XCMD2="send-offset.sh"
 XCMD0A="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.2f\", \$4}'"
+XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
 # ntpdig コマンドが存在するか確認
 if command -v ntpdig &> /dev/null; then
-    CMD0="ntpdig ntp.nict.jp | awk '{printf \"%.2f\", \$4}'"
+    CMD0="ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 # ntpdate コマンドが存在するか確認
 elif command -v ntpdate &> /dev/null; then
     CMD0="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
@@ -77,7 +77,7 @@ BEGIN{
   printf "(Debug) myhash = %s, adjval = %s\n", myhash, adjval;
 }
 {
-  printf "(Debug/Debug) [%s]\n", $0;
+  # printf "(Debug/Debug) [%s]\n", $0;
   if($1 == "pong") {
     T1 = ($3 + $5)/2;
     T2 = $4 - T1;
@@ -86,16 +86,17 @@ BEGIN{
       command | getline ntpdiff;
       # 重要：ntpdiff の値が正ならローカルPCは NTPサーバより遅れて（NTPサーバの方が進んで）おり、負ならその逆である
       close(command);
-      printf "(Debug/pongA) ntpdiff = %s, T2 = %s, adjval(ntpdiff-T2) = %s -> ", ntpdiff, T2, adjval;
+      printf "(Debug/pongA) ntpdiff = %.3f, T2 = %.3f, adjval(ntpdiff-T2) = %.3f -> ", ntpdiff, T2, adjval;
       adjval = -1 * T2 + ntpdiff;
-      printf "(Debug/pongA) adjval = %s\n", adjval;
+      printf "adjval = %.3f\n", adjval;
     } 
       # T3 = $4 - ($3 + $5)/2 - 0.3;
       T3 = T2 + adjval;
       T4 = -1 * T3;
       mesg = CMD2 " " $2 " " T4;
-      printf "(Debug/pongB) (%s) => (T1:%.2f) (T2:%.2f) (adj:%.2f) (T3:%.2f) (T4:%.2f)\n", $0, T1, T2, adjval, T3, T4;
-      if (T4 <= -0.1 || T4 >= 0.1) {
+      printf "(Debug/pongB) ntpdiff = %.3f, T2 = %s, adjval(ntpdiff-T2) = %.3f (T3 = T2 + adjval, T4 = -T3)\n", ntpdiff, T2, adjval;
+      printf "(Debug/pongB) (%s) => (T1:%.3f) (T2:%.3f) (adjval:%.3f) (T3:%.3f) (T4:%.3f)\n", $0, T1, T2, adjval, T3, T4;
+      if (T4 <= -0.01 || T4 >= 0.01) {
         printf "(Debug/pongB) [%s]\n", mesg;
         system(mesg);
       }
