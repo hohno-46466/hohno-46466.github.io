@@ -4,7 +4,8 @@
 
 # First version: 2025-03-08(Sat) 02:22 JST / 2025-03-07(Fri) 17:22 UTC
 # Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
-# Last update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
+# Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
+# Last update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}
@@ -98,13 +99,13 @@ BEGIN{
       # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) はゼロでもおかしくない
       # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
       magic = D3 - Dx;		# 本来はゼロでもおかしくない
-      diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      adjust = - (ntpdiff + diffD3Dx);
+      diffD3Dx = 0; #  + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
+      adjust = (ntpdiff + diffD3Dx);
       mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
     } else {
       # こちら側では magic は計算してはいけない
-      diffD3Dx = (D3 - Dx) + magic;
-      adjust = -(ntpdiff + diffD3Dx);
+      diffD3Dx = (D3 - Dx); # + magic;
+      adjust = (ntpdiff - diffD3Dx);
       mesg = CMD2 " " ID " " adjust;
     }
     printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
