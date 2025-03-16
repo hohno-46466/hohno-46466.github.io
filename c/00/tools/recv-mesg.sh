@@ -94,7 +94,7 @@ BEGIN{
     } 
     # T3 = ($4 - (($3 + $5)/2)) - 0.3 = ($4 - T1) - 0.3 = T2 - 0.3 = T2 - adjval
     T3 = T2 - adjval;
-    T4 = -1 * T3;
+    T4 = -1 * T3 + 0.3; # <-- !!!
     mesg = CMD2 " " $2 " " T4;
     printf "(Debug/pongB) ntpdiff = %.3f, T2 = %s, adjval(ntpdiff-T2) = %.3f (T3 = T2 - adjval, T4 = -T3)\n", ntpdiff, T2, adjval;
     printf "(Debug/pongB) (%s) => (T1:%.3f) (T2:%.3f) (adjval:%.3f) (T3:%.3f) (T4:%.3f)\n", $0, T1, T2, adjval, T3, T4;
