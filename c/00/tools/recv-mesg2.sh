@@ -88,7 +88,7 @@ BEGIN{
     D3 = $4;
     D4 = $5;
     Dx = (D2 + D4) / 2;
-    printf "(Debug/pong) (%s)->[%s][%s][%s][%s][%s][%s]\n",$0,ID,D1,D2,D3,D4,Dx;
+    printf "(Debug/pong) (%s)->[%s][%.3f][%.3f][%.3f][%.3f][%.3f]\n",$0,ID,D1,D2,D3,D4,Dx;
     if ($2 == myhash) {
       command = CMD0
       command | getline ntpdiff;
@@ -99,15 +99,15 @@ BEGIN{
       # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
       magic = D3 - Dx;		# 本来はゼロでもおかしくない
       diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      adjust = (ntpdiff + diffD3Dx);
+      adjust = - (ntpdiff + diffD3Dx);
       mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
     } else {
       # こちら側では magic は計算してはいけない
       diffD3Dx = (D3 - Dx) + magic;
-      adjust = (ntpdiff + diffD3Dx);
+      adjust = -(ntpdiff + diffD3Dx);
       mesg = CMD2 " " ID " " adjust;
     }
-    printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f, magic = %.3f, adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
+    printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
     if (adjust <= -0.01 || adjust >= 0.01) {
       printf "(Debug/pongB) [%s]\n", mesg;
       system(mesg);
