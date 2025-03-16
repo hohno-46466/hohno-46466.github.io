@@ -109,7 +109,8 @@ function showClock() {
     var mesgUTCtime2 = "." + _nowUTCmsec;
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
-    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1 + " (ClockOffset = " + ClockOffset + "sec) (clock00new(23)/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
+    + " (ClockOffset = " + ClockOffset + "sec(" + ((ClockOffset > 0.0) ? "遅延中" : (ClockOffset < 0.0) ? "先行中" : "--") + ")) (clock00new(24)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
