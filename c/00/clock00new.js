@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(29)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(30)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -173,10 +173,21 @@ function syncTime() {
 
 // startClock() - start calling showClock(). It will be called every 1 sec.
 
-function startClock() {
+function startClockOld() {
     // 1000ミリ秒ごとに showClock() を実施（showClock() の実行時間がゼロではないため実行タイミングが少しずつずれてゆく（修正案あり）
     intervalID = setInterval(showClock, 1000);	// 修正: setInterval の引数を文字列ではなく関数にする
     console.log("Let's go by startClock()");
+}
+
+function startClock() {
+    function tick() {
+        showClock();
+        const now = Date.now() + (ClockOffset * 1000);
+        const delay = 1000 - (now % 1000); // 次の秒の開始までの時間
+        setTimeout(tick, delay);
+    }
+    tick();
+    console.log("Clock started with precise timing.");
 }
 
 // -----------------------------------------------------------------------------
