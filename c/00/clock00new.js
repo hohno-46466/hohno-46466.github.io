@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(27)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(28)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -164,7 +164,7 @@ function syncTime() {
     setTimeout(() => {
         startClock();
         console.log("Syncing completed, Background reset.");
-                document.querySelector(".container").style.backgroundColor = "#15151e"; // 元の色
+        document.querySelector(".container").style.backgroundColor = "#15151e"; // 元の色
     }, delay_msec);
 }
 
@@ -300,6 +300,7 @@ function connectMQTT() {
     
         // `ping` メッセージ（）を受信した場合、`ping` を `pong` に変換した上で，メッセージの末尾に Date.now()/1000.0 を付加して返信
         if (message.startsWith("ping")) {
+            document.querySelector(".container").style.backgroundColor = "darkblue";
             let responseMessage = message.replace(/^ping/, "pong") + " " + (Date.now()/1000.0);
             console.log(`Sending: ${responseMessage}`);
             client.publish(topic, responseMessage); // `pong` を返信
