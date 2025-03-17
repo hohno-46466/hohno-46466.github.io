@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(28)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(29)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -146,8 +146,9 @@ function buttonClick() {
 
 // syncTime() - wait for several sub-seconds to synchronize time
 function syncTime() {
-    // 現在時刻を取得 . ClockOffset で時差修正
     document.querySelector(".container").style.backgroundColor = "darkgreen";
+
+    // 現在時刻を取得 . ClockOffset で時差修正
     var _Time0 = Date.now();
     var currentTime = new Date(_Time0 + (ClockOffset * 1000));
 
