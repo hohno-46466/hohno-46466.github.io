@@ -2,7 +2,8 @@
 
 // Prev update: 2025-02-27(Thu) 19:22 JST / 2025-02-27(Thu) 10:22 UTC
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
-// Last update: 2025-03-13(Thu) 22:40 JST / 2025-03-13(Thu) 13:40 UTC
+// Prev update: 2025-03-13(Thu) 22:40 JST / 2025-03-13(Thu) 13:40 UTC
+// Last update: 2025-03-17(Mon) 09:08 JST / 2025-03-17(Mon) 00:08 UTC
 
 // -----------------------------------------------------------------------------
 
@@ -110,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset = " + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + ")) (clock00new(26)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(27)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -146,6 +147,7 @@ function buttonClick() {
 // syncTime() - wait for several sub-seconds to synchronize time
 function syncTime() {
     // 現在時刻を取得 . ClockOffset で時差修正
+    document.querySelector(".container").style.backgroundColor = "darkgreen";
     var _Time0 = Date.now();
     var currentTime = new Date(_Time0 + (ClockOffset * 1000));
 
@@ -162,7 +164,7 @@ function syncTime() {
     setTimeout(() => {
         startClock();
         console.log("Syncing completed, Background reset.");
-        document.querySelector(".container").style.backgroundColor = "#15151e"; // 元の色
+                document.querySelector(".container").style.backgroundColor = "#15151e"; // 元の色
     }, delay_msec);
 }
 
