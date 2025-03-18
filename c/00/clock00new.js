@@ -88,12 +88,12 @@ function showClock() {
     var mesgTime2 = "." + _nowMsec;
     var mesgTime  = mesgTime1 + mesgTime2;
 
-    var _timeOffset = _nowTime.getTimezoneOffset();
+    var _timeOffset = -1 * _nowTime.getTimezoneOffset();
     var mesgTimeOffset = "UTC";
     if (_timeOffset > 0) {
-        mesgTimeOffset += "-" + _timeOffset / 60;
+        mesgTimeOffset += "+" + _timeOffset / 60;
     } else if (_timeOffset < 0) {
-        mesgTimeOffset += "+" + -1 * _timeOffset / 60;
+        mesgTimeOffset += _timeOffset / 60;
     }
 
     var _nowUTCyear  = _nowTime.getUTCFullYear(); // 修正: getUTCFullYear() に setZero2 を適用しない
