@@ -61,7 +61,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk -v CMD0="$CMD0" -v CMD1="$CMD1" -v CMD2="$CMD2" '
 BEGIN{
   myhash = "";
-  magic = 0;
+  magic_default = 0.0; // 0.3;
   for (i = 1; i <= ARGC; i++) {
     if (ARGV[i] ~ /^--myhash=/) {
       split(ARGV[i], arr, "=");
@@ -99,12 +99,13 @@ BEGIN{
       # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) はゼロでもおかしくない
       # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
       magic = D3 - Dx;		# 本来はゼロでもおかしくない
-      diffD3Dx = 0; #  + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる（magic加算停止中）
+      magic = magic_default;	# (2025-03-20) magic算出方法変更中
+      diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
       adjust = (ntpdiff - diffD4Dx);	# 符号要確認
       mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
     } else {
-      # こちら側では magic は計算してはいけない
-      diffD3Dx = (D3 - Dx); # + magic; #（magic 加算停止中）
+      # こちら側では magic は利用してもよいがここで新たに算出し直してはいけない
+      diffD3Dx = (D3 - Dx) + magic; #（magic 算出方法変更中）
       adjust = (ntpdiff - diffD3Dx);	# 符号要確認
       mesg = CMD2 " " ID " " adjust;
     }

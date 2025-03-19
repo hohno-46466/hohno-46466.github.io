@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(31)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(32)/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -278,10 +278,11 @@ function connectMQTT() {
         if (offsetMatch) {
             let localTime = Date.now(); // 現在のローカル時刻を取得
             let newOffset = 0.0;
+            let magicOffset = 0.3;      // magic!!
             if ((localTime - lastUpdateOfClockOffset) > 1000) {     // 1000 は暫定値
                 newOffset = parseFloat(offsetMatch[1]);           // 数値に変換
-                console.log(`Updating ClockOffset from ${ClockOffset} to ${newOffset}`);
-                ClockOffset = newOffset; // 変数に代入
+                console.log(`Updating ClockOffset from ${ClockOffset.toFixed(3)} to ${(newOffset+magicOffset).toFixed(3)} (${newOffset.toFixed(3)} + ${magicOffset.toFixed(3)})`);
+                ClockOffset = (newOffset + magicOffset); // 変数に代入
                 syncTime();
                 lastUpdateOfClockOffset = localTime;
             } else {
