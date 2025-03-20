@@ -212,7 +212,7 @@ void gauge(int _gaugeID, color _colorX) {
   _val = (_val < 0) ? 0 : (_val > 255) ? 255 : _val;
   _val = round(map(_val, 0, 255, 0, arcSize));
 
-  // ゲージ（幅のある円弧部分）の地の色を描画
+  // ゲージの地の色を描く
   fill(colorWhite);
   arc(_offsetX + gaugeCenterX, _offsetY + gaugeCenterY, outerDiameter, outerDiameter, radians(arcStart), radians(arcEnd));
 
@@ -220,7 +220,7 @@ void gauge(int _gaugeID, color _colorX) {
   fill(_colorX);
   arc(_offsetX + gaugeCenterX, _offsetY + gaugeCenterY, outerDiameter, outerDiameter, radians(arcStart), radians(arcEnd - (arcSize - _val)));
 
-  // ここまで描いた円弧の中央部を背景色で上塗りする（円弧の中央部分をくり抜く）
+  // ここまで描いた円弧の中央部を背景色で上塗りし（くり抜いて）円弧状のバーにする
   fill(colorBG);
   noStroke(); // ← 重要
   ellipse(_offsetX + gaugeCenterX, _offsetY + gaugeCenterY, innerDiameter, innerDiameter);

@@ -157,7 +157,7 @@ function syncTime() {
     // あまりに「慌ただしい」ときには 1秒追加
     if (delay_msec < 50) { delay_msec += 1000; }
 
-    console.log("Waiting for " + delay_msec + " msec.");
+    console.log(`Waiting for ${delay_msec} msec.`);
 
     // delay_msec ミリ秒後に startClock() を起動
     clearInterval(intervalID);
@@ -228,7 +228,7 @@ function connectMQTT() {
                     console.log("Subscribed to topic:", MQTTtopic);
                     subscribeSuccess = true; // 成功フラグをセット
                     let responseMessage = "Hello! " + shortHash + " " + (Date.now()/1000.0);
-                    console.log(`Sending: ${responseMessage}`);
+                    console.log("Sending:", $responseMessage);
                     client.publish(MQTTtopic, responseMessage);
         
                 } else {
@@ -250,7 +250,7 @@ function connectMQTT() {
     
     // 接続エラーになった場合（上流のセキュリティ機構が MQTT をブロックしている場合などはエラーする）
     client.on("error", function (error) {
-        console.error("MQTT WebSocket error:", error);
+        console.log("MQTT WebSocket error:", error);
     });
 
     // MQTT 接続が切れた場合
@@ -260,7 +260,7 @@ function connectMQTT() {
         N_reconnectFailCount++;
         if (N_reconnectFailCount >= N_maxReconnectAttempts) {
             // 指定回数以上際接続に失敗したらとりあえず　1時間（msec_cooldownTime）は何もせずに待機
-            console.error(`Exceeded max reconnect attempts (${maxReconnectAttempts}). Pausing for 1 hour.`);
+            console.log(`Exceeded max reconnect attempts (${maxReconnectAttempts}). Pausing for 1 hour.`);
             setTimeout(connectMQTT, msec_cooldownTime);
         } else {
             // 指定回数以内なら短時間（5秒間, wait4amoment）待ってから再試行
@@ -271,7 +271,7 @@ function connectMQTT() {
     // メッセージが届いた場合の対処
     client.on("message", function (topic, payload) {
         var message = payload.toString().trim(); // 受信メッセージを文字列として取得
-        console.log("Received message:", message, "from topic:", topic);
+        console.log(`Received message: ${message} from topic: ${topic}`);
     
         // `offset = 数字.数字` の形式か確認
         const offsetMatch = message.match(/^offset\s*=\s*(-?\d+\.\d+)$/);
@@ -316,7 +316,7 @@ function connectMQTT() {
         if (message.startsWith("ping")) {
             document.querySelector(".container").style.backgroundColor = "darkblue";
             let responseMessage = message.replace(/^ping/, "pong") + " " + (Date.now()/1000.0);
-            console.log(`Sending: ${responseMessage}`);
+            console.log("Sending:", $responseMessage);
             client.publish(topic, responseMessage); // `pong` を返信
             return;
         }
@@ -327,7 +327,7 @@ function connectMQTT() {
         }
 
         // 指定した形式でなければエラーを出力
-        console.log("Message format invalid or not an offset/utc/ping update. (" + message + ")");
+        console.log(`Message format invalid or not an offset/utc/ping update. (${message})`);
     });
     
 };
@@ -403,7 +403,7 @@ async function initializeApp() {
     shortHash = await getShortHash(deviceID);
     console.log("Short hash (24bit):", shortHash);
     MQTTtopic = MQTTtopicZero + "/" + shortHash;
-    console.log("MQTTbroker = " + MQTTURL + ", Topic = " + MQTTtopic) ;
+    console.log(`MQTTbroker = ${MQTTURL}, Topic = ${MQTTtopic}`) ;
 
     var button = document.getElementById("button");
     button.addEventListener('mousedown', mouseDown);
