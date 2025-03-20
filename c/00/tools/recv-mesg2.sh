@@ -5,7 +5,8 @@
 # First version: 2025-03-08(Sat) 02:22 JST / 2025-03-07(Fri) 17:22 UTC
 # Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
 # Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
-# Last update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
+# Prev update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
+# Last update: 2025-03-21(Fri) 05:24 JST / 2025-03-20(Thu) 20:24 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}
@@ -50,7 +51,7 @@ z=""
 [ -z "$z" ] && x=$(which "$XCMD2") &&  [ ! -z $x ] && z="$x"
 [ -z "$x" ] && x=$(find . -name "$XCMD2" -type f) && [ ! -z $x ] && z="sh $x"
 [ -z "$x" ] && x=$(find -L . -name "$XCMD2" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$z" ] && echo "NG: Can't find $XCMD1" && exit 2
+[ -z "$z" ] && echo "NG: Can't find $XCMD2" && exit 2
 CMD2="$z"
 
 echo "(Debug) [$CMD0]"
@@ -61,7 +62,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk -v CMD0="$CMD0" -v CMD1="$CMD1" -v CMD2="$CMD2" '
 BEGIN{
   myhash = "";
-  magic_default = 0.0; // 0.3;
+  magic_default = 0.3; # // 0.0; // 0.3;	# (2025-03-21) 試行錯誤の末とりあえず 0.3秒にした
   for (i = 1; i <= ARGC; i++) {
     if (ARGV[i] ~ /^--myhash=/) {
       split(ARGV[i], arr, "=");
@@ -96,13 +97,15 @@ BEGIN{
       # 重要：ntpdiff の値が正ならローカルPCは NTPサーバより遅れて（NTPサーバの方が進んで）いる
       # 重要：ntpdiff の値が負ならローカルPCは NTPサーバより進んで（NTPサーバの方が遅れて）いる
       close(command);
-      # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) はゼロでもおかしくない
-      # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でもこの値を配慮する必要がある...と考えた
+      # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) は
+      # ゼロでもおかしくない．
+      # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でも
+      # この値を配慮する必要がある...と考えた
       magic = D3 - Dx;		# 本来はゼロでもおかしくない
       magic = magic_default;	# (2025-03-20) magic算出方法変更中
       diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      adjust = (ntpdiff - diffD4Dx);	# 符号要確認
-      mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に ntpdiff を加えると UTC になる(つもり)
+      adjust = (ntpdiff - diffD3Dx);	# 符号要確認
+      mesg = CMD2 " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
     } else {
       # こちら側では magic は利用してもよいがここで新たに算出し直してはいけない
       diffD3Dx = (D3 - Dx) + magic; #（magic 算出方法変更中）
