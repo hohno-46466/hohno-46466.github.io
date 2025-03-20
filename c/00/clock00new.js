@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(32)/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(33/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -287,7 +287,8 @@ function connectMQTT() {
                 lastUpdateOfClockOffset = localTime;
             } else {
                 let _debug = localTime - lastUpdateOfClockOffset;
-                console.log(`Updating ClockOffset from ${ClockOffset} to ${newOffset} has been cancelled. (Debug: ${localTime} - ${lastUpdateOfClockOffset} = ${_debug})`);
+                // console.log(`Updating ClockOffset from ${ClockOffset.toFixed(3)} to ${newOffset}.toFixed(3) has been cancelled. (Debug: ${localTime} - ${lastUpdateOfClockOffset} = ${_debug}) due to excessive access.`);
+                console.log(`Updating ClockOffset from ${ClockOffset.toFixed(3)} to ${(newOffset+magicOffset).toFixed(3)} (${newOffset.toFixed(3)} + ${magicOffset.toFixed(3)}) due to excessive (${_debug}ms) access.`);
             }
             return;
         }
@@ -306,7 +307,7 @@ function connectMQTT() {
                 syncTime();     // 2025-03-13 追加
                 lastUpdateOfClockOffset = Date.now;
             } else {
-                console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference} but has been cancelled.`);
+                console.log(`UTC Time (ms): ${utcTime}, Local Time (ms): ${localTime}, Difference (ms): ${timeDifference} but has been cancelled due to excessive access.`);
             }
             return;
         }
