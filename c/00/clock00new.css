@@ -155,16 +155,16 @@ body {
 
     .clock-time1 {
         font-size: 9vw;
-        margin-top: -21vh; /* ⬅ 追加: 位置を少し上に移動 */
+        margin-top: -31vh; /* ⬅ 追加: 位置を少し上に移動 */
     }
 
     .clock-time2 {
         font-size: 6vw;
-        margin-top: -20vh; /* ⬅ 追加: 位置を少し上に移動 */
+        margin-top: -30vh; /* ⬅ 追加: 位置を少し上に移動 */
     }
 
     .clock-timezone {
-        margin-top: -5vh;	/* ビューポートの高さの 10% だけ上に移動 */
+        margin-top: -10vh;	/* ビューポートの高さの 10% だけ上に移動 */
         font-size: 4vw; /* ⬅ 変更: 5vw → 4vw に縮小 */
         color: lightgreen;
     }
