@@ -10,7 +10,7 @@
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}
-TOPIC=${2:-"mynameX/WStest123"}		#XXX#
+# TOPIC=${2:-"mynameX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
 XCMD_PING="send-pingX.sh"
 XCMD_OFFSET="send-offsetX.sh"
