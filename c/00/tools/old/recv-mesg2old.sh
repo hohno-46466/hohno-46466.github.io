@@ -6,11 +6,10 @@
 # Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
 # Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
 # Prev update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
-# Last update: 2025-03-21(Fri) 05:24 JST / 2025-03-20(Thu) 20:24 UTC
+# Last update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}
-# TOPIC=${2:-"mynameX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
 XCMD_PING="send-ping.sh"
 XCMD_OFFSET="send-offset.sh"
@@ -63,7 +62,7 @@ mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk -v CMD0="$CMD0" -v CMD_PING="$CMD_PING" -v CMD_OFFSET="$CMD_OFFSET" '
 BEGIN{
   myhash = "";
-  magic_default = 0.3; # // 0.0; // 0.3;	# (2025-03-21) 試行錯誤の末とりあえず 0.3秒にした
+  magic_default = 0.3; # (2025-03-21) 試行錯誤の末とりあえず 0.3秒にした
   for (i = 1; i <= ARGC; i++) {
     if (ARGV[i] ~ /^--myhash=/) {
       split(ARGV[i], arr, "=");
@@ -98,40 +97,20 @@ BEGIN{
       # 重要：ntpdiff の値が正ならローカルPCは NTPサーバより遅れて（NTPサーバの方が進んで）いる
       # 重要：ntpdiff の値が負ならローカルPCは NTPサーバより進んで（NTPサーバの方が遅れて）いる
       close(command);
-      #0# magic = D3 - Dx;		#1# 本来はゼロでもおかしくない
-      #0# diffD3Dx = 0 + magic;	#1# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      #0# adjust = (ntpdiff - diffD3Dx);	符号要確認
-      #0# mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
-      #
-      #1# このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) は
-      #1# ゼロでもおかしくない．
-      #1# diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でも
-      #1# この値を配慮する必要がある...と考えた
-      #1# magic = magic_default;	# (2025-03-20) magic算出方法変更中
-      #1# diffD3Dx = 0 + magic;	#1# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
-      #1# adjust = (ntpdiff - diffD3Dx);	# 符号要確認
-      #1# mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
-      #
-      #2# シンプルに diffD3Dx はゼロだとしてしまう
-      #2# その上で magic は使わない（ゼロにしておく）
-      #2# このスクリプトを動かしている機材と同じ機材上の javascript との通信なので ntpdiff を使う
-      diffD3Dx = 0; # ゼロにしておく
-      magic = 0;    # これもゼロにしておく
-      adjust = ntpdiff; # 修正値は ntpdiff そのものを採用
-      mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
-      
+      # このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) は
+      # ゼロでもおかしくない．
+      # diffD3Dx がゼロでないとしたらこれを magic として保存して他の機材の javascript との通信でも
+      # この値を配慮する必要がある...と考えた
+      # magic = D3 - Dx;	# 本来はゼロでもおかしくない
+      magic = magic_default;	# (2025-03-20) magic算出方法変更中
+      diffD3Dx = 0 + magic;	# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
+      adjust = ntpdiff - diffD3Dx;	# 符号要確認
+      mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
     } else {
-      #0/1# こちら側では magic は利用してもよいがここで新たに算出し直してはいけない
-      #0/1# diffD3Dx = (D3 - Dx) + magic; #（magic 算出方法変更中）
-      #0/1# adjust = (ntpdiff - diffD3Dx);	# 符号要確認
-      #0/1# mesg = CMD_OFFSET " " ID " " adjust;
-      #
-      #2# こちら側では magic は magic_default を採用
-      #2# メモ：#0# や #1# の時と magic の意味が少し違う
-      diffD3Dx = D3 - Dx;		# ゼロにしておく
-      magic = 0.3; # magic_default;		# 特定の値を設定（実験の結果とりあえず 0.3秒を採用）
-      adjust = ntpdiff - diffD3Dx + magic;	# 符号要確認
-      mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
+      # こちら側では magic は利用してもよいがここで新たに算出し直してはいけない
+      diffD3Dx = D3 - Dx + magic; #（magic 算出方法変更中）
+      adjust = ntpdiff - diffD3Dx;	# 符号要確認
+      mesg = CMD_OFFSET " " ID " " adjust;
     }
     #0/1# printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
     printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f, magic = %.3f, adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;

@@ -9,10 +9,10 @@
 # Last update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
 
 XK=${1:-"#"}
-TOPIC=${2:-"myname/WStest123"}
+TOPIC=${2:-"mynameX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
-XCMD_PING="send-ping.sh"
-XCMD_OFFSET="send-offset.sh"
+XCMD_PING="send-pingX.sh"
+XCMD_OFFSET="send-offsetX.sh"
 XCMD0A="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
 XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
