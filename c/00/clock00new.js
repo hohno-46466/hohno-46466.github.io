@@ -48,7 +48,7 @@ const MQTTURL = "broker.emqx.io";
 
 // 購読するトピック
 // const MQTTtopic = 'hohno-46466/wstest01'
-const MQTTtopicZero = "mynameX/WStest123";
+const MQTTtopicZero = "myname/WStest123";
 var MQTTtopic = MQTTtopicZero;
 
 // -----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(37X/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(37/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
