@@ -23,16 +23,3 @@ button {
   padding: 8px 16px;
   font-size: 1rem;
 }
-
-#controls {
-  margin-top: 10px;
-  text-align: center;
-}
-
-#controls label,
-#controls input,
-#controls button {
-  font-size: 1rem;
-  margin: 0 5px;
-}
-

@@ -1,6 +1,5 @@
-let x = 0;
 let currentColor;
-let speed = 2;
+let x = 0;
 
 function setup() {
   const container = document.getElementById("canvas-container");
@@ -12,14 +11,11 @@ function setup() {
 
   currentColor = color(255, 0, 0); // 初期色：赤
 
-  // ボタンのクリックイベント
-  document.getElementById("change-color-btn").addEventListener("click", () => {
+  // ボタンのクリックイベント設定
+  const btn = document.getElementById("change-color-btn");
+  btn.addEventListener("click", () => {
+    // ランダムな色に変更
     currentColor = color(random(255), random(255), random(255));
-  });
-
-  // フォームの入力イベント
-  document.getElementById("speed-input").addEventListener("input", (event) => {
-    speed = Number(event.target.value);
   });
 }
 
@@ -28,6 +24,6 @@ function draw() {
   fill(currentColor);
   noStroke();
   ellipse(x, height / 2, 40, 40);
-  x += speed;
+  x += 2;
   if (x > width) x = 0;
 }
