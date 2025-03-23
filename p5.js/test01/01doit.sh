@@ -1,12 +1,14 @@
 #!/bin/sh
 
 DIRNAME=$(basename $(pwd))
-TARGET="hohno-46466.github.io"
+GITHUBNAME="$(grep 'name = ' ~/.gitconfig | awk '{print $3}')"
+TARGET="${GITHUBNAME}.github.io"
 
 rsync "$@" -av \
   --exclude '*.swp' \
   --exclude '.DS_Store' \
   --exclude '._*' \
   --exclude '.Trash*' \
+  --exclude 'Makefile' \
   ./ ~/GitHub/${TARGET}/p5.js/${DIRNAME}
 
