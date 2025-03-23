@@ -4,7 +4,9 @@
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
 // Prev update: 2025-03-13(Thu) 22:40 JST / 2025-03-13(Thu) 13:40 UTC
 // Prev update: 2025-03-17(Mon) 09:08 JST / 2025-03-17(Mon) 00:08 UTC
-// Last update: 2025-03-21(Fri) 20:15 JST / 2025-03-21(Fri) 11:15 UTC
+// Prev update: 2025-03-21(Fri) 20:15 JST / 2025-03-21(Fri) 11:15 UTC
+// Last update: 2025-03-23(Sun) 13:00 JST / 2025-03-23(Sun) 04:00 UTC
+
 // -----------------------------------------------------------------------------
 
 var intervalID = 0;
@@ -111,7 +113,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(3) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(39/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(3) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(40/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -209,7 +211,7 @@ function connectMQTT() {
     client = mqtt.connect(WSURL, {
         clientId: "mqtt_client_" + Math.random().toString(16).substr(2, 8),
         clean: true,
-        N_reconnectPeriod: 0,
+        reconnectPeriod: 0,
     });
 
     let subscribeTimeout = null;
