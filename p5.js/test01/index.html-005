@@ -1,0 +1,34 @@
+<!-- No.005 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>p5.js スピード制御＋ラベル描画</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script src="sketch.js" defer></script>
+</head>
+<body>
+  <h1>p5.js ラベル描画付き</h1>
+
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <label for="speed-slider">スピード（スライダー）:</label>
+    <input type="range" id="speed-slider" min="0" max="20" value="2">
+    <span id="speed-display">2</span>
+    <br><br>
+    <label for="speed-select">スピード（セレクタ）:</label>
+    <select id="speed-select">
+      <option value="0">0（停止）</option>
+      <option value="1">1（遅い）</option>
+      <option value="2" selected>2（ふつう）</option>
+      <option value="4">4（速い）</option>
+      <option value="8">8（すごく速い）</option>
+    </select>
+    <br><br>
+    <label for="label-input">ラベル入力:</label>
+    <input type="text" id="label-input" placeholder="ここに文字を入力">
+  </div>
+</body>
+</html>

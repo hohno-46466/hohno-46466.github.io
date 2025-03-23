@@ -1,10 +1,11 @@
-// No.009
-let pos = 0;
+// No.008
+let pos = 0; // 位置スライダーの値
 let min = 0;
 let max = 100;
+let currentColor;
+let speed = 2;
 let labelText = '';
 let shapeType = 'circle';
-let r = 255, g = 0, b = 0;
 
 function setup() {
   const container = document.getElementById("canvas-container");
@@ -13,6 +14,22 @@ function setup() {
 
   let canvas = createCanvas(w, h);
   canvas.parent("canvas-container");
+
+  currentColor = color(255, 100, 100);
+
+  const slider = document.getElementById("speed-slider");
+  const display = document.getElementById("speed-display");
+  slider.addEventListener("input", () => {
+    speed = Number(slider.value);
+    display.textContent = slider.value;
+  });
+
+  const select = document.getElementById("speed-select");
+  select.addEventListener("change", () => {
+    speed = Number(select.value);
+    slider.value = select.value;
+    display.textContent = select.value;
+  });
 
   const labelInput = document.getElementById("label-input");
   labelInput.addEventListener("input", () => {
@@ -28,19 +45,11 @@ function setup() {
   posSlider.addEventListener("input", () => {
     pos = Number(posSlider.value);
   });
-
-  const rSlider = document.getElementById("r-slider");
-  const gSlider = document.getElementById("g-slider");
-  const bSlider = document.getElementById("b-slider");
-
-  rSlider.addEventListener("input", () => { r = Number(rSlider.value); });
-  gSlider.addEventListener("input", () => { g = Number(gSlider.value); });
-  bSlider.addEventListener("input", () => { b = Number(bSlider.value); });
 }
 
 function draw() {
   background(240);
-  fill(r, g, b);
+  fill(currentColor);
   noStroke();
 
   const margin = width * 0.1;
