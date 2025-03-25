@@ -1,6 +1,6 @@
 /*
     clock00new.css
-    No.042B
+    No.043
     Last update: 2025-03-22
 */
 
@@ -96,13 +96,13 @@ body {
     font-family: "Courier New", Courier, monospace;
     background-color: #000000; /* 時計と統一 */
     width: 100%;
-    margin-bottom: 2vh; /* ⬅ 画面の高さの 2% の余白を追加 */
+    margin-bottom: 2vh;     /* ⬅ 画面の高さの 2% の余白を追加 */
 }
 
 /* 時刻情報エリアの行間を短くする */
 #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
-    line-height: 1.0; /* ⬅ 行間を短くする */
-    margin-bottom: 1.2px; /* ⬅ 間隔を少し縮める */
+    line-height: 1.0;       /* ⬅ 行間を短くする */
+    margin-bottom: 1.2px;   /* ⬅ 間隔を少し縮める */
 }
 
 @media screen and (max-height: 600px) and (orientation: landscape) {
@@ -134,21 +134,21 @@ body {
 
     /* 時計エリア */
     .clock-container {
-        height: 50vh; /* ⬅ 横向き時に高さを縮小 */
+        height: 50vh;       /* ⬅ 横向き時に高さを縮小 */
     }
 
     .clock-date {
-        margin-top: 5vh; /* ⬅ 少し下げる */
+        margin-top: 5vh;    /* ⬅ 少し下げる */
     }
 
     .clock-time1 {
         font-size: 9vw;
-        margin-top: -25vh; /* ⬅ 位置を微調整 */
+        margin-top: -25vh;  /* ⬅ 位置を微調整 */
     }
 
     .clock-time2 {
         font-size: 6vw;
-        margin-top: -24vh; /* ⬅ 位置を微調整 */
+        margin-top: -24vh;  /* ⬅ 位置を微調整 */
     }
 
     .clock-timezone {

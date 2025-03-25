@@ -7,7 +7,7 @@ const primaryScriptUrl = "https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js";
 // フォールバック CDN URL
 const fallbackScriptUrl = "https://unpkg.com/mqtt/dist/mqtt.min.js";
 // ローカルのフォールバックパス
-const localScriptPath = "MQTT/mqtt.min.js";
+const localScriptPath = "JS/mqtt.min.js";
 
 function loadScript(url, onLoad) {
     var script = document.createElement("script");
@@ -22,7 +22,7 @@ function loadScript(url, onLoad) {
     document.head.appendChild(script);
 }
 
-// まずローカルの `MQTT/mqtt.min.js` を即座にロード
+// まずローカルの `JS/mqtt.min.js` を即座にロード
 loadScript(localScriptPath, function () {
     console.log("Using local mqtt.min.js. Now checking CDN versions...");
 
@@ -55,4 +55,3 @@ loadScript(localScriptPath, function () {
                 });
         });
 });
-
