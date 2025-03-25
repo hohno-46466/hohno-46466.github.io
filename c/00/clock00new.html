@@ -1,6 +1,6 @@
 <!--
     clock00new.html
-
+    No.041
     First version: Tue Feb 18 04:57:00 JST 2025
     Prev update: Wed Feb 19 11:07:33 JST 2025
     Prev update: Thu Feb 20 03:44:29 JST 2025
@@ -11,7 +11,7 @@
     https://web-dev.tech/front-end/javascript/digital-clock/
 -->
 <!DOCTYPE html>
-<html lagn="ja">
+<html lann="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,11 +22,14 @@
     <link rel="stylesheet" href="clock00new.css">
 </head>
 <body>
-    <!-- まずボタンがある -->
-    <input type="button" value="Push and release here to sync time" id="button">
+    <!-- まずボタンがある     -->
+    <div class="button-container"> 
+        <input type="button" value="Push and release here to sync time" id="button1">
+        <input type="button" value="Full Screen" id="button2">
+    </div>
 
     <!-- 次に日時表示領域がある．ここが最重要 -->
-    <div class="container">
+    <div class="clock-container">
         <div class="clock">
             <p class="clock-date">（日付）</p>
             <p><span class="clock-time1">（時刻1）</span><span class="clock-time2">（時刻2）</span></p>
@@ -34,9 +37,11 @@
         </div>
     </div>
 
-    <!-- 最後に補足情報表示領域がある -->
-    <p id="RealtimeClockDisplayArea1">（ここに時刻情報を表示）</p>
-    <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
+    <!-- 時刻情報エリア -->
+    <div class="display-container">
+        <p id="RealtimeClockDisplayArea1">（ここに時刻情報を表示）</p>
+        <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
+    </div>
 
     <!-- 各領域を取り扱う Javascript -->
     <script src="clock00new.js"></script>
@@ -49,20 +54,20 @@
         let msec_nextReload = 595000;   // 595秒
         console.log("safeReload() function has started... (" + Date.now() / 1000 + ")");
         function safeReload() {
-            let container = document.querySelector(".container");
+            let container = document.querySelector(".clock-container");
             if (navigator.onLine) {
-                <!-- インターネット接続があれば 5秒後にリロードする -->
+                // インターネット接続があれば 5秒後にリロードする 
                 console.log("Internet is available. Reloading...");
                 container.style.backgroundColor = "#15151e"; 
                 setTimeout(() => { location.reload(); }, msec_wait4reload); // 5秒後 // 5 seconds
             } else {
-                <!-- インターネット接続がなければ 35秒間待機 -->
+                // インターネット接続がなければ 35秒間待機
                 console.log("Internet is offline. Skipping reload.");
                 container.style.backgroundColor = "darkred"; 
-                setTimeout(safeReload, msec_wait4online); // 35秒後に再試行 // will execute after 35 seconds.
+                setTimeout(safeReload, msec_wait4online); // 35秒後に再試行 // Will execute after 35 seconds.
             }
         }
-        <!-- 次のリロードは 10分後（以前は 3分後だった．徐々に延長中） -->
+        // 次のリロードは 10分後（以前は 3分後だった．徐々に延長中）
         setTimeout(() => { safeReload(); }, msec_nextReload); // 10分(595+5=600sec)ごとにリロードを試行
         console.log(`safeReload() will be executed every ${msec_nextReload+msec_wait4reload/1000}(== ${msec_nextReload/1000}+${msec_wait4reload/1000}) seconds`);
     </script>

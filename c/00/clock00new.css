@@ -1,172 +1,158 @@
 /*
     clock00new.css
-    Prev update: 2025-02-19
-    Last update: 2025-02-26
+    No.041
+    Last update: 2025-03-22
 */
 
 /* Google Fonts のインポート */
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
 
+/* 基本のリセット */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     text-align: center;
+    background-color: #000000; /* 黒背景 */
+    color: #ffffff; /* 白文字 */
+    height: 100vh; /* ⬅ 画面全体を占める */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ⬅ 余白をなくす */
+}
+
+/* ボタンを左寄せする */
+.button-container {
+    text-align: left; /* ⬅ ボタンを左寄せ */
+    padding-left: 10px; /* ⬅ 左側の余白を調整 */
+    width: 100%; /* ⬅ 親要素を画面幅いっぱいに */
+    margin-top: 2vh; /* ⬅ 画面の高さの 2% の余白を追加 */
 }
 
 /* ボタンのスタイル */
-#button {
-    display: block;
-    width: auto;		/* 必要なサイズだけ確保 */
-    max-width: 300px;
+#button1, #button2 {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2); /* 半透明の背景 */
     font-size: 14px;
-    padding: 4px;		/* 内側に 上下左右 4px のマージンを設定 */
-    margin: 2px 10px;		/* 外側に 上下 5px, 左右 10px のマージンを設定 */
-    text-align: left
-}
-
-/* 時刻情報エリアのスタイル */
-#RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
-    font-size: 12px;
-    line-height: 1.2;
-    margin: 2px 10px;		/* 外側の 上下に 2px, 左右に 10px のマージンを設定 */
-    padding: 2px 5px;		/* 内側の 上下に 2px、左右に 5px のマージンを設定 */
-    text-align: left;
-    font-family: "Courier New", Courier, monospace; /* 等幅フォントを指定 */
+    padding: 8px;
+    margin: 5px 10px; /* ⬅ 左右の間隔を調整 */
+    border: 1px solid white;
+    display: inline-block;
 }
 
 /* 時計コンテナ */
 .container {
     width: 100%;
     height: 80vh;
-    background-color: #15151e;	/* 時計の背景色 */
+    background-color: #15151e; /* 時計の背景色 */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 10px;		/* 追加：内側の上下左右に 10px のマージンを設定する */
-    box-sizing: border-box;	/* 追加：padding を含めた幅計算を行う */
+}
+
+/* 時計コンテナ */
+.clock-container {
+    flex: 1; /* ⬅ 画面の残りを全て使用 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #15151e;
 }
 
 /* 時計のスタイル */
 .clock {
     font-family: 'Share Tech Mono', monospace;
-		/* 優先フォント、代替フォントの順．monospace は固定幅フォント*/
     color: #daf6ff;
-    text-shadow: 0 0 20px #0aafe6;
-		/* 水平・垂直方向の影のオフセットなしでぼかしの大きさは 20px． 影色はライトブルー */
-    line-height: 1.2;		/* 変更：1.0 →1.2 */
-    max-width: 90vw;		/* 追加：画面幅の90%までに制限 */
-    overflow-wrap: break-word;	/* 追加：長すぎるテキストは折り返す */
-    text-align: center;
+    text-shadow: 0 0 20px #0aafe6; /* ぼかし 20px のライトブルーの影 */
+    line-height: 1.2;
 }
 
 .clock-date {
-    font-size: 4vw;		/* 変更：40px →4vw (画面幅の 4%) */
+    font-size: 4vw;
 }
 
 .clock-time1 {
-    font-size: 12vw;		/* 変更：100px →12vw */
-    max-width: 100%;		/* 追加 */
-    white-space: nowrap;	/* 追加：自動折り返しはしない */
+    font-size: 12vw;
 }
 
 .clock-time2 {
-    font-size: 6vw;		/* 変更：60px →6vw */
-    max-width: 100%;		/* 追加 */
-    white-space: nowrap;	/* 追加：自動折り返しはしない */
+    font-size: 6vw;
 }
 
 .clock-timezone {
-    font-size: 4vw;		/* 変更：50px →4vw */
+    font-size: 4vw;
     color: yellow;
 }
 
-/* スマホ向けのフォントサイズ調整(1) */
-@media screen and (max-width: 768px) {
-    .clock-date {
-        font-size: 6vw;
-    }
-    .clock-time1 {
-        font-size: 15vw;
-    }
-    .clock-time2 {
-        font-size: 8vw;
-    }
-    .clock-timezone {
-        font-size: 8vw;
-    }
+/* 時刻情報エリアのスタイル */
+.display-container {
+    font-size: 12px;
+    line-height: 1.2;
+    margin: 2px 10px;
+    padding: 2px 5px;
+    text-align: left;
+    font-family: "Courier New", Courier, monospace;
+    background-color: #000000; /* 時計と統一 */
+    width: 100%;
+    margin-bottom: 2vh; /* ⬅ 画面の高さの 2% の余白を追加 */
 }
 
-/* スマホ向けのフォントサイズ調整(2) */
-@media screen and (max-width: 600px) {
-    .clock-date {
-        font-size: 5vw;
-    }
-    .clock-time1 {
-        font-size: 13vw;
-    }
-    .clock-time2 {
-        font-size: 7vw;
-    }
-    .clock-timezone {
-        font-size: 7vw;
-        color: green;
-    }
+/* 時刻情報エリアの行間を短くする */
+#RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
+    line-height: 0.5; /* ⬅ 行間を短くする */
+    margin-bottom: 1px; /* ⬅ 間隔を少し縮める */
 }
 
-/* スマホ・タブレットの横向き対応 */
-/* スマホ・タブレットの横向き対応 */
 @media screen and (max-height: 600px) and (orientation: landscape) {
-    /* 全体の背景色を時計の背景と統一 */
+    /* 背景色の統一 */
     body {
         background-color: #15151e;
     }
 
-    /* ボタンの文字色を白くし、半透明の背景を追加 */
-    #button {
-        color: #ffffff;
-        background-color: rgba(255, 255, 255, 0.2); /* 半透明の背景 */
+    /* ボタンの調整 */
+    .button-container {
+        margin-top: 2vh;
+    }
+
+    #button1, #button2 {
         font-size: 12px;
         padding: 6px;
         margin: 5px 10px;
-        border: 1px solid white; /* 白枠線を追加 */
+        border: 1px solid white;
+        display: inline-block;
     }
-    
-    /* 時刻情報エリアの文字色を白に */
-    #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
+
+    /* 時刻情報エリア */
+    .display-container {
         color: #ffffff;
-        /*font-size: 10px;*/
         font-size: 1.8vw;
         line-height: 1.1;
-        margin: 1px 10px;
-        padding: 1px 3px;
-        text-align: left;
-        font-family: "Courier New", Courier, monospace; /* 等幅フォントを指定 */
+        margin-bottom: 2vh;
     }
 
     /* 時計エリア */
-    .container {
-        height: 50vh;		/* 横向き時に高さを縮小 */
+    .clock-container {
+        height: 50vh; /* ⬅ 横向き時に高さを縮小 */
     }
 
     .clock-date {
-        margin-top: 10vh;	/* ビューポートの高さの 10% だけ下に移動 */
+        margin-top: 5vh; /* ⬅ 少し下げる */
     }
 
     .clock-time1 {
         font-size: 9vw;
-        margin-top: -31vh; /* ⬅ 追加: 位置を少し上に移動 */
+        margin-top: -25vh; /* ⬅ 位置を微調整 */
     }
 
     .clock-time2 {
         font-size: 6vw;
-        margin-top: -30vh; /* ⬅ 追加: 位置を少し上に移動 */
+        margin-top: -24vh; /* ⬅ 位置を微調整 */
     }
 
     .clock-timezone {
-        margin-top: -10vh;	/* ビューポートの高さの 10% だけ上に移動 */
-        font-size: 4vw; /* ⬅ 変更: 5vw → 4vw に縮小 */
+        font-size: 4vw;
         color: lightgreen;
     }
 }
