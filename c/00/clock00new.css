@@ -14,8 +14,8 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #000000; /* 黒背景 */
-    color: #ffffff; /* 白文字 */
-    height: 100vh; /* ⬅ 画面全体を占める */
+    color: #ffffff;     /* 白文字 */
+    height: 100vh;      /* ⬅ 画面全体を占める */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* ⬅ 余白をなくす */
@@ -23,10 +23,10 @@ body {
 
 /* ボタンを左寄せする */
 .button-container {
-    text-align: left; /* ⬅ ボタンを左寄せ */
+    text-align: left;   /* ⬅ ボタンを左寄せ */
     padding-left: 10px; /* ⬅ 左側の余白を調整 */
-    width: 100%; /* ⬅ 親要素を画面幅いっぱいに */
-    margin-top: 2vh; /* ⬅ 画面の高さの 2% の余白を追加 */
+    width: 100%;        /* ⬅ 親要素を画面幅いっぱいに */
+    margin-top: 2vh;    /* ⬅ 画面の高さの 2% の余白を追加 */
 }
 
 /* ボタンのスタイル */
@@ -35,7 +35,7 @@ body {
     background-color: rgba(255, 255, 255, 0.2); /* 半透明の背景 */
     font-size: 14px;
     padding: 8px;
-    margin: 5px 10px; /* ⬅ 左右の間隔を調整 */
+    margin: 5px 10px;   /* ⬅ 左右の間隔を調整 */
     border: 1px solid white;
     display: inline-block;
 }
@@ -53,7 +53,7 @@ body {
 
 /* 時計コンテナ */
 .clock-container {
-    flex: 1; /* ⬅ 画面の残りを全て使用 */
+    flex: 1;            /* ⬅ 画面の残りを全て使用 */
     display: flex;
     align-items: center;
     justify-content: center;

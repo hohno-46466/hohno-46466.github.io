@@ -4,19 +4,19 @@
     First version: Tue Feb 18 04:57:00 JST 2025
     Prev update: Wed Feb 19 11:07:33 JST 2025
     Prev update: Thu Feb 20 03:44:29 JST 2025
-    Last update: 2025-03-22(Sat) 00:15 JST / 2025-03-21(Fri) 15:15 UTC
+    PRev update: 2025-03-22(Sat) 00:15 JST / 2025-03-21(Fri) 15:15 UTC
+    Last update: 2025-03-26(Wed) 00:15 JST / 2025-03-25(Tue) 15:15 UTC
 
     Reference(s)
     https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
     https://web-dev.tech/front-end/javascript/digital-clock/
 -->
 <!DOCTYPE html>
-<html lann="ja">
+<html lang ="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <meta http-equiv="refresh" content="300"> -->
-<!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
+<!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに safereload.js を使う -->
     <script src="JS/loadmqtt.js"></script>
     <title>Clock00(new/043)</title>
     <link rel="stylesheet" href="clock00new.css">
@@ -43,10 +43,10 @@
         <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
     </div>
 
-    <!-- 各領域を取り扱う Javascript -->
+    <!-- 各領域を取り扱う Javascript を起動 -->
     <script src="clock00new.js"></script>
 
-    <!-- 定期的に Javascript を読み込み直すしかけを利用 -->
+    <!-- 定期的に Javascript を読み込み直すため safeeload.js（自作）を利用 -->
     <!-- 次のリロードは 10分後（以前は 3分後だった．徐々に延長中）-->
     <script src="JS/safereload.js"></script>
 </body>
