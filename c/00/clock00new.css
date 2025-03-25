@@ -101,7 +101,7 @@ body {
 
 /* 時刻情報エリアの行間を短くする */
 #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
-    line-height: 0.5; /* ⬅ 行間を短くする */
+    line-height: 0.8; /* ⬅ 行間を短くする */
     margin-bottom: 2px; /* ⬅ 間隔を少し縮める */
 }
 
