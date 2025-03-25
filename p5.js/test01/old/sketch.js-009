@@ -1,12 +1,10 @@
-// No.010
-let x = 0;
-let pos = 50;
+// No.009
+let pos = 0;
 let min = 0;
 let max = 100;
 let labelText = '';
 let shapeType = 'circle';
 let r = 255, g = 0, b = 0;
-let speed = 2;
 
 function setup() {
   const container = document.getElementById("canvas-container");
@@ -31,11 +29,6 @@ function setup() {
     pos = Number(posSlider.value);
   });
 
-  const speedSlider = document.getElementById("speed-slider");
-  speedSlider.addEventListener("input", () => {
-    speed = Number(speedSlider.value);
-  });
-
   const rSlider = document.getElementById("r-slider");
   const gSlider = document.getElementById("g-slider");
   const bSlider = document.getElementById("b-slider");
@@ -51,8 +44,8 @@ function draw() {
   noStroke();
 
   const margin = width * 0.1;
-  const xpos = x;
-  const ypos = map(pos, min, max, height * 0.1, height * 0.9);
+  const xpos = map(pos, min, max, margin, width - margin);
+  const ypos = height / 2;
 
   if (shapeType === 'circle') {
     ellipse(xpos, ypos, 40, 40);
@@ -81,7 +74,4 @@ function draw() {
   fill(0);
   textAlign(CENTER);
   text(labelText, width / 2, height - 10);
-
-  x += speed;
-  if (x > width + 20) x = -20;
 }

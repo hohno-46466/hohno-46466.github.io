@@ -1,4 +1,4 @@
-/* No.010 */
+/* No.004 */
 body {
   font-family: sans-serif;
   text-align: center;
@@ -24,8 +24,7 @@ canvas {
 }
 
 #controls input[type="range"],
-#controls select,
-#controls input[type="text"] {
+#controls select {
   width: 200px;
-  margin-top: 3px;  /* スライダ間の縦方向の間隔を少し狭めた */
+  margin-top: 5px;
 }
