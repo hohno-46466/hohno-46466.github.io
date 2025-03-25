@@ -1,6 +1,6 @@
 /*
     clock00new.css
-    No.042
+    No.042A
     Last update: 2025-03-22
 */
 
@@ -102,7 +102,7 @@ body {
 /* 時刻情報エリアの行間を短くする */
 #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
     line-height: 0.8; /* ⬅ 行間を短くする */
-    margin-bottom: 2px; /* ⬅ 間隔を少し縮める */
+    margin-bottom: 1.2px; /* ⬅ 間隔を少し縮める */
 }
 
 @media screen and (max-height: 600px) and (orientation: landscape) {
