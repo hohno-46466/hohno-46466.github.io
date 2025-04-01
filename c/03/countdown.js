@@ -69,6 +69,20 @@ function countdown() {
 
     }
 
+    // フルスクリーン切り替え関数
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // bodyクリック時にフルスクリーン切り替え
+    document.body.addEventListener('click', toggleFullscreen);
+    
     updateCountdown();
     setInterval(updateCountdown, 100);
 };
