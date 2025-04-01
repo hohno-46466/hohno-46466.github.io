@@ -1,0 +1,109 @@
+/*
+    countdown.css
+    No.003A
+    For segmented countdown display
+*/
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+/* 基本設定 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Share Tech Mono', monospace;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* container1, container3 メッセージ */
+.container1, .container3 {
+    font-size: 4vw;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #0aafe6;
+    margin: 2vh 0;
+}
+
+/* カウント表示部 */
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #15151e;
+    height: 60vh;
+}
+
+/* counter の p */
+.counter p {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.5em;
+    margin: 0;
+}
+
+/* 数字の共通スタイル */
+.counter .d0, 
+.counter .h1, 
+.counter .h2, 
+.counter .m1, 
+.counter .m2, 
+.counter .s1, 
+.counter .s2, 
+.counter .s3 {
+    font-size: 7vw;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #0aafe6;
+}
+
+/* 単位 (days, hrs, min, sec) */
+.counter .ud, 
+.counter .uh, 
+.counter .um, 
+.counter .ux, 
+.counter .us {
+    font-size: 3vw;
+    color: #ffaa00;
+    margin-left: 0.1em;
+}
+
+/* ミリ秒 (s3) だけ小さくする */
+.counter .s3 {
+    font-size: 4vw;
+    vertical-align: super;
+}
+
+/* 横向き用のレスポンシブ対応 */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    .container1, .container3 {
+        font-size: 3vw;
+    }
+
+    .counter .d0, 
+    .counter .h1, 
+    .counter .h2, 
+    .counter .m1, 
+    .counter .m2, 
+    .counter .s1, 
+    .counter .s2 {
+        font-size: 5vw;
+    }
+
+    .counter .s3 {
+        font-size: 3vw;
+    }
+
+    .counter .ud, 
+    .counter .uh, 
+    .counter .um, 
+    .counter .ux, 
+    .counter .us {
+        font-size: 2vw;
+    }
+}

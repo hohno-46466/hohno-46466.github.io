@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    countdown();
+});
+
+function countdown() {
+
     // メッセージ
-    const message1 = 'Countdown!';
-    const message3 = 'Hello!';
+    const message1 = 'Time Remaining Until Retirement';
+    const message3 = 'Hello, my new world!';
 
     // ターゲット時刻
     const targetTime = new Date('2026-04-01T00:00:00+09:00');
@@ -18,9 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const container1 = document.querySelector('.container1');
     const container3 = document.querySelector('.container3');
 
-    // メッセージ更新
+    const udElem = document.querySelector('.ud');
+    const uhElem = document.querySelector('.uh');
+    const umElem = document.querySelector('.um');
+    const uxElem = document.querySelector('.ux');
+    const usElem = document.querySelector('.us');
+
+   // メッセージ更新
     container1.textContent = message1;
     container3.textContent = message3;
+    udElem.textContent = "days";
+    uhElem.textContent = "hrs";
+    umElem.textContent = "min";
+    uxElem.textContent = ".";
+    usElem.textContent = "sec";
 
     function updateCountdown() {
         const now = new Date();
@@ -50,8 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
         s1Elem.textContent = s1;
         s2Elem.textContent = s2;
         s3Elem.textContent = s3;
+
     }
 
     updateCountdown();
     setInterval(updateCountdown, 100);
-});
+};
