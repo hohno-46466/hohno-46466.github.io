@@ -1,3 +1,9 @@
+//
+// countdown.js
+// No.011
+// First version: 2025-04-01(Tue) 21:12 JST / 2025-04-01(Tue) 12:12 UTC
+//
+
 document.addEventListener('DOMContentLoaded', () => {
     countdown();
 });
@@ -82,7 +88,7 @@ function countdown() {
 
     // bodyクリック時にフルスクリーン切り替え
     document.body.addEventListener('click', toggleFullscreen);
-    
+
     updateCountdown();
     setInterval(updateCountdown, 100);
 };
