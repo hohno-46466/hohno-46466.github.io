@@ -1,6 +1,6 @@
 /*
     countdown.css
-    No.012
+    No.013
     For segmented countdown display
 */
 
@@ -77,6 +77,14 @@ body {
 .counter .s3 {
     font-size: 4vw;
     vertical-align: super;
+}
+
+/* メッセージ表示用 */
+.counter .mx {
+    font-size: 1.5vw;
+    color: #ff0000;
+    // color: #ffffff;
+    margin-top: 1vh;
 }
 
 /* 横向き用のレスポンシブ対応 */

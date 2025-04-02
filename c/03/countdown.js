@@ -1,6 +1,6 @@
 //
 // countdown.js
-// No.012
+// No.013
 // First version: 2025-04-01(Tue) 21:12 JST / 2025-04-01(Tue) 12:12 UTC
 //
 
@@ -74,7 +74,7 @@ function countdown() {
         s1Elem.textContent = s1;
         s2Elem.textContent = s2;
         s3Elem.textContent = s3;
-        mxElem.textContent = "(as of " + now + ")";
+        mxElem.textContent = "(as of " + now.toString() + ")";
 
     }
 
