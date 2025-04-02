@@ -13,6 +13,7 @@ function countdown() {
     // メッセージ
     const message1 = 'Time Remaining Until Retirement';
     const message3 = 'Hello, my new world!';
+    const messagex = 'test test test';
 
     // ターゲット時刻
     const targetTime = new Date('2026-04-01T00:00:00+09:00');
@@ -26,6 +27,7 @@ function countdown() {
     const s1Elem = document.querySelector('.s1');
     const s2Elem = document.querySelector('.s2');
     const s3Elem = document.querySelector('.s3');
+    const mxElem = document.querySelector('.mx');
     const container1 = document.querySelector('.container1');
     const container3 = document.querySelector('.container3');
 
@@ -72,6 +74,7 @@ function countdown() {
         s1Elem.textContent = s1;
         s2Elem.textContent = s2;
         s3Elem.textContent = s3;
+        mxElem.textContent = "(as of " + now + ")";
 
     }
 
