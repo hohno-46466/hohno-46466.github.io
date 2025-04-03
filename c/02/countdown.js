@@ -1,3 +1,10 @@
+//
+// clock02 (countdown.js)
+//
+// First version: 2025-04-01(Tue) 05:58 JST / 2025-03-31(Mon) 20:58 UTC
+// Last update: 2025-04-03(Thu) 10:47 JST / 2025-04-03(Thu) 01:47 UTC
+//
+
 document.addEventListener('DOMContentLoaded', () => {
     // メッセージ
     const message1 = 'Countdown!';
@@ -15,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const s1Elem = document.querySelector('.s1');
     const s2Elem = document.querySelector('.s2');
     const s3Elem = document.querySelector('.s3');
+    const mxElem = document.querySelector('.mx');
     const container1 = document.querySelector('.container1');
     const container3 = document.querySelector('.container3');
 
@@ -41,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const s1 = Math.floor(seconds / 10);
         const s2 = seconds % 10;
         const s3 = Math.floor(ms / 100);
-
+        
         d0Elem.textContent = days;
         h1Elem.textContent = h1;
         h2Elem.textContent = h2;
@@ -50,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         s1Elem.textContent = s1;
         s2Elem.textContent = s2;
         s3Elem.textContent = s3;
+        mxElem.textContent = "(as of " + now.toString() + ")";
     }
 
     updateCountdown();
