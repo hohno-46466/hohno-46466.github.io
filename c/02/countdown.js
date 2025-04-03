@@ -7,7 +7,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // メッセージ
-    const message1 = 'Countdown!';
+    const message1 = 'Countdown! (No.002)';
     const message3 = 'Hello!';
 
     // ターゲット時刻
