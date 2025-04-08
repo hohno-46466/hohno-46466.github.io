@@ -1,6 +1,7 @@
-// No.017
-const version = "No.017";
-const client = mqtt.connect('ws://localhost:9001');
+// No.018
+const version = "No.018";
+// const client = mqtt.connect('ws://localhost:9001');
+const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
 
 client.on('connect', () => {
   console.log('MQTT connected');
@@ -12,6 +13,7 @@ let shapeTypeList = [];
 client.on('message', (topic, message) => {
   const payload = message.toString().trim();
   const parts = payload.split("\t");
+  
   if (parts.length === 7 && parts[0] === version) {
     let shapeIndex = Number(parts[1]);
     shapeIndex = constrain(shapeIndex, 0, shapeTypeList.length - 1);
