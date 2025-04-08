@@ -1,21 +1,51 @@
-// No.013
-const version = "No.013";
+// No.017
+const version = "No.017";
 const client = mqtt.connect('ws://localhost:9001');
 
 client.on('connect', () => {
   console.log('MQTT connected');
+  client.subscribe("WStest/" + version + "/ctrl");
+});
+
+let shapeTypeList = [];
+
+client.on('message', (topic, message) => {
+  const payload = message.toString().trim();
+  const parts = payload.split("\t");
+  if (parts.length === 7 && parts[0] === version) {
+    let shapeIndex = Number(parts[1]);
+    shapeIndex = constrain(shapeIndex, 0, shapeTypeList.length - 1);
+    shapeType = shapeTypeList[shapeIndex];
+    speed = Number(parts[2]);
+    pos = Number(parts[3]);
+    r = Number(parts[4]);
+    g = Number(parts[5]);
+    b = Number(parts[6]);
+    document.getElementById("shape-select").value = shapeType;
+    document.getElementById("speed-slider").value = speed;
+    document.getElementById("pos-slider").value = pos;
+    document.getElementById("r-slider").value = r;
+    document.getElementById("g-slider").value = g;
+    document.getElementById("b-slider").value = b;
+    console.log("updated from MQTT:", payload);
+
+  } else if (parts.length === 2 && parts[0] === version) {
+    labelText = parts[1];
+    document.getElementById("label-input").value = labelText;
+    console.log("label updated from MQTT:", labelText);
+  }
 });
 
 client.on('error', (err) => {
   console.error('MQTT error:', err);
 });
 
-client.on('reconnect', () => {
-  console.warn('MQTT reconnecting...');
-});
-
 client.on('close', () => {
   console.warn('MQTT connection closed');
+});
+
+client.on('reconnect', () => {
+  console.warn('MQTT reconnecting...');
 });
 
 client.on('offline', () => {
@@ -34,7 +64,8 @@ let speed = 2;
 function publishState() {
   if (client.connected) {
     const topic = "WStest/" + version;
-    const payload = version + "\t" + speed + "\t" + pos + "\t" + r + "\t" + g + "\t" + b;
+    const shapeIndex = shapeTypeList.indexOf(shapeType);
+    const payload = version + "\t" + shapeIndex + "\t" + speed + "\t" + pos + "\t" + r + "\t" + g + "\t" + b;
     console.log(payload);
     client.publish(topic, payload);
   }
@@ -54,14 +85,16 @@ function setup() {
   });
 
   const shapeSelect = document.getElementById("shape-select");
+  shapeTypeList = Array.from(shapeSelect.options).map(option => option.value);
   shapeSelect.addEventListener("change", () => {
     shapeType = shapeSelect.value;
+    publishState();
   });
 
   const posSlider = document.getElementById("pos-slider");
   posSlider.addEventListener("input", () => {
-  pos = Number(posSlider.value);
-  publishState();
+    pos = Number(posSlider.value);
+    publishState();
   });
 
   const speedSlider = document.getElementById("speed-slider");
