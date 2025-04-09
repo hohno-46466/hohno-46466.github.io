@@ -1,5 +1,8 @@
-// No.018
-const version = "No.018";
+// No.019
+const version = "No.019";
+const params = new URLSearchParams(window.location.search);
+const username = params.get("user") || "DefaultUser";
+const fullID = username + "-" + version;
 // const client = mqtt.connect('ws://localhost:9001');
 const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
 
@@ -67,7 +70,7 @@ function publishState() {
   if (client.connected) {
     const topic = "WStest/" + version;
     const shapeIndex = shapeTypeList.indexOf(shapeType);
-    const payload = version + "\t" + shapeIndex + "\t" + speed + "\t" + pos + "\t" + r + "\t" + g + "\t" + b;
+    const payload = fullID + "\t" + shapeIndex + "\t" + speed + "\t" + pos + "\t" + r + "\t" + g + "\t" + b;
     console.log(payload);
     client.publish(topic, payload);
   }
