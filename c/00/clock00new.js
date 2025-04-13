@@ -1,10 +1,12 @@
 // clock00new.js
-
+// No.043A
 // Prev update: 2025-02-27(Thu) 19:22 JST / 2025-02-27(Thu) 10:22 UTC
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
 // Prev update: 2025-03-13(Thu) 22:40 JST / 2025-03-13(Thu) 13:40 UTC
 // Prev update: 2025-03-17(Mon) 09:08 JST / 2025-03-17(Mon) 00:08 UTC
-// Last update: 2025-03-21(Fri) 20:15 JST / 2025-03-21(Fri) 11:15 UTC
+// Prev update: 2025-03-21(Fri) 20:15 JST / 2025-03-21(Fri) 11:15 UTC
+// Last update: 2025-03-23(Sun) 13:00 JST / 2025-03-23(Sun) 04:00 UTC
+
 // -----------------------------------------------------------------------------
 
 var intervalID = 0;
@@ -111,7 +113,7 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(2) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(38/" + shortHash + ")";
+    + " (ClockOffset=" + ClockOffset.toFixed(3) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(043A/" + shortHash + ")";
     document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
@@ -129,7 +131,7 @@ function showClock() {
 function mouseDown() {
     clearInterval(intervalID);
     console.log("Clock stopped. Background set to darkred.");
-    document.querySelector(".container").style.backgroundColor = "darkred";
+    document.querySelector(".clock-container").style.backgroundColor = "darkred";
 }
 
 function mouseUp() {
@@ -146,7 +148,7 @@ function buttonClick() {
 
 // syncTime() - wait for several sub-seconds to synchronize time
 function syncTime() {
-    document.querySelector(".container").style.backgroundColor = "darkgreen";
+    document.querySelector(".clock-container").style.backgroundColor = "darkgreen";
 
     // 現在時刻を取得 . ClockOffset で時差修正
     var _Time0 = Date.now();
@@ -165,7 +167,7 @@ function syncTime() {
     setTimeout(() => {
         startClock();
         console.log("Syncing completed, Background reset.");
-        document.querySelector(".container").style.backgroundColor = "#15151e"; // 元の色
+        document.querySelector(".clock-container").style.backgroundColor = "#15151e"; // 元の色
     }, delay_msec);
 }
 
@@ -209,7 +211,7 @@ function connectMQTT() {
     client = mqtt.connect(WSURL, {
         clientId: "mqtt_client_" + Math.random().toString(16).substr(2, 8),
         clean: true,
-        N_reconnectPeriod: 0,
+        reconnectPeriod: 0,
     });
 
     let subscribeTimeout = null;
@@ -314,7 +316,7 @@ function connectMQTT() {
     
         // `ping` メッセージ（）を受信した場合、`ping` を `pong` に変換した上で，メッセージの末尾に Date.now()/1000.0 を付加して返信
         if (message.startsWith("ping")) {
-            document.querySelector(".container").style.backgroundColor = "darkblue";
+            document.querySelector(".clock-container").style.backgroundColor = "darkblue";
             let responseMessage = message.replace(/^ping/, "pong") + " " + (Date.now()/1000.0);
             console.log("Sending:", responseMessage);
             client.publish(topic, responseMessage); // `pong` を返信
@@ -405,11 +407,21 @@ async function initializeApp() {
     MQTTtopic = MQTTtopicZero + "/" + shortHash;
     console.log(`MQTTbroker = ${MQTTURL}, Topic = ${MQTTtopic}`) ;
 
-    var button = document.getElementById("button");
+    var button = document.getElementById("button1");
     button.addEventListener('mousedown', mouseDown);
     button.addEventListener('mouseup', mouseUp);
     button.addEventListener('click', buttonClick);
 
+    document.getElementById("button2").addEventListener("click", function () {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+    
     let attempts = 0;
     let maxAttempts = 20; // 500ms * 20 = 最大10秒間リトライ
 

@@ -1,0 +1,51 @@
+<!-- No.010 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>p5.js 図形切り替え (No.010)</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script src="sketch.js" defer></script>
+</head>
+<body>
+  <h1>p5.js 図形切り替え (No.010)</h1>
+
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <label for="label-input">ラベル入力:</label>
+    <input type="text" id="label-input" placeholder="ここに文字を入力">
+    <br><br>
+
+    <label for="shape-select">図形選択:</label>
+    <select id="shape-select">
+      <option value="circle" selected>円</option>
+      <option value="triangle">三角形</option>
+      <option value="rect">四角形</option>
+      <option value="hexagon">六角形</option>
+      <option value="octagon">八角形</option>
+    </select>
+    <br><br>
+
+    <label for="speed-slider">スピード:</label>
+    <input type="range" id="speed-slider" min="0" max="20" value="2">
+    <br><br>
+
+    <label for="pos-slider">位置 (Y軸):</label>
+    <input type="range" id="pos-slider" min="0" max="100" value="0">
+    <br><br>
+
+    <label for="r-slider">赤 (R):</label>
+    <input type="range" id="r-slider" min="0" max="255" value="255">
+    <br><br>
+
+    <label for="g-slider">緑 (G):</label>
+    <input type="range" id="g-slider" min="0" max="255" value="0">
+    <br><br>
+
+    <label for="b-slider">青 (B):</label>
+    <input type="range" id="b-slider" min="0" max="255" value="0">
+  </div>
+</body>
+</html>

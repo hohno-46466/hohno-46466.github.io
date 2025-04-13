@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
+}
+
+#canvas-container {
+  background-color: #e0e0e0; /* 仮の背景色 */
+  border: 2px solid #333;
+  width: 320px;
+  height: 180px;
+  /* margin: 20px auto; */
+  /* margin: 20px 0 20px 20px; */ /* top(上)→right(右)→bottom(下)→left(左) */
+  /* margin: 20px 0 20px auto; */ /* top(上)→right(右)→bottom(下)→left(左) */
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* p5.js のキャンバスも container に合わせて中央配置される */
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
