@@ -50,7 +50,8 @@ const MQTTURL = "broker.emqx.io";
 
 // 購読するトピック
 // const MQTTtopic = 'hohno-46466/wstest01'
-const MQTTtopicZero = "myname/WStest123";
+// const MQTTtopicZero = "myname/WStest123";
+const MQTTtopicZero = "mynameX/WStest123";
 var MQTTtopic = MQTTtopicZero;
 
 // -----------------------------------------------------------------------------
