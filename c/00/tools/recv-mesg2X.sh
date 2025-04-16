@@ -6,7 +6,8 @@
 # Prev update: 2025-03-09(Sun) 06:13 JST / 2025-03-08(Sat) 21:13 UTC
 # Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
 # Prev update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
-# Last update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
+# Prev update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
+# Last update: 2025-04-16(Wed) 14:15 JST / 2025-04-16(Wed) 05:15 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"mynameX/WStest123"}		#XXX#
@@ -16,26 +17,40 @@ XCMD_OFFSET="send-offsetX.sh"
 XCMD0A="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
 XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
+CMD0=""
+
 # ntpdig コマンドが存在するか確認
 if command -v ntpdig &> /dev/null; then
     CMD0="ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
+fi
+
 # ntpdate コマンドが存在するか確認
-elif command -v ntpdate &> /dev/null; then
+if [ -z "$CMD0" ] && command -v ntpdate &> /dev/null; then
     CMD0="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
 # /usr/sbin/ntpdig コマンドが存在するか確認
-elif command -v /usr/sbin/ntpdate &> /dev/null; then
+fi
+
+if [ -z "$CMD0" ] && command -v /usr/sbin/ntpdate &> /dev/null; then
     CMD0="/usr/sbin/ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-else
+fi
+
+DUMMY=$(echo "$CMD0" | sh)
+
+if [ -z "$DUMMY" ]; then
     echo "Error: Neither ntpdate nor ntpdig is installed."
     exit 1
 fi
 
-# # awk にコマンドを渡して実行
+# echo "[$CMD0]"
+# echo "($DUMMY)"
+# exit
+
+# awk にコマンドを渡して実行
 # awk -v command="$CMD0" 'BEGIN {
 #     command | getline timediff
 #     close(command)
 #     printf "%s\n",timediff
-# }'
+
 # exit 
 
 z=""
