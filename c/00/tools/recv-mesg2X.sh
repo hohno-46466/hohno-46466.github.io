@@ -18,6 +18,7 @@ XCMD0A="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", 
 XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
 CMD0=""
+DUMMY="0"
 
 # ntpdig コマンドが存在するか確認
 if command -v ntpdig &> /dev/null; then
@@ -35,14 +36,13 @@ elif [ -z "$CMD0" ] && command -v /usr/sbin/ntpdate &> /dev/null; then
     echo "(C)"
 fi
 
+echo "[[$CMD0]]"
+echo "(($DUMMY))"
 DUMMY=$(echo "$CMD0" | sh)
-
-# echo "[[$CMD0]]"
-# echo "(($DUMMY))"
-# exit
+echo "(($DUMMY))"
 
 if [ -z "$DUMMY" ]; then
-    echo "[$CMD0]"
+    # echo "[$CMD0]"
     echo "Error: Neither ntpdate nor ntpdig is installed."
     exit 1
 fi
