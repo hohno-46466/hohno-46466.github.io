@@ -22,28 +22,30 @@ CMD0=""
 # ntpdig コマンドが存在するか確認
 if command -v ntpdig &> /dev/null; then
     CMD0="ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
-fi
+    echo "(A)"
 
 # ntpdate コマンドが存在するか確認
-if [ -z "$CMD0" ] && command -v ntpdate &> /dev/null; then
+elif [ -z "$CMD0" ] && command -v ntpdate &> /dev/null; then
     CMD0="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-# /usr/sbin/ntpdig コマンドが存在するか確認
-fi
+    echo "(B)"
 
-if [ -z "$CMD0" ] && command -v /usr/sbin/ntpdate &> /dev/null; then
+# /usr/sbin/ntpdate コマンドが存在するか確認
+elif [ -z "$CMD0" ] && command -v /usr/sbin/ntpdate &> /dev/null; then
     CMD0="/usr/sbin/ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+    echo "(C)"
 fi
 
 DUMMY=$(echo "$CMD0" | sh)
 
+# echo "[[$CMD0]]"
+# echo "(($DUMMY))"
+# exit
+
 if [ -z "$DUMMY" ]; then
+    echo "[$CMD0]"
     echo "Error: Neither ntpdate nor ntpdig is installed."
     exit 1
 fi
-
-# echo "[$CMD0]"
-# echo "($DUMMY)"
-# exit
 
 # awk にコマンドを渡して実行
 # awk -v command="$CMD0" 'BEGIN {
