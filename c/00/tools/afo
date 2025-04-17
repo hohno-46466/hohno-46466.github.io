@@ -1,0 +1,41 @@
+CMD0=""
+STR0="0"
+
+# ntpdig コマンドが存在するか確認
+if command -v ntpdig >/dev/null 2>&1; then
+    # CMD0="ntpdig $NTPSERVER | awk '{printf \"%.3f\", \$4}'"
+    CMD0="ntpdig -v $NTPSERVER | grep 'offset' | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
+    echo "(A)"
+
+# ntpdate コマンドが存在するか確認
+elif command -v ntpdate >/dev/null 2>&1; then
+    # CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+    CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[-1-9]+).*/\\\1/'"
+    echo "(B)"
+
+# /usr/sbin/ntpdate コマンドが存在するか確認
+elif command -v /usr/sbin/ntpdate >/dev/null 2>&1; then
+    # CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+    CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
+    echo "(C)"
+else
+    echo "Error: Neither ntpdate nor ntpdig is installed."
+    exit 1
+fi
+
+echo "(1)((command:$CMD0))"
+echo "(2)((ntpdiff:$STR0))"
+/bin/echo -n "(3)((ntpdiff:"
+STR0=$(echo "$CMD0" | sh)
+echo "))"
+echo "(4)((ntpdiff:$STR0))"
+
+if [ -z "$STR0" ]; then
+    echo "Command: $CMD0"
+    echo "Error: The ommand above is not working."
+    exit 1
+fi
+
+# awk にコマンドを渡して試行
+awk -v CMD0="$CMD0" 'BEGIN { CMD0 | getline timediff; close(CMD0); printf "(5)((command: %s))\n(6)((ntpdiff: %s))\n", CMD0, timediff }'
+

@@ -17,8 +17,6 @@ TOPIC=${2:-"mynameX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
 XCMD_PING="send-pingX.sh"
 XCMD_OFFSET="send-offsetX.sh"
-XCMD0A="ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
 CMD0=""
 STR0="0"
