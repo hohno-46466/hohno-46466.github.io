@@ -7,53 +7,59 @@
 # Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
 # Prev update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
 # Prev update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
-# Last update: 2025-04-16(Wed) 14:15 JST / 2025-04-16(Wed) 05:15 UTC
+# Prev update: 2025-04-16(Wed) 14:15 JST / 2025-04-16(Wed) 05:15 UTC
+# Last update: 2025-04-18(Fri) 05:33 JST / 2025-04-17(Thu) 20:33 UTC
+
+NTPSERVER=ntp.nict.jp
 
 XK=${1:-"#"}
 TOPIC=${2:-"mynameX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
 XCMD_PING="send-pingX.sh"
 XCMD_OFFSET="send-offsetX.sh"
-XCMD0A="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+XCMD0A="ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
 XCMD0B="/usr/sbin/ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
 
 CMD0=""
-DUMMY="0"
+STR0="0"
 
 # ntpdig コマンドが存在するか確認
-if command -v ntpdig &> /dev/null; then
-    CMD0="ntpdig ntp.nict.jp | awk '{printf \"%.3f\", \$4}'"
+if command -v ntpdig >/dev/null 2>&1; then
+    # CMD0="ntpdig $NTPSERVER | awk '{printf \"%.3f\", \$4}'"
+    CMD0="ntpdig -v $NTPSERVER | grep 'offset' | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
     echo "(A)"
 
 # ntpdate コマンドが存在するか確認
-elif [ -z "$CMD0" ] && command -v ntpdate &> /dev/null; then
-    CMD0="ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+elif command -v ntpdate >/dev/null 2>&1; then
+    # CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+    CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[-1-9]+).*/\\\1/'"
     echo "(B)"
 
 # /usr/sbin/ntpdate コマンドが存在するか確認
-elif [ -z "$CMD0" ] && command -v /usr/sbin/ntpdate &> /dev/null; then
-    CMD0="/usr/sbin/ntpdate -q ntp.nict.jp | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+elif command -v /usr/sbin/ntpdate >/dev/null 2>&1; then
+    # CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
+    CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
     echo "(C)"
-fi
-
-echo "[[$CMD0]]"
-echo "(($DUMMY))"
-DUMMY=$(echo "$CMD0" | sh)
-echo "(($DUMMY))"
-
-if [ -z "$DUMMY" ]; then
-    # echo "[$CMD0]"
+else
     echo "Error: Neither ntpdate nor ntpdig is installed."
     exit 1
 fi
 
-# awk にコマンドを渡して実行
-# awk -v command="$CMD0" 'BEGIN {
-#     command | getline timediff
-#     close(command)
-#     printf "%s\n",timediff
+echo "(1)((command:$CMD0))"
+echo "(2)((ntpdiff:$STR0))"
+/bin/echo -n "(3)((ntpdiff:"
+STR0=$(echo "$CMD0" | sh)
+echo "))"
+echo "(4)((ntpdiff:$STR0))"
 
-# exit 
+if [ -z "$STR0" ]; then
+    echo "Command: $CMD0"
+    echo "Error: The ommand above is not working."
+    exit 1
+fi
+
+# awk にコマンドを渡して試行
+awk -v CMD0="$CMD0" 'BEGIN { CMD0 | getline timediff; close(CMD0); printf "(5)((command: %s))\n(6)((ntpdiff: %s))\n", CMD0, timediff }'
 
 z=""
 [ -z "$z" ] && x=$(find . -name "$XCMD_PING" -type f -perm -100) && [ ! -z $x ] && z="$x"
@@ -167,3 +173,4 @@ BEGIN{
   };
   fflush();
 }' 
+
