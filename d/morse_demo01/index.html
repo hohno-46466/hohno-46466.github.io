@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>モールス符号デモ（拡張版）</title>
+</head>
+<body>
+
+<h2>モールス符号へ変換＆再生</h2>
+
+<!-- 入力欄とボタン -->
+<input type="text" id="morse-input" placeholder="モールスに変換する文字列を入力" style="width:300px;">
+<button onclick="startMorse()">再生</button>
+
+<!-- 表示エリア -->
+<h4>入力文字:</h4>
+<div id="text-display"></div>
+
+<h4>モールス符号:</h4>
+<div id="morse-display" style="font-family:monospace; font-size:1.5em;"></div>
+
+<script>
+// morse_dict
+const morseDict = {
+    'A':'・－',	'B':'－・・・',	'C':'－・－・',	'D':'－・・',	'E':'・',
+    'F':'・・－・',	'G':'－－・',	'H':'・・・・',	'I':'・・',	'J':'・－－－',
+    'K':'－・－',	'L':'・－・・',	'M':'－－',	'N':'－・',	'O':'－－－',
+    'P':'・－－・',	'Q':'－－・－',	'R':'・－・',	'S':'・・・',	'T':'－',
+    'U':'・・－',	'V':'・・・－',	'W':'・－－',	'X':'－・・－',	'Y':'－・－－',
+    'Z':'－－・・',
+    '.':'・－・－・－',	',':'－－・・－－',	':':'－－－・・・',	'?':'・・－－・・',
+    '\'':'・－－－－・',	'-':'－・・・・－',	'/':'－・・－・',	'(':'－・－－・',	')':'－・－－・－',
+    '=':'－・・・－',	'+':'・－・－・',	'""""':'・－・・－・',	'@':'・－－・－・',
+    '1':'・－－－－',	'2':'・・－－－',	'3':'・・・－－',	'4':'・・・・－',	'5':'・・・・・',
+    '6':'－・・・・',	'7':'－－・・・',	'8':'－－－・・',	'9':'－－－－・',	'0':'－－－－－',
+    'ア':'－－・－－',	'イ':'・－',	'ウ':'・・－',	'エ':'－・－－－',	'オ':'・－・・・',
+    'カ':'・－・・',	'キ':'－・－・・',	'ク':'・・・－',	'ケ':'－・－－',	'コ':'－－－－',
+    'サ':'－・－・－',	'シ':'－－・－・',	'ス':'－－－・－',	'セ':'・－－－・',	'ソ':'－－－・',
+    'タ':'－・',	'チ':'・・－・',	'ツ':'・－－・',	'テ':'・－・－－',	'ト':'・・－・・',
+    'ナ':'・－・',	'ニ':'－・－・',	'ヌ':'・・・・',	'ネ':'－－・－',	'ノ':'・・－－',
+    'ハ':'－・・・',	'ヒ':'－－・・－',	'フ':'－－・・',	'ヘ':'・',	'ホ':'－・・',
+    'マ':'－・・－',	'ミ':'・・－・－',	'ム':'－',	'メ':'－・・・－',	'モ':'－・・－・',
+    'ヤ':'・－－',	'ユ':'－・・－－',	'ヨ':'－－',
+    'ラ':'・・・',	'リ':'－－・',	'ル':'－・－－・',	'レ':'－－－',	'ロ':'・－・－',
+    'ワ':'－・－',	'ヰ':'・－・・－',	'ヱ':'・－－・・',	'ヲ':'・－－－',	'ン':'・－・－・',
+    '゛':'・・',	'゜':'・・－－・',	'ー':'・－－・－',
+    '、':'・－・－・－',	'。':'・－・－・・',	'（':'－・－－・－',	'）':'・－・・－・'
+};
+
+// 小書き文字→通常文字変換マップ
+const smallToLarge = {
+  'ァ': 'ア', 'ィ': 'イ', 'ゥ': 'ウ', 'ェ': 'エ', 'ォ': 'オ',
+  'ャ': 'ヤ', 'ュ': 'ユ', 'ョ': 'ヨ', 'ッ': 'ツ',
+  'ぁ': 'ア', 'ぃ': 'イ', 'ぅ': 'ウ', 'ぇ': 'エ', 'ぉ': 'オ',
+  'ゃ': 'ヤ', 'ゅ': 'ユ', 'ょ': 'ヨ', 'っ': 'ツ'
+};
+
+// ひらがな→カタカナ変換
+function hiraToKata(text) {
+  return text.replace(/[\u3041-\u3096]/g, ch => 
+    String.fromCharCode(ch.charCodeAt(0) + 0x60));
+}
+
+// 前処理
+function preprocess(text) {
+  text = hiraToKata(text);
+  return Array.from(text).map(ch => smallToLarge[ch] || ch).join('');
+}
+
+// 正規化
+function normalize(text) {
+  return text.normalize('NFKD');
+}
+
+// combining文字かどうか判定
+function isCombining(ch) {
+  return (ch >= '\u0300' && ch <= '\u036F') || (ch >= '\u3099' && ch <= '\u309A');
+}
+
+// モールス変換
+function toMorse(text) {
+  text = preprocess(text);
+  text = normalize(text);
+  text = text.toUpperCase();  // ★小文字を大文字へ
+  let result = [];
+  for (let ch of text) {
+    if (ch === ' ') {
+      result.push('|');
+    } else if (morseDict[ch]) {
+      result.push('/');
+      result.push(morseDict[ch]);
+    } else if (isCombining(ch)) {
+      result.push('/');
+      if (ch === '\u3099') {
+        result.push(morseDict['゛']);
+      } else if (ch === '\u309A') {
+        result.push(morseDict['゜']);
+      }
+    }
+  }
+  return result.join(' ');
+}
+
+// メイン関数
+function startMorse() {
+  let inputText = document.getElementById('morse-input').value.trim();
+  if (!inputText) inputText = "イロハニホヘト";
+  
+  document.getElementById('text-display').textContent = inputText;
+  
+  let morse = toMorse(inputText);
+  showMorse(morse);
+  playMorse(morse);
+}
+
+// モールスコードをハイライト付きで表示
+function showMorse(morse) {
+  const display = document.getElementById('morse-display');
+  let html = Array.from(morse).map(ch => `<span>${ch}</span>`).join('');
+  display.innerHTML = html;
+}
+
+// モールス音再生＋ハイライト
+function playMorse(morse) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const unit = 75;
+  let time = ctx.currentTime;
+  let spans = document.querySelectorAll("#morse-display span");
+
+  let index = 0;
+  function scheduleNext() {
+    if (index >= morse.length) return;
+
+    // ここを修正！colorもfontWeightも両方リセット
+    // spans.forEach(s => s.style.color = "");
+    spans.forEach(s => {
+      s.style.color = "";
+      s.style.fontWeight = "";
+    });
+    spans[index].style.color = "red";
+    spans[index].style.fontWeight = "bold";
+
+    let ch = morse[index];
+
+    if (ch === '・') {
+      let osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = 600;
+      osc.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + unit/1000);
+      setTimeout(scheduleNext, unit * 2);
+    } else if (ch === '－') {
+      let osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = 600;
+      osc.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + (3 * unit)/1000);
+      setTimeout(scheduleNext, unit * 4);
+    } else if (ch === '|') {
+      setTimeout(scheduleNext, unit * 4);
+    } else {
+      setTimeout(scheduleNext, unit);
+    }
+
+    index++;
+  }
+
+  scheduleNext();
+}
+</script>
+
+</body>
+</html>
