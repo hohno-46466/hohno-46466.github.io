@@ -52,7 +52,7 @@ echo "(4)((ntpdiff:$STR0))"
 
 if [ -z "$STR0" ]; then
     echo "Command: $CMD0"
-    echo "Error: The ommand above is not working."
+    echo "Error: The command above is not working."
     exit 1
 fi
 
