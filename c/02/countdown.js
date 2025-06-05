@@ -8,7 +8,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // メッセージ
     const message1 = 'Countdown! (No.002)';
-    const message3 = 'Hello!';
+    const message3 = 'Hello, World 1 2 3!';
 
     // ターゲット時刻
     const targetTime = new Date('2026-04-01T00:00:00+09:00');
