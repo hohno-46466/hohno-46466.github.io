@@ -23,8 +23,8 @@ STR0="0"
 
 # ntpdig コマンドが存在するか確認
 if command -v ntpdig >/dev/null 2>&1; then
-    # CMD0="ntpdig $NTPSERVER | awk '{printf \"%.3f\", \$4}'"
-    CMD0="ntpdig -v $NTPSERVER | grep 'offset' | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
+    CMD0="ntpdig $NTPSERVER | awk '{printf \"%.3f\", \$4}'"
+    # CMD0="ntpdig -v $NTPSERVER | grep 'offset' | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
     echo "(A)"
 
 # ntpdate コマンドが存在するか確認
