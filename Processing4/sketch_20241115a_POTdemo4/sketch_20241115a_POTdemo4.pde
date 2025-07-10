@@ -1,5 +1,5 @@
 //
-// sketch_20241115a_POTdemo4.pde
+// sketch_20241115a_POTdemo4.pde （テスト版）
 //
 
 // First version: Fri May 26 18:49:38 JST 2023 by @hohno_at_kuimc
@@ -7,7 +7,8 @@
 // Previous version: Tue Jun  6 06:41:55 JST 2023 by @hohno_at_kuimc
 // Previous version: Thu Aug 31 03:40:37 ADT 2023 by @hohno_at_kuimc
 // Previous version: Fri Nov 15 07:18:48 AST 2024 by @hohno_at_kuimc
-// Last update: 2025-03-09(Sun) 20:12 JST / 2025-03-09(Sun) 11:12 UTC by @hohno_at_kuimc
+// Previous version: 2025-03-09(Sun) 20:12 JST / 2025-03-09(Sun) 11:12 UTC by @hohno_at_kuimc
+// Last update: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu) 23:26 UTC
 
 // -----------------------------------------------------------------------------
 
@@ -38,12 +39,12 @@ float[] POTmax = {1200.0, 20.0, 100.0, 40.0, 100.0};
 
 // MQTT broker's FQDN (hostname)
 // final String MQTThost = "mqtt://broker.hivemq.com";
-final String MQTThost = "mqtt://broker.emqx.io";
-// final String MQTThost = "mqtt://localhost";//
+// final String MQTThost = "mqtt://broker.emqx.io";
+final String MQTThost = "mqtt://localhost";
 
 // MQTT topic
 // final String MQTTtopic = "mgws2411-999/pseudoBob1";
-final String MQTTtopic = "hohno46466/test111";
+final String MQTTtopic = "mgws25Q2/pseudoBob1-999";
 
 // Prepare MQTT class object
 import mqtt.*;
@@ -135,16 +136,6 @@ void settings() {
   println("Debug: " + "rate = " + rate + ", screenWidth = " + screenWidth * rate);
   size(int(screenWidth * rate), screenHeight);
 }
-
-// -----------------------------------------------------------------------------
-
-// void setupX() {
-//   String[] fontList = PFont.list();
-//   for (int i = 0; i < fontList.length; i++) {
-//     println(fontList[i]);
-//   }
-//   noLoop();
-//}
 
 // -----------------------------------------------------------------------------
 
