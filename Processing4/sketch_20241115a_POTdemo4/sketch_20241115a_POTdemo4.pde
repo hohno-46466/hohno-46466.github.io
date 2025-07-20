@@ -32,19 +32,21 @@ int Ngauges = 3;            // Number of gauges
 
 // 仮データ
 float[] POTval = {20.0, 0.0, 70.0, 30.0, 60.0};
-float[] POTmin = {0.0, 0.0, 0.0, -10.0, 0.0};
-float[] POTmax = {1200.0, 20.0, 100.0, 40.0, 100.0};
+// float[] POTmin = {0.0, 0.0, 0.0, -10.0, 0.0};
+float[] POTmin = {0.0, 0.0, 0.0, 0.0, 0.0};
+// float[] POTmax = {1200.0, 20.0, 100.0, 40.0, 100.0};
+float[] POTmax = {256.0, 256.0, 256.0, 256.0, 256.0};
 
 // -----------------------------------------------------------------------------
 
 // MQTT broker's FQDN (hostname)
 // final String MQTThost = "mqtt://broker.hivemq.com";
-// final String MQTThost = "mqtt://broker.emqx.io";
-final String MQTThost = "mqtt://localhost";
+final String MQTThost = "mqtt://broker.emqx.io";
+// final String MQTThost = "mqtt://localhost";
 
 // MQTT topic
 // final String MQTTtopic = "mgws2411-999/pseudoBob1";
-final String MQTTtopic = "mgws25Q2/pseudoBob1-999";
+final String MQTTtopic = "mgws2507-999/pseudoBob1";
 
 // Prepare MQTT class object
 import mqtt.*;
