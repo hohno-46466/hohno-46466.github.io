@@ -1,0 +1,55 @@
+<!--
+    clock00new.html
+    No.043AX
+    First version: Tue Feb 18 04:57:00 JST 2025
+    Prev update: Wed Feb 19 11:07:33 JST 2025
+    Prev update: Thu Feb 20 03:44:29 JST 2025
+    PRev update: 2025-03-22(Sat) 00:15 JST / 2025-03-21(Fri) 15:15 UTC
+    Last update: 2025-03-26(Wed) 00:15 JST / 2025-03-25(Tue) 15:15 UTC
+
+    Reference(s)
+    https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
+    https://web-dev.tech/front-end/javascript/digital-clock/
+-->
+<!DOCTYPE html>
+<html lang ="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに safereload.js を使う -->
+    <script src="JS/loadmqtt.js"></script>
+    <title>Clock00(new/043AX)</title>
+<!--
+    <link rel="stylesheet" href="clock00new.css">
+-->
+</head>
+<body>
+    <!-- まずボタンがある     -->
+    <div class="button-container"> 
+        <input type="button" value="Push here to sync time" id="button1">
+        <input type="button" value="Full Screen" id="button2">
+    </div>
+
+    <!-- 次に日時表示領域がある．ここが最重要 -->
+    <div class="clock-container">
+        <div class="clock">
+            <p class="clock-date">（日付）</p>
+            <p><span class="clock-time1">（時刻1）</span><span class="clock-time2">（時刻2）</span></p>
+            <p class="clock-timezone">（TZ）</p>
+        </div>
+    </div>
+
+    <!-- 時刻情報エリア -->
+    <div class="display-container">
+        <p id="RealtimeClockDisplayArea1">（ここに時刻情報を表示）</p>
+        <p id="RealtimeClockDisplayArea2">（ここに時刻情報を表示）</p>
+    </div>
+
+    <!-- 各領域を取り扱う Javascript を起動 -->
+    <script src="clock00new.js"></script>
+
+    <!-- 定期的に Javascript を読み込み直すため safeeload.js（自作）を利用 -->
+    <!-- 次のリロードは 10分後（以前は 3分後だった．徐々に延長中）-->
+    <script src="JS/safereload.js"></script>
+</body>
+</html>
