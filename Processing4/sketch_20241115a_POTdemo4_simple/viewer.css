@@ -1,0 +1,29 @@
+/* viewer.css */
+body {
+  font-family: monospace;
+  background: #f8f8f8;
+  padding: 1em;
+}
+.code-container {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1em;
+  overflow-x: auto;
+}
+.line {
+  display: block;
+  padding-left: 4em;
+  position: relative;
+  white-space: pre;
+  line-height:1.5;
+}
+.line::before {
+  content: attr(data-line);
+  position: absolute;
+  left: 0;
+  width: 3em;
+  text-align: right;
+  padding-right: 0.5em;
+  color: #999;
+  user-select: none;
+}
