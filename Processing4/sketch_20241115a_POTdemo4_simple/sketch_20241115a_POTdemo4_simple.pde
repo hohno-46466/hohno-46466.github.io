@@ -1,7 +1,8 @@
-
+//
 // sketch_20250809a_MQTT_console_echo.pde
-
+//
 // Last update: 2025-08-09(Sat) 09:58 JST / 2025-08-09(Sat) 00:58 UTC by @hohno_at_kuimc
+//
 
 // Prepare MQTT class object
 
@@ -14,7 +15,9 @@ final String MQTThost = "mqtt://broker.emqx.io";
 // MQTT topic
 final String MQTTtopic = "mgws2508-S999/pseudoBob1";
 
+//
 // -----------------------------------------------------------------------------
+//
 
 // データを受け取る配列
 
@@ -24,7 +27,9 @@ float[] POTval = {20.0, 30.0, 40.0, 50.0, 60.0};
 float[] POTmin = {0.0, 0.0, 0.0, 0.0, 0.0};
 float[] POTmax = {256.0, 256.0, 256.0, 256.0, 256.0};
 
+//
 // -----------------------------------------------------------------------------
+//
 
 void settings() {
   size(200,100);
@@ -45,7 +50,9 @@ void draw() {
   // client.loop();
 }
 
+//
 // -----------------------------------------------------------------------
+//
 
 // MQTT message handling functions
 
@@ -70,5 +77,7 @@ void connectionLost() {
   println("Warning: connection lost");
 }
 
+//
 // -----------------------------------------------------------------------
+//
 
