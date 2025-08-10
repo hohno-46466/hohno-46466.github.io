@@ -7,23 +7,20 @@
 </head>
 <body>
   <h1 id="main-heading">読み込み中...</h1>
-  <h2 id="update">読み込み中...</h1>
   <div class="code-container" id="code">読み込み中...</div>
 
   <script>
     // ファイル名をここで一元定義
     const pdeFileName = 'sketch_20241115a_POTdemo4.pde';
-    const lastUpdate = '(Last update: )';
 
     // HTMLタイトルや見出しにも反映
     document.getElementById('page-title').textContent = pdeFileName;
     document.getElementById('main-heading').textContent = pdeFileName;
-    document.getElementById('update').textContent = lastUpdate;
 
     fetch(pdeFileName)
       .then(response => {
         if (!response.ok) throw new Error('Network error');
-	return response.text();
+        return response.text();
       })
       .then(text => {
         const codeDiv = document.getElementById('code');
