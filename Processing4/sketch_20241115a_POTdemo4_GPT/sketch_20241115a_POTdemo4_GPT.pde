@@ -191,6 +191,144 @@ void draw() {
 
 // -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// gauge()
+// 役割: id 番目のゲージを、指定色 colorX でドーナツ状に描画する
+// 入力: id = ゲージ番号 (0..Ngauges-1), colorX = 塗り色
+// 参照する大域変数の例:
+//   - Ngauges
+//   - POTval[], POTmin[], POTmax[]
+//   - overlapRate (0.0..1.0) : 横方向の重なり率
+//   - arcSize (度数) : ゲージのスイープ角 (例: 270)
+//   - screenWidth, screenHeight : 全体レイアウト用
+//   - font : テキスト描画用
+// 備考:
+//   - できるだけ副作用を減らすため、pushStyle()/popStyle() で描画状態を隔離
+//   - ゼロ割り/異常値を丁寧にハンドリング
+// -----------------------------------------------------------------------------
+void gauge(int id, color colorX) {
+  // --- 安全策: id の範囲をチェック（想定外アクセスを防止）
+  if (id < 0 || id >= Ngauges) return;
+
+  // --- レイアウト関連: 位置とサイズを決める -----------------------------
+  // 横方向に「やや重ねて」並べる。pitch は隣のゲージ中心間の距離。
+  // overlapRate=0 なら全幅に Ngauges 等間隔, 1.0 に近いほど強く重なる
+  float baseW   = screenWidth;        // 1つの基準幅（必要なら調整）
+  float baseH   = screenHeight;       // 描画高さ
+  float pitch   = baseW * (1.0 - overlapRate);  // 中心の間隔
+  float cx      = (baseW * 0.5) + id * pitch;   // ゲージ中心X
+  float cy      = baseH * 0.55;                 // ゲージ中心Y（やや下寄せ）
+  float rOuter  = min(baseW, baseH) * 0.42;     // 外半径（画面比で決定）
+  float rInner  = rOuter * 0.62;                // 内半径（リングの太さを決める）
+
+  // --- スケール（角度）設定 ---------------------------------------------
+  // 開始角とスイープ角。慣例的に左下(225°)〜右下(315°)あたりを使うと
+  // 文字が重なりにくい。ここでは 135° 開始で 270° スイープにしている。
+  float startDeg = 135;               // 開始角 [deg]
+  float sweepDeg = arcSize;           // スイープ角 [deg]（大域変数を利用）
+  float startRad = radians(startDeg);
+  float sweepRad = radians(sweepDeg);
+
+  // --- 値の取り出しと防御的プログラミング -------------------------------
+  float rawMin = POTmin[id];
+  float rawMax = POTmax[id];
+  float rawVal = POTval[id];
+
+  // NaN/Inf を避け、min/max の異常を補正
+  if (!Float.isFinite(rawMin)) rawMin = 0;
+  if (!Float.isFinite(rawMax)) rawMax = 255;
+  if (!Float.isFinite(rawVal)) rawVal = 0;
+
+  // min > max の場合は入れ替える（データ源のミス防止）
+  if (rawMin > rawMax) {
+    float tmp = rawMin; rawMin = rawMax; rawMax = tmp;
+  }
+
+  // スパン計算（ゼロ割りを避ける）
+  float span = rawMax - rawMin;
+  if (span == 0) span = 1;
+
+  // 正規化（0..1 に丸め、はみ出しはクリップ）
+  float norm = (rawVal - rawMin) / span;
+  norm = constrain(norm, 0, 1);
+
+  // 正規化値から現在角度を算出
+  float theta = startRad + sweepRad * norm;
+
+  // --- 描画: スタイルはローカルに閉じる ----------------------------------
+  pushStyle();
+
+  // 背景（全スイープのトラック）を薄色で描画
+  noStroke();
+  fill(230); // 背景トラックの塗り（明るいグレー）※テーマに合わせて変更
+  arc(cx, cy, rOuter*2, rOuter*2, startRad, startRad + sweepRad, PIE);
+
+  // 現在値部分を指定色で上書き
+  fill(colorX); // 指定色
+  // 値が 0 のとき arc() が極小になってチラつくのを防ぐ
+  if (norm > 0.0001f) {
+    arc(cx, cy, rOuter*2, rOuter*2, startRad, theta, PIE);
+  }
+
+  // 内側の穴（背景色）を塗ってドーナツ状に
+  fill(0, 0); // 透明にしたい場合は erase() を使う方法もあるが、ここは背景色で
+  // ※ 背景が単色なら bgColor を使う。ここでは画面クリアが背景色として仮定されるため、
+  //    内部を「背景色」で塗り戻したい場合は fill(bgColor) に差し替える。
+  //    デモ用に明示的に背景色を指定するなら以下のように:
+  // fill(colorBG);
+  noStroke();
+  ellipse(cx, cy, rInner*2, rInner*2);
+
+  // 外周/内周の輪郭（視認性向上）
+  noFill();
+  stroke(0, 60);  // 薄めの線
+  strokeWeight(1.5);
+  ellipse(cx, cy, rOuter*2, rOuter*2);
+  ellipse(cx, cy, rInner*2, rInner*2);
+
+  // --- 目盛（任意）：0%, 25%, 50%, 75%, 100% に短い目盛線 ---------------
+  // 課題用のサンプルとして入れておく（重いようならオフに）
+  int tickCount = 4; // 0%と100%は外枠で代用、内部は 25/50/75 の3本
+  stroke(0, 60);
+  strokeWeight(2);
+  for (int t = 1; t <= tickCount; t++) {
+    float tn = t / float(tickCount + 1); // 0..1 の中間点
+    float ang = startRad + sweepRad * tn;
+    // 極座標→直交座標へ変換
+    float x1 = cx + cos(ang) * (rOuter - 4);
+    float y1 = cy + sin(ang) * (rOuter - 4);
+    float x2 = cx + cos(ang) * (rOuter - 12);
+    float y2 = cy + sin(ang) * (rOuter - 12);
+    line(x1, y1, x2, y2);
+  }
+
+  // --- テキスト描画（現在値 / min / max / パーセンテージなど） ----------
+  // 見やすさのため等幅フォント推奨（font が等幅でない場合は別フォント用意）
+  textAlign(CENTER, CENTER);
+  fill(20);
+  textFont(font);
+
+  // 現在値：中央やや上
+  String sVal = nf(rawVal, 0, 1); // 小数1桁表示（整数なら 1 -> 0 に）
+  textSize(24);
+  text(sVal, cx, cy - rInner * 0.2);
+
+  // min/max：中央やや下（小さめ）
+  textSize(12);
+  String sMin = "min " + nf(rawMin, 0, 1);
+  String sMax = "max " + nf(rawMax, 0, 1);
+  text(sMin + "  |  " + sMax, cx, cy + rInner * 0.35);
+
+  // パーセンテージ：下部
+  textSize(12);
+  String sPct = nf(norm * 100, 0, 1) + "%";
+  text(sPct, cx, cy + rInner * 0.60);
+
+  popStyle();
+}
+
+/*
+
 // Draw a gauge
 
 void gauge(int _gaugeID, color _colorX) { 
@@ -297,6 +435,7 @@ void drawLabeles(int _gaugeID, int _offsetX, int _offsetY) {
   textAlign(LEFT, BASELINE);
   textSize(currentSize); // フォントサイズをもとのサイズに変更
 }
+*/
 
 // -----------------------------------------------------------------------------
 

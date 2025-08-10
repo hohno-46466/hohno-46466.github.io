@@ -8,7 +8,8 @@
 // Previous version: Thu Aug 31 03:40:37 ADT 2023 by @hohno_at_kuimc
 // Previous version: Fri Nov 15 07:18:48 AST 2024 by @hohno_at_kuimc
 // Previous version: 2025-03-09(Sun) 20:12 JST / 2025-03-09(Sun) 11:12 UTC by @hohno_at_kuimc
-// Last update: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu) 23:26 UTC
+// Previous version: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu) 23:26 UTC
+// Last update: 2025-08-10(Sun) 16:20 JST / 2025-08-10(Sun) 07:20 UTC
 
 // -----------------------------------------------------------------------------
 
@@ -20,22 +21,16 @@
 // -----------------------------------------------------------------------------
 
 // Number of gauges
-int Ngauges = 3;            // Number of gauges
+int Ngauges = 6;            // Number of gauges
 
 // -----------------------------------------------------------------------------
 
 // Potentiometer values
 
-// float POTval[] = new float[Ngauges];
-// float POTmax[] = new float[Ngauges];
-// float POTmin[] = new float[Ngauges];
-
-// 仮データ
-float[] POTval = {20.0, 0.0, 70.0, 30.0, 60.0};
-// float[] POTmin = {0.0, 0.0, 0.0, -10.0, 0.0};
-float[] POTmin = {0.0, 0.0, 0.0, 0.0, 0.0};
-// float[] POTmax = {1200.0, 20.0, 100.0, 40.0, 100.0};
-float[] POTmax = {256.0, 256.0, 256.0, 256.0, 256.0};
+// 仮データ, 最低値, 最大値
+float[] POTval = { 20.0,  50.0, 1000.0,  64.0, 128.0, 192.0};
+float[] POTmin = {-20.0,   0.0,  850.0,   0.0,   0.0,   0.0};
+float[] POTmax = { 60.0, 100.0, 1150.0, 256.0, 256.0, 256.0};
 
 // -----------------------------------------------------------------------------
 
@@ -204,7 +199,10 @@ void gauge(int _gaugeID, color _colorX) {
   }
 
   // float 型の大域変数 POTval[], POTmin[], POTmz[] から int 型の局所変数 _val を求める
-  int _val = int((POTval[_gaugeID]-POTmin[_gaugeID])/(POTmax[_gaugeID]-POTmin[_gaugeID])*255.0);
+  
+  int _val = int(
+  (POTval[_gaugeID]-POTmin[_gaugeID]) / (POTmax[_gaugeID]-POTmin[_gaugeID]) * 255.0);
+  
   _val = (_val < 0) ? 0 : (_val > 255) ? 255 : _val;
   _val = round(map(_val, 0, 255, 0, arcSize));
 
@@ -262,11 +260,12 @@ void drawLabeles(int _gaugeID, int _offsetX, int _offsetY) {
   
   String formattedText;
   
-  // 計測値  
+  // 計測値（直値）
   formattedText = String.format("%.1f", POTval[_gaugeID]); 
   textAlign(CENTER, BASELINE);
   text(formattedText, _offsetX + labelPosX0, _offsetY + labelPosY0);
   
+  // 計測値（％表記）
   formattedText = String.format("%.1f%%", (POTval[_gaugeID]-POTmin[_gaugeID])/(POTmax[_gaugeID]-POTmin[_gaugeID])*100.0); 
   textAlign(CENTER, BASELINE);
   text(formattedText, _offsetX + labelPosX1, _offsetY + labelPosY1);
@@ -326,7 +325,7 @@ void messageReceived(String _topic, byte[] _payload) {
   String _line = new String(_payload);
   String[] _words = _line.split("\\s+");
   int _n = _words.length;
-  if ((_count % 100) == 0) { println("DEBUG: (" + _count + ") _topic = " + _topic + " : got " + _n + " words");}
+  if ((_count % 100) == 0) { println("DEBUG: (" + _count + ") _topic = " + _topic + " : got \"" + _line + "\"");/*println("DEBUG: (" + _count + ") _topic = " + _topic + " : got " + _n + " words");*/}
   _count++;
   for (int i = 0; i < Ngauges; i++) {
     if (i < _n) {
