@@ -1,0 +1,9 @@
+/* mqtt_receiver_p5.css */
+body {
+  font-family: sans-serif;
+}
+#messageLog {
+  margin-top: 1em;
+  font-size: 14px;
+  color: #333;
+}

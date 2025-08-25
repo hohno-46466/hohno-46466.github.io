@@ -1,0 +1,20 @@
+<!-- mqtt_receiver_p5_complete.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MQTT Receiver with p5.js (Complete Version)</title>
+  <link rel="stylesheet" href="mqtt_receiver_p5.css">
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="mqtt_receiver_p5.js" defer></script>
+  <script src="sketch1.js" defer></script>
+</head>
+<body>
+  <main>
+    <h2>MQTT メッセージ受信（TSV + 拡張書式 + ゲージ描画）</h2>
+    <p>MQTT トピック: <code>mgws25Q2-S999/pseudoBob1</code></p>
+    <div id="messageLog">接続準備中...</div>
+  </main>
+</body>
+</html>

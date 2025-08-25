@@ -1,0 +1,23 @@
+<!-- index_fixed.html -->
+ <!-- Last update: 2025-08-24(Sun) 05:19 JST / 2025-08-23(Sat) 20:19 UTC -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gauge Visualization + MQTT</title>
+  <link rel="stylesheet" href="mqtt_receiver_p5.css" />
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <!-- MQTT-only receiver (no p5 setup here) -->
+  <script src="mqtt_receiver_p5_ws.js"></script>
+  <!-- My original data viewer (sketch.js) -->
+  <script src="sketch.js?v=202508236a"></script>
+</head>
+<body>
+  <main>
+    <h2>MQTT メッセージ受信（TSV形式の数値 + 拡張書式） →  sketch.js によるデータ描画 </h2>
+    <p>MQTT トピック: <code>mgws25Q2-S999/pseudoBob2</code></p>
+    <div id="messageLog">接続準備中...</div>
+  </main>
+</body>
+</html>
