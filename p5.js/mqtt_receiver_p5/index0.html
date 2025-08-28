@@ -1,0 +1,26 @@
+<!-- index_fixed.html -->
+<!-- Prev update: 2025-08-24(Sun) 05:19 JST / 2025-08-23(Sat) 20:19 UTC -->
+<!-- Last update: 2025-08-26(Tue) 07:46 JST / 2025-08-25(Mon) 22:46 UTC by @hohno_at_kuimc -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gauge Visualization + MQTT</title>
+  <link rel="stylesheet" href="mqtt_receiver_p5.css" />
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <!-- MQTT-only receiver (no p5 setup here) -->
+  <script src="mqtt_receiver_p5_ws.js"></script>
+  <!-- My original data viewer (sketch.js) -->
+  <script src="sketch.js?v=202508236b"></script>
+</head>
+<body>
+  <main>
+    <h2>MQTT メッセージ受信（TSV形式の数値 + 拡張書式 → sketch.js によるデータ描画）</h2>
+    <p>Topic:  <code id="mqtt_topic">(topic)</code></p>
+    <p>Broker: <code id="mqtt_broker">(URL)</code></p>
+    <div id="messageLog">接続準備中...</div>
+    <br>
+  </main>
+</body>
+</html>

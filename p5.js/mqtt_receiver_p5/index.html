@@ -1,23 +1,40 @@
-<!-- index_fixed.html -->
- <!-- Last update: 2025-08-24(Sun) 05:19 JST / 2025-08-23(Sat) 20:19 UTC -->
+<!--
+
+index.html
+
+Last update: 2025-08-28(Thu) 10:20 JST / 2025-08-28(Thu) 01:20 UTC
+
+-->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>Gauge Visualization + MQTT</title>
-  <link rel="stylesheet" href="mqtt_receiver_p5.css" />
+  <meta charset="UTF-8">
+  <title>MQTT Receiver with p5.js (Dynamic Sketch)</title>
+  <link rel="stylesheet" href="mqtt_receiver_p5.css">
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  <!-- MQTT-only receiver (no p5 setup here) -->
-  <script src="mqtt_receiver_p5_ws.js"></script>
-  <!-- My original data viewer (sketch.js) -->
-  <script src="sketch.js?v=202508236a"></script>
+  <script src="sketch_selector.js"></script>
+  <!-- MQTT 受信専用（描画は含まない） -->
+  <script src="mqtt_receiver_p5_ws-2.js" defer></script>
 </head>
 <body>
   <main>
-    <h2>MQTT メッセージ受信（TSV形式の数値 + 拡張書式） →  sketch.js によるデータ描画 </h2>
-    <p>MQTT トピック: <code>mgws25Q2-S999/pseudoBob2</code></p>
-    <div id="messageLog">接続準備中...</div>
+    <h2>MQTT メッセージ受信</h2>
+    <h3>概要：TSV形式の数値(拡張書式)を受信 → sketch.js によるデータ描画</h3>
+    <p class="row">MQTTトピック： <code id="mqtt_topic">mgws25Q2-S999/pseudoBob2</code></p>
+    <p class="row">MQTTブローカ： <code id="mqtt_broker">ws://localhost:9001</code></p>
+    <p class="row"><code id="messageLog">接続準備中...</code></p>
+    <br>
+    <!-- ▼ プルダウンで描画スタイルを切り替える See also: sketch_selector.js -->
+    <div class="row">
+      <label for="sketchSelect">描画スタイルを選択: </label>
+      <select id="sketchSelect">
+        <option value="sketch6.js">レーダーチャート (sketch6.js)</option>
+        <option value="sketch7.js">折れ線グラフ (sketch7.js)</option>
+        <option value="sketch8.js">棒グラフ (sketch8.js)</option>
+        <option value="sketch9.js" selected>ゲージ (sketch9.js)</option>
+      </select>
+    </div>
   </main>
 </body>
 </html>

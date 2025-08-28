@@ -1,9 +1,31 @@
 /* mqtt_receiver_p5.css */
+
+/* ページ全体の文字フォント */
 body {
   font-family: sans-serif;
 }
+
+/* MQTT メッセージログの表示部 */
 #messageLog {
   margin-top: 1em;
   font-size: 14px;
   color: #333;
 }
+
+/* main コンテナのレイアウト */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 12px;
+}
+
+/* 共通行レイアウト */
+.row {
+  margin: 12px 0;
+}
+
+/* ラベルのマージン */
+label {
+  margin-right: 8px;
+}
+

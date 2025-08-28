@@ -1,7 +1,9 @@
 #!/bin/sh
 
-MQTT_BROKER=localhost
 MQTT_BROKER=test.mosquitto.org
+# MQTT_BROKER=broker.hivemq.com
+# MQTT_BROKER=broker.emqx.io
+# MQTT_BROKER=localhost
 
 while [ 1 ]; do echo; sleep 0.5; done |
 awk '

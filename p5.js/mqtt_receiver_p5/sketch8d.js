@@ -129,5 +129,5 @@ function drawDivergingBarsFixedBaseline() {
   fill(0);
   textAlign(LEFT, TOP);
   textSize(14);
-  text("棒グラフ（基準線=0）— Okabe–Ito パレット", 12, 4);
+  text("棒グラフ（基準線: POTval=0.00, Okabe–Ito パレット対応）", 12, 4);
 }
