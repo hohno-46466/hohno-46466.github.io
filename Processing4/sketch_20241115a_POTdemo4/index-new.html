@@ -2,43 +2,78 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title id="page-title">読み込み中...</title>
+  <title id="page-title">Loading...</title>
   <link rel="stylesheet" href="viewer.css">
 </head>
 <body>
-  <h1 id="main-heading">読み込み中...</h1>
-  <h3 id="update">読み込み中...</h1>
+  <h1 id="main-heading">Loading...</h1>
+
+  <!-- 操作用ボタン -->
+  <div class="actions">
+    <a id="download-link" class="btn">Download .pde</a>
+    <a id="open-raw-link" class="btn" target="_blank" rel="noopener">Open raw</a>
+  </div>
+
+  <!-- PDEコード表示領域 -->
   <div class="code-container" id="code">読み込み中...</div>
 
   <script>
-    // ファイル名をここで一元定義
+    // ===== ▼ ここで読み込む PDEファイル名を一元管理 ▼ =====
     const pdeFileName = 'sketch_20241115a_POTdemo4.pde';
-    const lastUpdate = '(Last update: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu))';
+    // ===== ▲ 変更が必要なのはここだけ ▲ =====
 
-    // HTMLタイトルや見出しにも反映
+    // タイトルと見出しを設定
     document.getElementById('page-title').textContent = pdeFileName;
     document.getElementById('main-heading').textContent = pdeFileName;
-    document.getElementById('update').textContent = lastUpdate;
 
+    // Raw表示リンク（直接ブラウザで開く）
+    document.getElementById('open-raw-link').href = pdeFileName;
+
+    // ダウンロードボタンを設定
+    const dl = document.getElementById('download-link');
+    dl.href = pdeFileName;
+    dl.setAttribute('download', pdeFileName);
+
+    // 一部ブラウザ向けフォールバック（必須ではないが安全）
+    dl.addEventListener('click', function (e) {
+      if (!('download' in HTMLAnchorElement.prototype)) {
+        e.preventDefault();
+        fetch(pdeFileName)
+          .then(response => response.blob())
+          .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = pdeFileName;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+          });
+      }
+    });
+
+    // PDEファイルを読み込んで行番号付きで表示
     fetch(pdeFileName)
       .then(response => {
-        if (!response.ok) throw new Error('Network error');
-	return response.text();
+        if (!response.ok) throw new Error('PDEファイルを読み込めませんでした');
+        return response.text();
       })
       .then(text => {
         const codeDiv = document.getElementById('code');
-        codeDiv.innerHTML = '';
+        codeDiv.innerHTML = ''; // 初期表示をクリア
+
         const lines = text.split('\n');
-        lines.forEach((line, i) => {
+        lines.forEach((line, index) => {
           const div = document.createElement('div');
           div.className = 'line';
-          div.dataset.line = i + 1;
-          div.textContent = line;
+          div.setAttribute('data-line', index + 1);
+          div.textContent = line || '\u00A0'; // 空行も表示
           codeDiv.appendChild(div);
         });
       })
-      .catch(err => {
-        document.getElementById('code').textContent = '読み込み失敗: ' + err;
+      .catch(error => {
+        document.getElementById('code').textContent = '読み込みエラー: ' + error;
       });
   </script>
 </body>
