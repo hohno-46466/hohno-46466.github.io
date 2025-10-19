@@ -12,6 +12,7 @@
   <div class="actions">
     <a id="download-link" class="btn">Download .pde</a>
     <a id="open-raw-link" class="btn" target="_blank" rel="noopener">Open raw</a>
+    <a id="open-utf8-link" class="btn">Open raw (UTF-8)</a>
   </div>
 
   <!-- PDEコード表示領域 -->
@@ -26,15 +27,15 @@
     document.getElementById('page-title').textContent = pdeFileName;
     document.getElementById('main-heading').textContent = pdeFileName;
 
-    // Raw表示リンク（直接ブラウザで開く）
+    // Raw表示リンク（そのまま生で開く）
     document.getElementById('open-raw-link').href = pdeFileName;
 
-    // ダウンロードボタンを設定
+    // ダウンロードボタンの設定
     const dl = document.getElementById('download-link');
     dl.href = pdeFileName;
     dl.setAttribute('download', pdeFileName);
 
-    // 一部ブラウザ向けフォールバック（必須ではないが安全）
+    // フォールバック（古いブラウザ向け）
     dl.addEventListener('click', function (e) {
       if (!('download' in HTMLAnchorElement.prototype)) {
         e.preventDefault();
@@ -49,31 +50,41 @@
             a.click();
             a.remove();
             URL.revokeObjectURL(url);
-          });
+          })
+          .catch(err => alert('ダウンロードに失敗しました: ' + err));
       }
     });
 
-    // PDEファイルを読み込んで行番号付きで表示
+    // UTF-8 強制Raw表示（Blobを使ってテキスト表示）
+    const utf8Button = document.getElementById('open-utf8-link');
+
+    // PDEファイルを読み込んで表示
     fetch(pdeFileName)
       .then(response => {
         if (!response.ok) throw new Error('PDEファイルを読み込めませんでした');
         return response.text();
       })
       .then(text => {
-        const codeDiv = document.getElementById('code');
-        codeDiv.innerHTML = ''; // 初期表示をクリア
+        // ----- UTF-8 raw表示を実装 -----
+        utf8Button.addEventListener('click', () => {
+          const blob = new Blob([text], { type: 'text/plain; charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank', 'noopener');
+        });
 
-        const lines = text.split('\n');
-        lines.forEach((line, index) => {
+        // ----- 行番号付きでコードを表示 -----
+        const codeDiv = document.getElementById('code');
+        codeDiv.innerHTML = '';
+        text.split('\n').forEach((line, index) => {
           const div = document.createElement('div');
           div.className = 'line';
           div.setAttribute('data-line', index + 1);
-          div.textContent = line || '\u00A0'; // 空行も表示
+          div.textContent = line || '\u00A0'; // 空行も保持
           codeDiv.appendChild(div);
         });
       })
-      .catch(error => {
-        document.getElementById('code').textContent = '読み込みエラー: ' + error;
+      .catch(err => {
+        document.getElementById('code').textContent = '読み込みエラー: ' + err;
       });
   </script>
 </body>
