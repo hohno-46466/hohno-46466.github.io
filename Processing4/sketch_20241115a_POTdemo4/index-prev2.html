@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title id="page-title">読み込み中...</title>
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+  <h1 id="main-heading">読み込み中...</h1>
+  <h3 id="update">読み込み中...</h1>
+  <div class="code-container" id="code">読み込み中...</div>
+
+  <script>
+    // ファイル名をここで一元定義
+    const pdeFileName = 'sketch_20241115a_POTdemo4.pde';
+    const lastUpdate = '(Last update: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu))';
+
+    // HTMLタイトルや見出しにも反映
+    document.getElementById('page-title').textContent = pdeFileName;
+    document.getElementById('main-heading').textContent = pdeFileName;
+    document.getElementById('update').textContent = lastUpdate;
+
+    fetch(pdeFileName)
+      .then(response => {
+        if (!response.ok) throw new Error('Network error');
+	return response.text();
+      })
+      .then(text => {
+        const codeDiv = document.getElementById('code');
+        codeDiv.innerHTML = '';
+        const lines = text.split('\n');
+        lines.forEach((line, i) => {
+          const div = document.createElement('div');
+          div.className = 'line';
+          div.dataset.line = i + 1;
+          div.textContent = line;
+          codeDiv.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById('code').textContent = '読み込み失敗: ' + err;
+      });
+  </script>
+</body>
+</html>

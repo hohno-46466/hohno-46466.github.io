@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <title id="page-title">Loading...</title>
   <link rel="stylesheet" href="viewer.css">
+  <!-- 分離した JavaScript を読み込み（HTML解析後に実行されるよう defer） -->
+  <script src="viewer.js" defer></script>
 </head>
-<body>
+<body data-pde="sketch_20241115a_POTdemo4.pde">
+
   <h1 id="main-heading">Loading...</h1>
 
   <!-- 操作用ボタン -->
@@ -17,75 +20,5 @@
 
   <!-- PDEコード表示領域 -->
   <div class="code-container" id="code">読み込み中...</div>
-
-  <script>
-    // ===== ▼ ここで読み込む PDEファイル名を一元管理 ▼ =====
-    const pdeFileName = 'sketch_20241115a_POTdemo4.pde';
-    // ===== ▲ 変更が必要なのはここだけ ▲ =====
-
-    // タイトルと見出しを設定
-    document.getElementById('page-title').textContent = pdeFileName;
-    document.getElementById('main-heading').textContent = pdeFileName;
-
-    // Raw表示リンク（そのまま生で開く）
-    document.getElementById('open-raw-link').href = pdeFileName;
-
-    // ダウンロードボタンの設定
-    const dl = document.getElementById('download-link');
-    dl.href = pdeFileName;
-    dl.setAttribute('download', pdeFileName);
-
-    // フォールバック（古いブラウザ向け）
-    dl.addEventListener('click', function (e) {
-      if (!('download' in HTMLAnchorElement.prototype)) {
-        e.preventDefault();
-        fetch(pdeFileName)
-          .then(response => response.blob())
-          .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = pdeFileName;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-          })
-          .catch(err => alert('ダウンロードに失敗しました: ' + err));
-      }
-    });
-
-    // UTF-8 強制Raw表示（Blobを使ってテキスト表示）
-    const utf8Button = document.getElementById('open-utf8-link');
-
-    // PDEファイルを読み込んで表示
-    fetch(pdeFileName)
-      .then(response => {
-        if (!response.ok) throw new Error('PDEファイルを読み込めませんでした');
-        return response.text();
-      })
-      .then(text => {
-        // ----- UTF-8 raw表示を実装 -----
-        utf8Button.addEventListener('click', () => {
-          const blob = new Blob([text], { type: 'text/plain; charset=utf-8' });
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank', 'noopener');
-        });
-
-        // ----- 行番号付きでコードを表示 -----
-        const codeDiv = document.getElementById('code');
-        codeDiv.innerHTML = '';
-        text.split('\n').forEach((line, index) => {
-          const div = document.createElement('div');
-          div.className = 'line';
-          div.setAttribute('data-line', index + 1);
-          div.textContent = line || '\u00A0'; // 空行も保持
-          codeDiv.appendChild(div);
-        });
-      })
-      .catch(err => {
-        document.getElementById('code').textContent = '読み込みエラー: ' + err;
-      });
-  </script>
 </body>
 </html>
