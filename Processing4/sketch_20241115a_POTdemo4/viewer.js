@@ -1,27 +1,27 @@
 'use strict';
 
 /* =========================================================
-   viewer.js - PDEファイル閲覧＆公開支援スクリプト
+   viewer.js - 対象ファイル閲覧＆公開支援スクリプト
    Last update: 2025-10-20(Mon) 06:27 JST / 2025-10-19(Sun) 21:27 UTC by @hohno_at_kuimc
    ---------------------------------------------------------
    役割:
-     - PDEファイルを読み込んでブラウザに表示
+     - 対象ファイルを読み込んでブラウザに表示
      - 行番号付きで見やすいコードビューを提供
      - Download / Open raw / Open raw (UTF-8) 機能を提供
      - UTF-8強制表示で文字化けを防止可能に
    設計方針:
-     - 管理は HTML 中の data-pde 属性で一元化
+     - 管理は HTML 中の data-file 属性で一元化
      - シンプル設計＋学習教材としてわかりやすく
      - コメント多めで保守・拡張しやすく
    ========================================================= */
 
 
 /**
- * ▼ index.html 内の <body data-pde="..."> から PDEファイル名を取得
+ * ▼ index.html 内の <body data-file="..."> から 対象ファイル名を取得
  *   - viewer.js の中で直接ファイル名を書き換える必要がなくなる
  *   - スケッチ公開ごとに index.html 側でファイル名をカンタン指定
  */
-const pdeFileName = document.body.dataset.pde;
+const dataFileName = document.body.dataset.file;
 
 
 /**
@@ -33,28 +33,28 @@ document.addEventListener('DOMContentLoaded', init);
 
 /**
  * 初期化処理エントリーポイント
- * PDEファイル名が定義されていればページ構築を開始
+ * 対象ファイル名が定義されていればページ構築を開始
  */
 function init() {
-  if (!pdeFileName) {
-    console.error('viewer.js: data-pde 属性で PDEファイル名を指定してください');
+  if (!dataFileName) {
+    console.error('viewer.js: data-file 属性で 対象ファイル名を指定してください');
     return;
   }
 
   // タイトルとヘッダの表示を整理（ファイル名と同一にする）
-  setPageTitleAndHeading(pdeFileName);
+  setPageTitleAndHeading(dataFileName);
 
   // Download / Raw / UTF-8 Raw ボタンの動作を設定
-  setupActionButtons(pdeFileName);
+  setupActionButtons(dataFileName);
 
-  // PDEファイルを読み込み、ページ内に展開
-  loadAndRenderPde(pdeFileName);
+  // 対象ファイルを読み込み、ページ内に展開
+  loadAndRenderData(dataFileName);
 }
 
 
 /**
- * ページの <title> と <h1> を PDEファイル名に統一
- * @param {string} filename - PDEファイル名
+ * ページの <title> と <h1> を 対象ファイル名に統一
+ * @param {string} filename - 対象ファイル名
  */
 function setPageTitleAndHeading(filename) {
   document.getElementById('page-title').textContent = filename;
@@ -64,7 +64,7 @@ function setPageTitleAndHeading(filename) {
 
 /**
  * Download / Open raw / Open raw (UTF-8) 各ボタンの初期化
- * @param {string} filename - 対象PDEファイル名
+ * @param {string} filename - 対象ファイル名
  */
 function setupActionButtons(filename) {
   const downloadLink = document.getElementById('download-link');
@@ -95,16 +95,16 @@ function setupActionButtons(filename) {
 
 
 /**
- * PDEファイルを読み込み、コードビューを生成し、UTF-8 Rawボタンも完成させる
- * @param {string} filename - PDEファイル名
+ * 対象ファイルを読み込み、コードビューを生成し、UTF-8 Rawボタンも完成させる
+ * @param {string} filename - 対象ファイル名
  */
-function loadAndRenderPde(filename) {
+function loadAndRenderData(filename) {
   const codeArea = document.getElementById('code');
   const utf8Button = document.getElementById('open-utf8-link');
 
   fetch(filename)
     .then(response => {
-      if (!response.ok) throw new Error('PDEファイルの取得に失敗しました');
+      if (!response.ok) throw new Error('対象ファイルの取得に失敗しました');
       return response.text();
     })
     .then(text => {
@@ -113,7 +113,7 @@ function loadAndRenderPde(filename) {
         utf8Button.addEventListener('click', () => openRawUtf8(text));
       }
 
-      // --- PDE本文を行番号付きで表示 ---
+      // --- 対象ファイル本文を行番号付きで表示 ---
       codeArea.innerHTML = ''; // 初期の「読み込み中」を削除
       text.split('\n').forEach((line, index) => {
         const div = document.createElement('div');
@@ -132,7 +132,7 @@ function loadAndRenderPde(filename) {
 
 /**
  * 生テキストを UTF-8 明示として新規タブ表示（Raw安全版）
- * @param {string} text - PDEの本文
+ * @param {string} text - 対象ファイル本文
  */
 function openRawUtf8(text) {
   const blob = new Blob([text], { type: 'text/plain; charset=utf-8' });
