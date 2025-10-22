@@ -5,14 +5,14 @@
 # Last update: 2025-10-22(Wed) 12:19 JST / 2025-10-22(Wed) 03:19 UTC by hohno_at_kuimc
 # ==============================
 
-# ① 使用するライブラリを読み込む
+# (1) 使用するライブラリを読み込む
 # OpenCV は画像処理、MediaPipe は手の検出に使う
 import cv2
 import mediapipe as mp
 import numpy as np
 import sys
 
-# ② Mediapipe Hands モデルの準備
+# (2) Mediapipe Hands モデルの準備
 #    これにより手の位置(21個のランドマーク)をAIが検出できるようになる
 mp_hands = mp.solutions.hands  # Hands機能への参照
 hands = mp_hands.Hands(
@@ -22,10 +22,10 @@ hands = mp_hands.Hands(
 )
 mp_drawing = mp.solutions.drawing_utils  # 手の骨格を描画するユーティリティ
 
-# ③ 前回の手の形を保存する変数（同じ形を何度も表示しない工夫）
+# (3) 前回の手の形を保存する変数（同じ形を何度も表示しない工夫）
 previous_hand_shape = None
 
-# ④ カメラに手が映っているかを覚えておくフラグ
+# (4) カメラに手が映っているかを覚えておくフラグ
 in_frame = False
 
 # =====================================
