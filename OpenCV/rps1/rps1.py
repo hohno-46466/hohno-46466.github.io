@@ -1,8 +1,9 @@
 # ==============================
 # rps.py - カメラで手の形を認識して
-#          グー(G), チョキ(C), パー(P) を判定するプログラム
+#          グー(G), チョキ(C), パー(P) を判定する python スクリプト
 #
-# Last update: 2025-10-22(Wed) 12:19 JST / 2025-10-22(Wed) 03:19 UTC by hohno_at_kuimc
+# Prev update: 2025-10-22(Wed) 12:19 JST / 2025-10-22(Wed) 03:19 UTC by hohno_at_kuimc
+# Last update: 2025-10-22(Wed) 23:46 JST / 2025-10-22(Wed) 14:46 UTC by hohno_at_kuimc
 # ==============================
 
 # (1) 使用するライブラリを読み込む
@@ -13,7 +14,7 @@ import numpy as np
 import sys
 
 # (2) Mediapipe Hands モデルの準備
-#    これにより手の位置(21個のランドマーク)をAIが検出できるようになる
+#    これにより手の位置(21個のランドマーク)を検出できるようになる
 mp_hands = mp.solutions.hands  # Hands機能への参照
 hands = mp_hands.Hands(
     static_image_mode=False,       # 動画向けに連続認識を行うモード
@@ -94,7 +95,8 @@ try:
         result = hands.process(rgb_frame)
 
         if result.multi_hand_landmarks:
-            in_frame = True  # 手を検出した
+            # 手を検出した
+            in_frame = True
             for hand_landmarks in result.multi_hand_landmarks:
                 # 手の形を判定
                 hand_shape = judge_hand_shape(hand_landmarks.landmark)
@@ -108,8 +110,9 @@ try:
                 # 画面にランドマークを描く
                 mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
         else:
-            # フレームアウトしたら手の形をリセット
+            # 手を検出していない
             if in_frame:
+                # しかしフレームの中にいる（== 手がフレームアウトした）なら手の形をリセット
                 previous_hand_shape = None
                 in_frame = False
 
