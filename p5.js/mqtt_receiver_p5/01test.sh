@@ -22,4 +22,3 @@ awk '
     fflush();
   }' |
 mosquitto_pub -l -t mgws25Q2-S999/pseudoBob2 -h $MQTT_BROKER
-

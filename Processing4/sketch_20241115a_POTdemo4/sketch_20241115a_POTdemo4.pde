@@ -21,16 +21,20 @@
 // -----------------------------------------------------------------------------
 
 // Number of gauges
-int Ngauges = 6;            // Number of gauges
+int Ngauges = 4 ;            // Number of gauges
 
 // -----------------------------------------------------------------------------
 
 // Potentiometer values
 
 // 仮データ, 最低値, 最大値
-float[] POTval = { 20.0,  50.0, 1000.0,  64.0, 128.0, 192.0};
-float[] POTmin = {-20.0,   0.0,  850.0,   0.0,   0.0,   0.0};
-float[] POTmax = { 60.0, 100.0, 1150.0, 256.0, 256.0, 256.0};
+// float[] POTval = { 20.0,  50.0, 1000.0,  64.0, 128.0, 192.0};
+// float[] POTmin = {-20.0,   0.0,  850.0,   0.0,   0.0,   0.0};
+// float[] POTmax = { 60.0, 100.0, 1150.0, 256.0, 256.0, 256.0};
+
+float[] POTval = { 20.0,  40.0, 60.0,  80.0, 100.0, 120.0};
+float[] POTmin = { 0.0,   0.0,  0.0,   0.0,   0.0,   0.0};
+float[] POTmax = { 256.0, 256.0, 256.0, 256.0, 256.0, 256.0};
 
 // -----------------------------------------------------------------------------
 
@@ -43,7 +47,7 @@ final String MQTThost = "mqtt://broker.emqx.io";
 // final String MQTTtopic = "mgws2411-999/pseudoBob1";
 // final String MQTTtopic = "mgws2507-999/pseudoBob1";
 // final String MQTTtopic = "mgws25Q2-S999/pseudoBob1";
-final String MQTTtopic = "mgws2508-S999/pseudoBob1";
+final String MQTTtopic = "mgws2508-S999/pseudoBob99";
 
 // Prepare MQTT class object
 import mqtt.*;

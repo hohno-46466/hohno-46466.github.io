@@ -11,7 +11,7 @@
 
 * terminal 0:
 
-    $ mosquitto -c  /opt/homebrew/etc/mosquitto/mosquitto.conf 
+    $ mosquitto -c /opt/homebrew/etc/mosquitto/mosquitto.conf 
 
     Note: The following lines are required:
 
@@ -24,6 +24,10 @@
 		protocol websockets
 
 * terminal 1:
+
+    # cd /some/where/we_have_mqtt_receiver_p5/
+
+    # (ex) cd /Users/hohno/GitHub/hohno-46466.github.io/p5.js/
 
     $ python3 -m http.server 8000
 

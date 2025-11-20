@@ -9,7 +9,7 @@
 //
 
 // ---- Globals shared with sketch9.js ----
-const Ngauges = 8;
+const Ngauges = 4;
 const POTval = new Array(Ngauges).fill(0);
 const POTmin = new Array(Ngauges).fill(0);
 const POTmax = new Array(Ngauges).fill(256);
