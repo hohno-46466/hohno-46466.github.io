@@ -135,12 +135,39 @@ function loadAndRenderData(filename) {
  * @param {string} text - 対象ファイル本文
  */
 function openRawUtf8(text) {
+  const html = `
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+      <meta charset="UTF-8">
+      <title>Raw UTF-8 View</title>
+      <style>
+        body {
+          font-family: monospace;
+          font-size: 14px;
+          white-space: pre;
+          margin: 1em;
+          background: #f8f8f8;
+        }
+      </style>
+    </head>
+    <body>${text.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</body>
+    </html>`;
+  const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank', 'noopener');
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+
+/**
+function openRawUtf8(text) {
   const blob = new Blob([text], { type: 'text/plain; charset=utf-8' });
   const url = URL.createObjectURL(blob);
   window.open(url, '_blank', 'noopener');
   // 一部ブラウザでは即 revoke すると読めなくなるので遅延解除
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
+u*/
 
 
 /**
