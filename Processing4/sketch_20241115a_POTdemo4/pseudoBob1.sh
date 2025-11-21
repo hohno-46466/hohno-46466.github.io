@@ -1,6 +1,8 @@
 #!/bin/sh
 
 TOPIC="mgws2411-999/pseudoBob1"
+TOPIC="mgws2508-S999/pseudoBob99"
+
 BROKER="broker.emqx.io"
 
 x=0;
