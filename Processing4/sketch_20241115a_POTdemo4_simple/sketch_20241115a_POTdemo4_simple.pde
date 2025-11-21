@@ -4,23 +4,9 @@
 // Based on: sketch_20241115a_POTdemo4.pde
 // This version just subscribes MQTT and prints messages to the console.
 //
-// * History of the original version (sketch_20241115a_POTdemo4.pde)
-//
-// First version: Fri May 26 18:49:38 JST 2023 by @hohno_at_kuimc
-// Previous version: Mon May 29 12:14:22 JST 2023 by @hohno_at_kuimc
-// Previous version: Tue Jun  6 06:41:55 JST 2023 by @hohno_at_kuimc
-// Previous version: Thu Aug 31 03:40:37 ADT 2023 by @hohno_at_kuimc
-// Previous version: Fri Nov 15 07:18:48 AST 2024 by @hohno_at_kuimc
-// Previous version: 2025-03-09(Sun) 20:12 JST / 2025-03-09(Sun) 11:12 UTC by @hohno_at_kuimc
-// Previous version: 2025-07-11(Fri) 08:26 JST / 2025-07-10(Thu) 23:26 UTC
-// Last update: 2025-08-10(Sun) 16:20 JST / 2025-08-10(Sun) 07:20 UTC
-//
-// * History of this version (sketch_20241115a_POTdemo4_simple.pde)
-//
 // First version: 2025-11-20(Thu) 17:19 JST / 2025-11-20(Thu) 08:19 UTC
 
 // -----------------------------------------------------------------------------
-
 
 // -----------------------------------------------------------------------------
 // MQTT settings
