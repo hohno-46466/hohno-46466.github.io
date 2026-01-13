@@ -47,7 +47,8 @@ final String MQTThost = "mqtt://broker.emqx.io";
 // final String MQTTtopic = "mgws2411-999/pseudoBob1";
 // final String MQTTtopic = "mgws2507-999/pseudoBob1";
 // final String MQTTtopic = "mgws25Q2-S999/pseudoBob1";
-final String MQTTtopic = "mgws2508-S999/pseudoBob99";
+// final String MQTTtopic = "mgws2508-S999/pseudoBob99";
+final String MQTTtopic = "uci/carol/test1211-3";
 
 // Prepare MQTT class object
 import mqtt.*;
