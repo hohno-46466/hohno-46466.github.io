@@ -3,7 +3,9 @@
 #          グー(G), チョキ(C), パー(P) を判定する python スクリプト
 #
 # Prev update: 2025-10-22(Wed) 12:19 JST / 2025-10-22(Wed) 03:19 UTC by hohno_at_kuimc
-# Last update: 2025-10-22(Wed) 23:46 JST / 2025-10-22(Wed) 14:46 UTC by hohno_at_kuimc
+# Prev update: 2025-10-22(Wed) 23:46 JST / 2025-10-22(Wed) 14:46 UTC by hohno_at_kuimc
+# Last update: 2026-01-22(Thu) 08:09 JST / 2026-01-21(Wed) 23:09 UTC by hohno_at_kuimc
+
 # ==============================
 
 # (1) 使用するライブラリを読み込む
@@ -67,15 +69,15 @@ def judge_hand_shape(landmarks):
 # ==============================
 # カメラを起動
 # ==============================
-# cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
 
+# cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
 cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
 
 # WSL2 + usbipd ではデフォルト交渉でタイムアウトしやすいので固定する
 cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
-cap.set(cv2.CAP_PROP_FPS, 60)
+cap.set(cv2.CAP_PROP_FPS, 30)
 
 if not cap.isOpened():
     sys.stderr.write("カメラを開けませんでした。\n")
