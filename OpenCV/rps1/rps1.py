@@ -67,7 +67,16 @@ def judge_hand_shape(landmarks):
 # ==============================
 # カメラを起動
 # ==============================
-cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
+# cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
+
+cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
+
+# WSL2 + usbipd ではデフォルト交渉でタイムアウトしやすいので固定する
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
+cap.set(cv2.CAP_PROP_FPS, 60)
+
 if not cap.isOpened():
     sys.stderr.write("カメラを開けませんでした。\n")
     sys.exit(1)
