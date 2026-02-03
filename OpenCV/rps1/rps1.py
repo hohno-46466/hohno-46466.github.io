@@ -64,14 +64,14 @@ def judge_hand_shape(landmarks):
     elif fingers.count(True) == 5:
         return "P"  # パー（全部伸びてる）
     else:
-        return None  # 判定できない形は無視
+        return "X"  # None  # 判定できない形は無視
 
 # ==============================
 # カメラを起動
 # ==============================
 
-# cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
-cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
+cap = cv2.VideoCapture(0)  # 0はPCの標準カメラを意味する
+# cap = cv2.VideoCapture("/dev/video0", cv2.CAP_V4L2)
 
 # WSL2 + usbipd ではデフォルト交渉でタイムアウトしやすいので固定する
 cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
