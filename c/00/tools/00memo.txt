@@ -2,26 +2,35 @@
 メモ
 
 前回更新：2025-06-06(Fri) 05:37 JST / 2025-06-05(Thu) 20:37 UTC
+
 最終更新：2026-05-17(Sun) 07:27 JST / 2026-05-16(Sat) 22:27 UTC
 
 (1) メッセージを受け取って時刻同期を支援するメインスクリプト
 　　クラウド上のどこか１ヶ所で動いている必要がある
+```
 recv-mesg2.sh
 recv-mesg2.sh.prev
 recv-mesg2X.sh
+```
 
 (2) 動作確認用スクリプト
 　　どこでいくつ動かしてもよい 
+```
 chk-mesg.sh
 chk-mesgX.sh
+```
 
 (3) recv-mesg*.sh が呼び出すスクリプト その１
+```
 send-offset.sh
 send-offsetX.sh
+```
 
 (4) recv-mesg*.sh が呼び出すスクリプト その２
+```
 send-ping.sh
 send-pingX.sh
+```
 
 ```
 $ diff send-ping.sh send-pingX.sh
