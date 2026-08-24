@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# recv-mesg.sh
+# chk-mesg.sh
 
 # First version: 2025-03-11(Tue) 05:01 JST / 2025-03-10(Mon) 20:01 UTC
-# Last update: 
+# Last update:   2026-08-24(Mon) 23:32 JST / 2026-08-24(Mon) 14:32 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"myname/WStest123"}

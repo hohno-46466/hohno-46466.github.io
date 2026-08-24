@@ -1,15 +1,15 @@
 #!/bin/sh
 
-# recv-mesg.sh
+# chk-mesgX.sh
 
 # First version: 2025-03-11(Tue) 05:01 JST / 2025-03-10(Mon) 20:01 UTC
-# Last update: 
+# Last update:   2026-08-24(Mon) 23:31 JST / 2026-08-24(Mon) 14:31 UTC
 
 XK=${1:-"#"}
 TOPIC=${2:-"mynameX/WStest123"}
 HOST=${3:-"broker.emqx.io"}
-XCMD1="send-ping.sh"
-XCMD2="send-offset.sh"
+XCMD1="send-pingX.sh"
+XCMD2="send-offsetX.sh"
 
 z=""
 [ -z "$z" ] && x=$(find . -name "$XCMD1" -type f -perm -100) && [ ! -z $x ] && z="$x"
