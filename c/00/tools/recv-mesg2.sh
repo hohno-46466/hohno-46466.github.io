@@ -7,79 +7,99 @@
 # Prev update: 2025-03-16(Sun) 19:04 JST / 2025-03-16(Sun) 10:04 UTC
 # Prev update: 2025-03-17(Mon) 08:39 JST / 2025-03-16(Sun) 23:39 UTC
 # Prev update: 2025-03-21(Fri) 20:09 JST / 2025-03-21(Fri) 11:09 UTC
-# Last update: 2025-04-18(Fri) 07:43 JST / 2025-04-17(Thu) 22:43 UTC
+# Prev update: 2025-04-16(Wed) 14:15 JST / 2025-04-16(Wed) 05:15 UTC
+# Prev update: 2025-04-18(Fri) 05:33 JST / 2025-04-17(Thu) 20:33 UTC
+# Prev update: 2026-08-25(Tue) 05:10 JST / 2026-08-24(Mon) 20:10 UTC
+# Last update: 2026-09-17(Thu) 15:45 JST / 2026-09-17(Thu) 06:45 UTC
+
+# ------------------------------------------------------------------------------
 
 NTPSERVER=ntp.nict.jp
 
 XK=${1:-"#"}
-TOPIC=${2:-"myname/WStest123"}
+TOPIC=${2:-"myname/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
-XCMD_PING="send-ping.sh"
-XCMD_OFFSET="send-offset.sh"
 
-CMD0=""
-STR0="0"
+# 以下の順番で xxx_SENDPING と xxx_SENDOFFSET を調べ，CMD_SENDPING と CMD_SENDOFFSET を設定
 
-# ntpdig コマンドが存在するか確認
-if command -v ntpdig >/dev/null 2>&1; then
-    CMD0="ntpdig $NTPSERVER | awk '{printf \"%.3f\", \$4}'"
-    # CMD0="ntpdig -v $NTPSERVER | grep 'offset' | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
-    echo "(A)"
+xxx_SENDPING="send-ping.sh"
+xxx_SENDOFFSET="send-offset.sh"
 
-# ntpdate コマンドが存在するか確認
-elif command -v ntpdate >/dev/null 2>&1; then
-    # CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-    CMD0="ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[-1-9]+).*/\\\1/'"
-    echo "(B)"
+# 1. カレント配下の実行可能ファイル
+# 2. PATH上のコマンド
+# 3. カレント配下の通常ファイル (sh経由で実行)
+# 4. シンボリックリンク先も含めて探索 (sh経由で実行)
+# 5. エラーチェック
 
-# /usr/sbin/ntpdate コマンドが存在するか確認
-elif command -v /usr/sbin/ntpdate >/dev/null 2>&1; then
-    # CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | awk '{printf \"%.3f\", \$(NF-1)}'"
-    CMD0="/usr/sbin/ntpdate -q $NTPSERVER | grep offset | tail -1 | sed -E 's/.*offset ([+-]?[0-9]+\\\.[0-9]+).*/\\\1/'"
-    echo "(C)"
+z=""
+[ -z "$z" ] && x=$(find . -name "$xxx_SENDPING" -type f -perm -100) && [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(which "$xxx_SENDPING" 2>/dev/null) &&  [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(find . -name "$xxx_SENDPING" -type f) && [ -n "$x" ] && z="sh $x"
+[ -z "$z" ] && x=$(find -L . -name "$xxx_SENDPING" -type f) && [ -n "$x" ] && z="sh $x"
+[ -z "$z" ] && echo "NG: Can't find $xxx_SENDPING" && exit 1
+CMD_SENDPING="$z"
+
+z=""
+[ -z "$z" ] && x=$(find . -name "$xxx_SENDOFFSET" -type f -perm -100) && [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(which "$xxx_SENDOFFSET" 2>/dev/null) &&  [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(find . -name "$xxx_SENDOFFSET" -type f) && [ -n "$x" ] && z="sh $x"
+[ -z "$z" ] && x=$(find -L . -name "$xxx_SENDOFFSET" -type f) && [ -n "$x" ] && z="sh $x"
+[ -z "$z" ] && echo "NG: Can't find $xxx_SENDOFFSET" && exit 1
+CMD_SENDOFFSET="$z"
+
+# CMD_GETOFFSET を設定
+
+if command -v sntp >/dev/null 2>&1; then
+    # バックスラッシュのエスケープ地獄を避けた記述
+    CMD_GETOFFSET="sntp $NTPSERVER 2>&1 | awk 'index(\$0, \"+/-\") {for(i=1;i<=NF;i++) if(\$i ~ /^[+-][0-9]/) {print \$i; exit}}'"
+
 else
-    echo "Error: Neither ntpdate nor ntpdig is installed."
+    echo "Error: sntp is installed."
     exit 1
 fi
 
-echo "(1)((command:$CMD0))"
-echo "(2)((ntpdiff:$STR0))"
-/bin/echo -n "(3)((ntpdiff:"
-STR0=$(echo "$CMD0" | sh)
-echo "))"
-echo "(4)((ntpdiff:$STR0))"
+echo "(0) 2026-09-17 version"
+echo "(1)((command(sh):$CMD_GETOFFSET))"
+_STR=$(eval "$CMD_GETOFFSET")
+echo "(2)((NTPoffset:$_STR))"
 
-if [ -z "$STR0" ]; then
-    echo "Command: $CMD0"
+if [ -z "$_STR" ]; then
+    echo "Command: $CMD_GETOFFSET"
     echo "Error: The command above is not working."
     exit 1
 fi
 
+# echo "(3) ---"
+# echo "(4) ---"
+
 # awk にコマンドを渡して試行
-awk -v CMD0="$CMD0" 'BEGIN { CMD0 | getline timediff; close(CMD0); printf "(5)((command: %s))\n(6)((ntpdiff: %s))\n", CMD0, timediff }'
+awk -v CMD_GETOFFSET="$CMD_GETOFFSET" '
+BEGIN {
+  CMD_GETOFFSET | getline timediff; close(CMD_GETOFFSET);
+  printf "(3)((command(awk): %s))\n", CMD_GETOFFSET;
+  printf "(4)((NTPoffset: %s))\n", timediff;
+}'
 
-z=""
-[ -z "$z" ] && x=$(find . -name "$XCMD_PING" -type f -perm -100) && [ ! -z $x ] && z="$x"
-[ -z "$z" ] && x=$(which "$XCMD_PING") &&  [ ! -z $x ] && z="$x"
-[ -z "$x" ] && x=$(find . -name "$XCMD_PING" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$x" ] && x=$(find -L . -name "$XCMD_PING" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$z" ] && echo "NG: Can't find $XCMD_PING" && exit 1
-CMD_PING="$z"
+# awk にコマンドを渡して試行
+awk -v CMD_GETOFFSET="$CMD_GETOFFSET" '
+BEGIN {
+  CMD_GETOFFSET | getline timediff; close(CMD_GETOFFSET);
+  printf "(5)((command(awk): %s))\n", CMD_GETOFFSET;
+  printf "(6)((NTPoffset: %s))\n", timediff;
+}'
 
-z=""
-[ -z "$z" ] && x=$(find . -name "$XCMD_OFFSET" -type f -perm -100) && [ ! -z $x ] && z="$x"
-[ -z "$z" ] && x=$(which "$XCMD_OFFSET") &&  [ ! -z $x ] && z="$x"
-[ -z "$x" ] && x=$(find . -name "$XCMD_OFFSET" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$x" ] && x=$(find -L . -name "$XCMD_OFFSET" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$z" ] && echo "NG: Can't find $XCMD_OFFSET" && exit 2
-CMD_OFFSET="$z"
+# echo "(Debug) CMD_GETOFFSET: [$CMD_GETOFFSET]"
+# echo "(Debug) CMD_SENDPING:  [$CMD_SENDPING]"
+# echo "(Debug) CMD_SENDOFFSET:[$CMD_SENDOFFSET]"
+# 
+# #X#
+exit 9999
 
-echo "(Debug) [$CMD0]"
-echo "(Debug) [$CMD_PING][$CMD_OFFSET]"
+# ------------------------------------------------------------------------------
 
 mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | while read x; do echo "$x $(date +%s.%3N)"; done \
-| awk -v CMD0="$CMD0" -v CMD_PING="$CMD_PING" -v CMD_OFFSET="$CMD_OFFSET" '
+| awk -v CMD_GETOFFSET="$CMD_GETOFFSET" -v CMD_SENDPING="$CMD_SENDPING" -v CMD_SENDOFFSET="$CMD_SENDOFFSET" '
 BEGIN{
   myhash = "";
   magic_default = 0.3; # (2025-03-21) 試行錯誤の末とりあえず 0.3秒にした
@@ -97,7 +117,7 @@ BEGIN{
       myhash = "123456";
     }
   }
-  command = CMD0
+  command = CMD_GETOFFSET
   command | getline ntpdiff;
   printf "(Debug) myhash = %s, ntpdiff = %s\n", myhash, ntpdiff;
 }
@@ -112,7 +132,7 @@ BEGIN{
     Dx = (D2 + D4) / 2;
     printf "(Debug/pong) (%s)->[%s][%.3f][%.3f][%.3f][%.3f][%.3f]\n",$0,ID,D1,D2,D3,D4,Dx;
     if ($2 == myhash) {
-      command = CMD0
+      command = CMD_GETOFFSET
       command | getline ntpdiff;
       # 重要：ntpdiff の値が正ならローカルPCは NTPサーバより遅れて（NTPサーバの方が進んで）いる
       # 重要：ntpdiff の値が負ならローカルPCは NTPサーバより進んで（NTPサーバの方が遅れて）いる
@@ -120,7 +140,7 @@ BEGIN{
       #0# magic = D3 - Dx;		#1# 本来はゼロでもおかしくない
       #0# diffD3Dx = 0 + magic;	#1# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
       #0# adjust = (ntpdiff - diffD3Dx);	符号要確認
-      #0# mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
+      #0# mesg = CMD_SENDOFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
       #
       #1# このスクリプトを動かしている機材と同じ機材上の javascript との通信なら　diffD3Dx(= D3-Dx) は
       #1# ゼロでもおかしくない．
@@ -129,7 +149,7 @@ BEGIN{
       #1# magic = magic_default;	# (2025-03-20) magic算出方法変更中
       #1# diffD3Dx = 0 + magic;	#1# 本来はゼロでもおかしくないが magic 分だけ差分が生じる
       #1# adjust = (ntpdiff - diffD3Dx);	# 符号要確認
-      #1# mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
+      #1# mesg = CMD_SENDOFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えると UTC になる(つもり)
       #
       #2# シンプルに diffD3Dx はゼロだとしてしまう
       #2# その上で magic は使わない（ゼロにしておく）
@@ -137,20 +157,20 @@ BEGIN{
       diffD3Dx = 0; # ゼロにしておく
       magic = 0;    # これもゼロにしておく
       adjust = ntpdiff; # 修正値は ntpdiff そのものを採用
-      mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
+      mesg = CMD_SENDOFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
       
     } else {
       #0/1# こちら側では magic は利用してもよいがここで新たに算出し直してはいけない
       #0/1# diffD3Dx = (D3 - Dx) + magic; #（magic 算出方法変更中）
       #0/1# adjust = (ntpdiff - diffD3Dx);	# 符号要確認
-      #0/1# mesg = CMD_OFFSET " " ID " " adjust;
+      #0/1# mesg = CMD_SENDOFFSET " " ID " " adjust;
       #
       #2# こちら側では magic は magic_default を採用
       #2# メモ：#0# や #1# の時と magic の意味が少し違う
       diffD3Dx = D3 - Dx;		# ゼロにしておく
       magic = magic_default;		# 特定の値を設定（実験の結果とりあえず 0.3秒を採用）
       adjust = ntpdiff - diffD3Dx + magic;	# 符号要確認
-      mesg = CMD_OFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
+      mesg = CMD_SENDOFFSET " " ID " " adjust; # jafascript で得た時刻に adjust を加えるとほぼ UTC になる
     }
     #0/1# printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f(magic = %.3f), adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
     printf "(Debug/pong) ntpdiff = %.3f, diffD3Dx = %.3f, magic = %.3f, adjust = %.3f\n", ntpdiff, diffD3Dx, magic, adjust;
@@ -161,7 +181,7 @@ BEGIN{
     }
   } else if($1 == "Hello!") {
     printf "(Debug/Hello!) (%s)\n",$0
-    mesg = CMD_PING " " $2;
+    mesg = CMD_SENDPING " " $2;
     printf "(Debug/Hello!) [%s]\n", mesg;
     printf "*** system(%s) ***\n", mesg;
     system(mesg);

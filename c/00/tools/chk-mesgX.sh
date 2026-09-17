@@ -11,24 +11,31 @@ HOST=${3:-"broker.emqx.io"}
 XCMD1="send-pingX.sh"
 XCMD2="send-offsetX.sh"
 
-z=""
-[ -z "$z" ] && x=$(find . -name "$XCMD1" -type f -perm -100) && [ ! -z $x ] && z="$x"
-[ -z "$z" ] && x=$(which "$XCMD1") &&  [ ! -z $x ] && z="$x"
-[ -z "$x" ] && x=$(find . -name "$XCMD1" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$x" ] && x=$(find -L . -name "$XCMD1" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$z" ] && echo "NG: Can't find $XCMD1" && exit 1
-CMD1="$z"
+#X# # 以下の順番で CMD1 と CMD2 を設定
+#X# # 1. カレント配下の実行可能ファイル
+#X# # 2. PATH上のコマンド
+#X# # 3. カレント配下の通常ファイル (sh経由で実行)
+#X# # 4. シンボリックリンク先も含めて探索 (sh経由で実行)
+#X# # 5. エラーチェック
+#X# 
+#X# z=""
+#X# [ -z "$z" ] && x=$(find . -name "$XCMD1" -type f -perm -100) && [ -n "$x" ] && z="$x"
+#X# [ -z "$z" ] && x=$(which "$XCMD1" 2>/dev/null) && [ -n "$x" ] && z="$x"
+#X# [ -z "$z" ] && x=$(find . -name "$XCMD1" -type f) && [ -n "$x" ] && z="sh $x"
+#X# [ -z "$z" ] && x=$(find -L . -name "$XCMD1" -type f) && [ -n "$x" ] && z="sh $x"
+#X# [ -z "$z" ] && echo "NG: Can't find $XCMD1" && exit 1
+#X# CMD1="$z"
+#X# 
+#X# z=""
+#X# [ -z "$z" ] && x=$(find . -name "$XCMD2" -type f -perm -100) && [ -n "$x" ] && z="$x"
+#X# [ -z "$z" ] && x=$(which "$XCMD2" 2>/dev/null) && [ -n "$x" ] && z="$x"
+#X# [ -z "$z" ] && x=$(find . -name "$XCMD2" -type f) && [ -n "$x" ] && z="sh $x"
+#X# [ -z "$z" ] && x=$(find -L . -name "$XCMD2" -type f) && [ -n "$x" ] && z="sh $x"
+#X# [ -z "$z" ] && echo "NG: Can't find $XCMD2" && exit 1
+#X# CMD2="$z"
 
-z=""
-[ -z "$z" ] && x=$(find . -name "$XCMD2" -type f -perm -100) && [ ! -z $x ] && z="$x"
-[ -z "$z" ] && x=$(which "$XCMD2") &&  [ ! -z $x ] && z="$x"
-[ -z "$x" ] && x=$(find . -name "$XCMD2" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$x" ] && x=$(find -L . -name "$XCMD2" -type f) && [ ! -z $x ] && z="sh $x"
-[ -z "$z" ] && echo "NG: Can't find $XCMD1" && exit 2
-CMD2="$z"
-
-# echo "[$CMD1][$CMD2]"
-# exit
+#X#  echo "[$CMD1][$CMD2]"
+#X#  exit
 
 mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk '
