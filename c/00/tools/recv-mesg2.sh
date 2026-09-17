@@ -33,7 +33,7 @@ xxx_SENDOFFSET="send-offset.sh"
 
 z=""
 [ -z "$z" ] && x=$(find . -name "$xxx_SENDPING" -type f -perm -100) && [ -n "$x" ] && z="$x"
-[ -z "$z" ] && x=$(which "$xxx_SENDPING" 2>/dev/null) &&  [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(which "$xxx_SENDPING" 2>/dev/null) && [ -n "$x" ] && z="$x"
 [ -z "$z" ] && x=$(find . -name "$xxx_SENDPING" -type f) && [ -n "$x" ] && z="sh $x"
 [ -z "$z" ] && x=$(find -L . -name "$xxx_SENDPING" -type f) && [ -n "$x" ] && z="sh $x"
 [ -z "$z" ] && echo "NG: Can't find $xxx_SENDPING" && exit 1
@@ -41,7 +41,7 @@ CMD_SENDPING="$z"
 
 z=""
 [ -z "$z" ] && x=$(find . -name "$xxx_SENDOFFSET" -type f -perm -100) && [ -n "$x" ] && z="$x"
-[ -z "$z" ] && x=$(which "$xxx_SENDOFFSET" 2>/dev/null) &&  [ -n "$x" ] && z="$x"
+[ -z "$z" ] && x=$(which "$xxx_SENDOFFSET" 2>/dev/null) && [ -n "$x" ] && z="$x"
 [ -z "$z" ] && x=$(find . -name "$xxx_SENDOFFSET" -type f) && [ -n "$x" ] && z="sh $x"
 [ -z "$z" ] && x=$(find -L . -name "$xxx_SENDOFFSET" -type f) && [ -n "$x" ] && z="sh $x"
 [ -z "$z" ] && echo "NG: Can't find $xxx_SENDOFFSET" && exit 1
@@ -59,9 +59,9 @@ else
 fi
 
 echo "(0) 2026-09-17 version"
-echo "(1)((command(sh):$CMD_GETOFFSET))"
+echo "(1)((command(sh): $CMD_GETOFFSET))"
 _STR=$(eval "$CMD_GETOFFSET")
-echo "(2)((NTPoffset:$_STR))"
+echo "(2)((NTPoffset: $_STR))"
 
 if [ -z "$_STR" ]; then
     echo "Command: $CMD_GETOFFSET"
