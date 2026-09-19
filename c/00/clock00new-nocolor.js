@@ -1,13 +1,21 @@
-// clock00new.js
-// No.044AX
+// clock00new-nocolors.js
+//
+// No.044A / 044AX / 044B / 044BX
+//
 // Prev update: 2025-02-27(Thu) 19:22 JST / 2025-02-27(Thu) 10:22 UTC
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
 // Prev update: 2025-03-13(Thu) 22:40 JST / 2025-03-13(Thu) 13:40 UTC
 // Prev update: 2025-03-17(Mon) 09:08 JST / 2025-03-17(Mon) 00:08 UTC
 // Prev update: 2025-03-21(Fri) 20:15 JST / 2025-03-21(Fri) 11:15 UTC
-// Last update: 2025-03-23(Sun) 13:00 JST / 2025-03-23(Sun) 04:00 UTC
+// Prev update: 2025-03-23(Sun) 13:00 JST / 2025-03-23(Sun) 04:00 UTC
+// Last update: 2026-09-19(Sat) 22:52 JST / 2026-09-19(Sat) 13:52 UTC
 
 // -----------------------------------------------------------------------------
+
+// const verStr = "044A";
+// const verStr = "044AX";
+// const verStr = "044B";
+const verStr = "044BX";
 
 var intervalID = 0;
 var ClockOffset = 0;
@@ -113,8 +121,8 @@ function showClock() {
     var mesgUTCTime = mesgUTCtime1 + mesgUTCtime2;
 
     document.getElementById("RealtimeClockDisplayArea1").innerHTML = "現在時刻：" + mesgDate + " " + mesgTime1
-    + " (ClockOffset=" + ClockOffset.toFixed(3) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(044AX/" + shortHash + ")";
-    document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ　：" + mesgUTCdate + " " + mesgUTCtime1;
+    + " (ClockOffset=" + ClockOffset.toFixed(3) + "sec(" + ((ClockOffset > 0.0) ? "遅延補正中" : (ClockOffset < 0.0) ? "先行補正中" : "--") + "))(clock00new(" + verStr + "/" + shortHash + ")";
+    document.getElementById("RealtimeClockDisplayArea2").innerHTML = "ＵＴＣ＿：" + mesgUTCdate + " " + mesgUTCtime1;
     
     document.querySelector(".clock-date").innerText = mesgDate;
     document.querySelector(".clock-time1").innerText = mesgTime1;
