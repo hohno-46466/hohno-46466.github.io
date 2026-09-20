@@ -24,12 +24,23 @@
 <!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに末尾で safereload.js を使う -->
     <script src="JS/loadmqtt.js"></script>
     <script>
-        const _VERSION = "045B"; // バージョン名が変更になったらここを書き換えるだけ！
+        const _VERSION = "045C"; // バージョン名が変更になったらここを書き換えるだけ！
         document.title = `Clock00(new/${_VERSION}(X))`;
     </script>
     <script>
       // URL引数を解析
       const params = new URLSearchParams(window.location.search);
+
+        // 1. 素のURL引数文字列（?nocss&nojs など）を確認したい場合
+	console.log("Raw search:", window.location.search);
+
+	// 2. パラメータを通常の連想配列（オブジェクト）にして見やすく出力（最もおすすめ）
+	console.log("Params object:", Object.fromEntries(params.entries()));
+
+	// 3. 特定のキーの判定結果を確認したい場合
+	console.log("has nocss:", params.has('nocss'));
+	console.log("has nojs:", params.has('nojs'));
+
       // nocss が無ければ CSS を適用
       if (!params.has('nocss')) {
         const link = document.createElement('link');
