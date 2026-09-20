@@ -9,7 +9,7 @@
     Prev update: 2025-03-22(Sat) 00:15 JST / 2025-03-21(Fri) 15:15 UTC
     Prev update: 2025-03-26(Wed) 00:15 JST / 2025-03-25(Tue) 15:15 UTC
     Prev update: 2026-09-19(Sat) 23:23 JST / 2026-09-19(Sat) 14:23 UTC
-    Last update: 2026-09-20(Sun) 16:05 JST / 2026-09-20(Sun) 07:05 UTC
+    Last update: 2026-09-20(Sun) 18:21 JST / 2026-09-20(Sun) 09:21 UTC
 
     Reference(s)
     https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
@@ -24,25 +24,40 @@
 <!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに末尾で safereload.js を使う -->
     <script src="JS/loadmqtt.js"></script>
     <script>
-        const _VERSION = "045C"; // バージョン名が変更になったらここを書き換えるだけ！
+        const _VERSION = "045A"; // ***重要*** // バージョンを更新したらここを書き換えること！
         document.title = `Clock00(new/${_VERSION}(X))`;
     </script>
     <script>
       // URL引数を解析
       const params = new URLSearchParams(window.location.search);
-
-        // 1. 素のURL引数文字列（?nocss&nojs など）を確認したい場合
+      // URLのパス（例: "/.../clock00new-nojs-nocss.html"）を取得
+      const path = window.location.pathname;
+    
+      // Debug 0. URL のパス
+	console.log("URL path:", path);
+      // Debug 1. 素のURL引数文字列（?nocss&nojs など）を確認したい場合
 	console.log("Raw search:", window.location.search);
-
-	// 2. パラメータを通常の連想配列（オブジェクト）にして見やすく出力（最もおすすめ）
+      // Debug 2. パラメータを通常の連想配列（オブジェクト）にして見やすく出力（最もおすすめ）
 	console.log("Params object:", Object.fromEntries(params.entries()));
-
-	// 3. 特定のキーの判定結果を確認したい場合
+      // Debug 3. 特定のキーの判定結果を確認したい場合
 	console.log("has nocss:", params.has('nocss'));
 	console.log("has nojs:", params.has('nojs'));
 
+      // パス（ファイル）名またはパラメータのどちらでも判定できるようにする
+      const isNoCss = path.includes('-nocss') || params.has('nocss');
+      const isNoJs  = path.includes('-nojs')  || params.has('nojs');
+    
+      // CSS読み込み判定
+      if (!isNoCss) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'clock00new.css';
+        document.head.appendChild(link);
+      }
+    </script>
+    <script>
       // nocss が無ければ CSS を適用
-      if (!params.has('nocss')) {
+      if (!isNoCss)) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'clock00new.css';
@@ -74,7 +89,7 @@
 
     <!-- スクリプトの動的読み込み -->
     <script>
-      if (!params.has('nojs')) {
+      if (!isNoJs) {
         <!-- 各領域を取り扱う Javascript を起動 -->
         const script1 = document.createElement('script');
         script1.src = 'clock00new.js';
