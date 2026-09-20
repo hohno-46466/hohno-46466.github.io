@@ -1,6 +1,6 @@
 // clock00new-nocolors.js
 //
-// No.044A / 044AX / 044B / 044BX
+// No.045A / 045AX / 045B / 045BX
 //
 // Prev update: 2025-02-27(Thu) 19:22 JST / 2025-02-27(Thu) 10:22 UTC
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
@@ -12,10 +12,8 @@
 
 // -----------------------------------------------------------------------------
 
-// const verStr = "044A";
-// const verStr = "044AX";
-// const verStr = "044B";
-const verStr = "044BX";
+// const verStr = "045A";
+const verStr = "045AX";
 
 var intervalID = 0;
 var ClockOffset = 0;
