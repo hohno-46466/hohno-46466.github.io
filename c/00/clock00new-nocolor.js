@@ -1,6 +1,6 @@
 // clock00new-nocolors.js
 //
-// No.045A / 045AX / 045B / 045BX
+// No.045A / 045AX
 //
 // Prev update: 2025-02-27(Thu) 19:22 JST / 2025-02-27(Thu) 10:22 UTC
 // Prev update: 2025-03-08(Sat) 02:52 JST / 2025-03-07(Fri) 17:52 UTC
