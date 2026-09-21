@@ -12,7 +12,7 @@
 
 // -----------------------------------------------------------------------------
 
-const verStr = "045AdX";
+const verStr = "045AeX";
 // const verStr = "045AX";
 
 var intervalID = 0;
