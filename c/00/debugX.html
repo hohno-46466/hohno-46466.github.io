@@ -1,5 +1,5 @@
 <!--
-    clock00new.html
+    clock00new.html (debugX.html)
 
     No.045A / 045AX
     // ***重要*** // バージョンを更新したら_VERSION を書き換える必要あり！
@@ -25,7 +25,7 @@
 <!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに末尾で safereload.js を使う -->
     <script src="JS/loadmqtt.js"></script>
     <script>
-      const _VERSION = "045Ad"; // ***重要*** // バージョンを更新したらここを書き換えること！
+      const _VERSION = "045AdX"; // ***重要*** // バージョンを更新したらここを書き換えること！
       document.title = `Clock00(new/${_VERSION})`;
     </script>
     <script>
@@ -86,7 +86,7 @@
       if (!window.isNoJs) {
         <!-- 各領域を取り扱う Javascript を起動 -->
         const script1 = document.createElement('script');
-        script1.src = 'clock00new.js';
+        script1.src = 'debugX.js';
         document.body.appendChild(script1);
   
         <!-- 定期的に Javascript を読み込み直すため safereload.js（自作）を利用 -->

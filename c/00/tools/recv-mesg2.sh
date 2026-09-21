@@ -54,7 +54,7 @@ if command -v sntp >/dev/null 2>&1; then
     CMD_GETOFFSET="sntp $NTPSERVER 2>&1 | awk 'index(\$0, \"+/-\") {for(i=1;i<=NF;i++) if(\$i ~ /^[+-][0-9]/) {print \$i; exit}}'"
 
 else
-    echo "Error: sntp is installed."
+    echo "Error: sntp is not installed."
     exit 1
 fi
 
