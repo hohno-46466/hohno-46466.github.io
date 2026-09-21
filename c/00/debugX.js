@@ -11,10 +11,16 @@
 // Last update: 2026-09-19(Sat) 22:48 JST / 2026-09-19(Sat) 13:48 UTC
 
 // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
+// バージョン
 const verStr = "045AeX";
-// const verStr = "045AX";
 
+// 購読するトピックの素
+// const MQTTtopic = 'hohno-46466X/wstest01'
+const MQTTtopicZero = "debugX/WStest123";
+
+// 初期値
 var intervalID = 0;
 var ClockOffset = 0;
 var lastUpdateOfClockOffset = 0;
@@ -55,9 +61,6 @@ const WSURL = "wss://broker.emqx.io:8084/mqtt"; // HiveMQ の WebSocket (SSL)
 const MQTTURL = "broker.emqx.io";
 
 // 購読するトピック
-// const MQTTtopic = 'hohno-46466/wstest01'
-const MQTTtopicZero = "mynameX/WStest123";
-// const MQTTtopicZero = "myname/WStest123";
 var MQTTtopic = MQTTtopicZero;
 
 // -----------------------------------------------------------------------------
