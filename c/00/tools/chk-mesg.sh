@@ -39,6 +39,10 @@ HOST=${3:-"broker.emqx.io"}
 #X# # echo "[$CMD1][$CMD2]"
 #X# # exit
 
+echo "Debug: Topic = [$TOPIC]"
+echo "Debug:    XK = [$XK]"
+echo "Debug: Host  = [$HOST]"
+
 mosquitto_sub -t "$TOPIC/$XK" -h "$HOST" \
 | awk '
 {
