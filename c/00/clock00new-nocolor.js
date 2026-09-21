@@ -1,4 +1,4 @@
-// clock00new-nocolors.js
+// clock00new-nocolor.js
 //
 // No.045A / 045AX
 //

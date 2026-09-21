@@ -42,22 +42,15 @@
       // Debug 3. 特定のキーの判定結果を確認したい場合
 	console.log("has nocss:", params.has('nocss'));
 	console.log("has nojs:", params.has('nojs'));
+	console.log("has nocolor:", params.has('nocolor'));
 
       // パス（ファイル）名またはパラメータのどちらでも判定できるようにする
-      const isNoCss = path.includes('-nocss') || params.has('nocss');
-      const isNoJs  = path.includes('-nojs')  || params.has('nojs');
+      window.isNoCss   = path.includes('-nocss')   || params.has('nocss');
+      window.isNoJs    = path.includes('-nojs')    || params.has('nojs');
+      window.isNoColor = path.includes('-nocolor') || params.has('nocolor');
     
       // CSS読み込み判定
-      if (!isNoCss) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'clock00new.css';
-        document.head.appendChild(link);
-      }
-    </script>
-    <script>
-      // nocss が無ければ CSS を適用
-      if (!isNoCss)) {
+      if (!window.isNoCss) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'clock00new.css';
@@ -89,7 +82,7 @@
 
     <!-- スクリプトの動的読み込み -->
     <script>
-      if (!isNoJs) {
+      if (!window.isNoJs) {
         <!-- 各領域を取り扱う Javascript を起動 -->
         const script1 = document.createElement('script');
         script1.src = 'clock00new.js';
