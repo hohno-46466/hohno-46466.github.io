@@ -139,7 +139,7 @@ function showClock() {
 function mouseDown() {
     clearInterval(intervalID);
     console.log("Clock stopped. Background set to darkred.");
-    document.querySelector(".clock-container").style.backgroundColor = "darkred";
+    if (!window.isNoColor) {document.querySelector(".clock-container").style.backgroundColor = "darkred";}
 }
 
 function mouseUp() {
@@ -156,7 +156,7 @@ function buttonClick() {
 
 // syncTime() - wait for several sub-seconds to synchronize time
 function syncTime() {
-    document.querySelector(".clock-container").style.backgroundColor = "darkgreen";
+    if (!window.isNoColor) {document.querySelector(".clock-container").style.backgroundColor = "darkgreen";}
 
     // 現在時刻を取得 . ClockOffset で時差修正
     var _Time0 = Date.now();
@@ -175,7 +175,7 @@ function syncTime() {
     setTimeout(() => {
         startClock();
         console.log("Syncing completed, Background reset.");
-        document.querySelector(".clock-container").style.backgroundColor = "#15151e"; // 元の色
+        if (!window.isNoColor) {document.querySelector(".clock-container").style.backgroundColor = "#15151e"; // 元の色}
     }, delay_msec);
 }
 
@@ -324,7 +324,7 @@ function connectMQTT() {
     
         // `ping` メッセージ（）を受信した場合、`ping` を `pong` に変換した上で，メッセージの末尾に Date.now()/1000.0 を付加して返信
         if (message.startsWith("ping")) {
-            document.querySelector(".clock-container").style.backgroundColor = "darkblue";
+            if (!window.isNoColor) { document.querySelector(".clock-container").style.backgroundColor = "darkblue";}
             let responseMessage = message.replace(/^ping/, "pong") + " " + (Date.now()/1000.0);
             console.log("Sending:", responseMessage);
             client.publish(topic, responseMessage); // `pong` を返信
