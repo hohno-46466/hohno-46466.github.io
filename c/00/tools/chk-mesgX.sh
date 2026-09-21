@@ -7,7 +7,7 @@
 # Last update:   2026-09-18(Fri) 00:18 JST / 2026-09-17(Thu) 15:18 UTC
 
 XK=${1:-"#"}
-TOPIC=${2:-"mynameX/WStest123"}
+TOPIC=${2:-"debugX/WStest123"}
 HOST=${3:-"broker.emqx.io"}
 
 #X# XCMD1="send-pingX.sh"

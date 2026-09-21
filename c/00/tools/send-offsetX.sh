@@ -6,7 +6,7 @@
 
 XK=${1:-"F19FED"}
 OFFSET=${2:-"60.0"}
-TOPIC=${3:-"mynameX/WStest123"}
+TOPIC=${3:-"debugX/WStest123"}
 HOST=${4:-"broker.emqx.io"}
 
 echo "offset = $OFFSET" | mosquitto_pub -l -t "$TOPIC/$XK" -h "$HOST"

@@ -16,7 +16,7 @@
 NTPSERVER=ntp.nict.jp
 
 XK=${1:-"#"}
-TOPIC=${2:-"mynameX/WStest123"}		#XXX#
+TOPIC=${2:-"debugX/WStest123"}		#XXX#
 HOST=${3:-"broker.emqx.io"}
 
 # 以下の順番で xxx_SENDPING と xxx_SENDOFFSET を調べ，CMD_SENDPING と CMD_SENDOFFSET を設定
