@@ -12,7 +12,7 @@
 
 // -----------------------------------------------------------------------------
 
-const verStr = "045Ab";
+const verStr = "045Ac";
 // const verStr = "045AX";
 
 var intervalID = 0;
@@ -175,16 +175,16 @@ function syncTime() {
     console.log(`Waiting for ${delay_msec} msec.`);
 
     // delay_msec ミリ秒後に startClock() を起動
-    clearInterval(intervalID);
+     clearInterval(intervalID);
 
-    setTimeout(() => {
-        startClock();
-        console.log("Syncing completed.");
-        if (!window.isNoColor) {
-          console.log("Background reset.");
-	  document.querySelector(".clock-container").style.backgroundColor = "#15151e"; // 元の色
-	}
-    }, delay_msec);
+     setTimeout(() => {
+         startClock();
+         console.log("Syncing completed.");
+         if (!window.isNoColor) {
+           console.log("Background reset.");
+           document.querySelector(".clock-container").style.backgroundColor = "#15151e"; // 元の色
+         }
+     }, delay_msec);
 }
 
 // -----------------------------------------------------------------------------
