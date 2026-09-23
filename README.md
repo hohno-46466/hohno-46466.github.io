@@ -1,113 +1,65 @@
 # hohno-46466.github.io
 
+Last update: 2026-09-24(Thu) 08:07 JST / 2026-09-23(Wed) 23:07 UTC
+
+```
 hohno's web page for hohno-46466.github.io
 
     ./hohno-46466.github.io
-     ├──  README.md
-     ├──  README.md.old
-     ├──  _config.yml
+     ├──  Arduino/
+     │   └──  DRV8835/
+     │       ├──  sketch_20260104a_DRV8835test2/
+     │       └──  sketch_20260106a_DRV8835test3/
+     ├──  OpenCV/
+     │   ├──  rps1/
+     │   └──  rps2/
+     ├──  Processing4/
+     │   ├──  sketch_20230831a_POTdemo3/
+     │   ├──  sketch_20241115a_POTdemo4/
+     │   ├──  sketch_20241115a_POTdemo4_GPT/
+     │   └──  sketch_20241115a_POTdemo4_simple/
      ├──  c/
+     │   ├──  00/
+     │   │   ├──  JS/
+     │   │   └──  tools/
      │   ├──  01/
-     │   │   ├──  clock01.css
-     │   │   ├──  clock01.html
-     │   │   ├──  clock01.js
-     │   │   └──  index.html -> clock01.html
-     │   └──  02/
-     │       ├──  clock02.css
-     │       ├──  clock02.html
-     │       ├──  clock02.js
-     │       ├──  index.html -> clock02.html
-     │       ├──  mosquitto.org.crt
-     │       ├──  mqtt.min.js
-     │       ├──  test_client.crt
-     │       ├──  test_client.csr
-     │       └──  test_client.key
+     │   ├──  01xx/
+     │   ├──  02/
+     │   └──  03/
+     │       └──  JS/
+     ├──  d/
+     │   ├──  morse/
+     │   └──  morse_demo01/
      ├──  docs/
-     │   └──  index.html
      ├──  documents/
-     │   ├──  README.md
-     │   └──  index.md -> README.md
      ├──  examples/
-     │   ├──  README.md
-     │   ├──  index.md
-     │   ├──  monogrammning/
-     │   │   ├──  README.md
-     │   │   ├──  our3rdSketch/
-     │   │   │   ├──  README.md
-     │   │   │   ├──  our3rdSketch.ino
-     │   │   │   └──  our3rdSketch.ino.bak
-     │   │   ├──  ourFirstSketch/
-     │   │   │   ├──  README.md
-     │   │   │   └──  ourFirstSketch.ino
-     │   │   ├──  ourNextSketch/
-     │   │   │   ├──  README.md
-     │   │   │   ├──  ourNextSketch.ino
-     │   │   │   └──  ourNextSketch.ino.bak
-     │   │   ├──  ourSerialRead1/
-     │   │   │   ├──  README.md
-     │   │   │   └──  ourSerialRead1.ino
-     │   │   └──  ourSerialRead2/
-     │   │       ├──  README.md
-     │   │       └──  ourSerialRead2.ino
-     │   └──  test1.html
+     │   └──  monogrammning/
+     │       ├──  our3rdSketch/
+     │       ├──  ourFirstSketch/
+     │       ├──  ourNextSketch/
+     │       ├──  ourSerialRead1/
+     │       ├──  ourSerialRead2/
+     │       ├──  sketch_20250810a_B2A_test1/
+     │       └──  sketch_20250810a_B2A_test2/
      ├──  i/
-     │   ├──  test1.html
-     │   └──  test2.html
-     ├──  index.md
      ├──  js/
      │   ├──  BalanceGame/
-     │   │   ├──  Box2D.js
-     │   │   ├──  balance_game.html
-     │   │   └──  balance_game.js
      │   ├──  BulletproofGame/
-     │   │   ├──  bulletproof_game.html
-     │   │   ├──  bulletproof_game.js
-     │   │   └──  index.html -> bulletproof_game.html
      │   ├──  Constellation/
-     │   │   ├──  Constellation.html
-     │   │   ├──  Constellation.js
-     │   │   ├──  hip_constellation_line.csv
-     │   │   ├──  hip_constellation_line_star.csv
-     │   │   ├──  hip_lite_a.csv
-     │   │   ├──  hip_lite_b.csv
-     │   │   ├──  hip_lite_major.csv
-     │   │   └──  index.html -> Constellation.html
      │   ├──  Spirograph/
-     │   │   ├──  Spirograph.html
-     │   │   ├──  Spirograph.js
-     │   │   └──  index.html -> Spirograph.html
-     │   ├──  TripleFruitMatch/
-     │   │   ├──  TripleFruitMatch.html
-     │   │   ├──  TripleFruitMatch.js
-     │   │   ├──  index.html -> TripleFruitMatch.html
-     │   │   └──  memo.txt
-     │   └──  index.html
+     │   └──  TripleFruitMatch/
      ├──  md/
-     │   ├──  gnuplotmemo.md
-     │   └──  オイラーの公式について.md
+     ├──  p5.js/
+     │   ├──  mqtt_receiver_p5/
+     │   ├──  test01/
+     │   └──  test09/
      ├──  publications/
      │   ├──  IPSJ/
-     │   │   └──  README.md
-     │   ├──  JSiSE/
-     │   │   ├──  README.md
-     │   │   └──  TR-037-04-05.pdf
-     │   ├──  README.md
-     │   └──  index.md -> README.md
+     │   └──  JSiSE/
      ├──  tools/
-     │   ├──  README.md
-     │   ├──  addpath.sh
-     │   ├──  addts.sh
-     │   ├──  addts.sh.bak
-     │   ├──  desktoplinker.sh
-     │   └──  index.md -> README.md
      └──  workspace/
          └──  digispark/
-             ├──  package_digistump_index.json
-             ├──  package_digistump_index.json.1
-             ├──  package_digistump_index.json.2
-             └──  package_digistump_index.json.3
-     
-     27 directories, 77 files (Fri May 10 12:49:56 JST 2024)
+```
 
 Note: URL = git@github.com:hohno-46466/hohno-46466.github.io.git
 
