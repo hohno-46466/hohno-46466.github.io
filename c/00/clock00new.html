@@ -2,7 +2,8 @@
     clock00new.html
 
     No.045A / 045AX
-    // ***重要*** // バージョンを更新したら_VERSION を書き換える必要あり！
+    // ***重要*** // バージョンを更新したら <head> タグ内の _VERSION を書き換えること
+    // ***重要*** // この HTML が呼び出している JS は <body> タグ最後半の script1.src で設定している
 
     First version: Tue Feb 18 04:57:00 JST 2025
     Prev update: Wed Feb 19 11:07:33 JST 2025
@@ -10,7 +11,8 @@
     Prev update: 2025-03-22(Sat) 00:15 JST / 2025-03-21(Fri) 15:15 UTC
     Prev update: 2025-03-26(Wed) 00:15 JST / 2025-03-25(Tue) 15:15 UTC
     Prev update: 2026-09-19(Sat) 23:23 JST / 2026-09-19(Sat) 14:23 UTC
-    Last update: 2026-09-20(Sun) 18:21 JST / 2026-09-20(Sun) 09:21 UTC
+    Prev update: 2026-09-20(Sun) 18:21 JST / 2026-09-20(Sun) 09:21 UTC
+    Last update: 2026-09-24(Thu) 06:53 JST / 2026-09-23(Wed) 21:53 UTC
 
     Reference(s)
     https://www.nishishi.com/javascript-tips/realtime-clock-setinterval.html   
@@ -22,7 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに末尾で safereload.js を使う -->
+<!-- <meta http-equiv="refresh" content="300">  // ここで refresh を使う代わりに末尾で safereload.js を使用 -->
     <script src="JS/loadmqtt.js"></script>
     <script>
       const _VERSION = "045Ad"; // ***重要*** // バージョンを更新したらここを書き換えること！
