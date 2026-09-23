@@ -17,7 +17,7 @@
 const verStr = "045AeX";
 
 // 購読するトピックの素
-// const MQTTtopic = 'hohno-46466X/wstest01'
+// const MQTTtopicZero = 'hohno-46466X/wstest01'
 const MQTTtopicZero = "debugX/WStest123";
 
 // 初期値
