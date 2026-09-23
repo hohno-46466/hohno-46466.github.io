@@ -15,4 +15,10 @@
 .README.md-tmp*
 #
 .update.sh
+#
+# added by @hohno_at_monkKB at Thu Sep 24 07:21:03 JST 2026
+#
+tmp/
+old/
+#
 # -EOF-
