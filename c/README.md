@@ -29,7 +29,6 @@ hohno's web page for hohno-46466.github.io
      │       ├──  00memo.md
      │       ├──  chk-mesg.sh
      │       ├──  chk-mesgX.sh
-     │       ├──  old/
      │       ├──  recv-mesg2.sh
      │       ├──  recv-mesg2.sh.prev
      │       ├──  recv-mesg2X.sh
