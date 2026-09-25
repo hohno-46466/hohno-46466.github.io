@@ -1,0 +1,30 @@
+
+# Demo3
+
+```gnuplot {cmd=true hide=true }
+set terminal svg
+set title "fence plot constructed with separate parametric surfaces"
+sinc(u,v) = sin(sqrt(u**2+v**2)) / sqrt(u**2+v**2)
+set xrange [-5:5]; set yrange [-5:5]
+set xtics offset 0,-1
+set ytics offset 0,-1
+set zrange [-1:1]~~~x
+set format z "%.1f" 
+set arrow 1 from 5,-5,-1.2 to 5,5,-1.2 lt -1
+set label 1 "increasing v" at 6,0,-1
+set arrow 2 from 5,6,-1 to 5,5,-1 lt -1
+set label 2 "u=0" at 5,6.5,-1
+set arrow 3 from 5,6,sinc(5,5) to 5,5,sinc(5,5) lt -1
+set label 3 "u=1" at 5,6.5,sinc(5,5)
+set parametric
+set hidden3d offset 0   # front/back coloring makes no sense for fenceplot #
+set isosamples 2,33
+array U[10]
+u=-5; du=(4.99-(-4.99))/9
+do for [i=1:10] { U[i] = u + i * du }
+
+set view 70, 25
+set urange [0:1]
+set vrange [-4.99:4.99]
+splot for [i=1:10] U[i], v, (u<0.5) ? -1 : sinc(U[i],v) notitle
+```

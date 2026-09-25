@@ -2,7 +2,8 @@
     clock00new.css
     No.045A / 045AX
     Prev update: 2025-03-22
-    Last update: 2026-09-20
+    Prev update: 2026-09-20
+    Last update: 2026-09-25
 */
 
 /* Google Fonts のインポート */
@@ -103,6 +104,7 @@ body {
 /* 時刻情報エリアの行間を短くする */
 #RealtimeClockDisplayArea1, #RealtimeClockDisplayArea2 {
     line-height: 1.0;       /* ⬅ 行間を短くする */
+    margin-top: 0;          /* ⬅ 上の余白を消すために追加 */
     margin-bottom: 1.2px;   /* ⬅ 間隔を少し縮める */
 }
 

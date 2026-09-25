@@ -1,4 +1,4 @@
-## hohno-46466.github.io (@hohno_at_kuimc)
+## hohno-46466.github.io (@hohno_at_monkKB)
 
 <!---
 ＃ Markdown で書いてみたホームページもどき（試作日：Wed Jun 30 22:15:05 JST 2021）
@@ -34,7 +34,7 @@ hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## Self Introduction
 
-- Hi, I’m hohno-46466 (@hohno_at_kuimc)
+- Hi, I’m hohno-46466 (@hohno_at_monkKB)
 
 - I am interested in computers and Internet technologies in general. Recently, I have been actively involved in a project on "quantum communication".
 
@@ -46,7 +46,7 @@ hohno-46466/***](https://github.com/hohno-46466/***])
 
 ## 自己紹介
 
-- こんにちは hohno-46466 (@hohno_at_kuimc) です。
+- こんにちは hohno-46466 (@hohno_at_monkKB) です。
 
 - コンピュータとインターネット技術全般に興味を持っていますが、最近は「量子通信」についてのプロジェクトに積極的に関わっています。
 
